@@ -1,0 +1,57 @@
+Function analyzeSensor
+Description:  analyze if a sensor is trustworthy
+Input:        Sensor sensor
+Output:       boolean trustworthy
+Precondition: sensor is valid
+Declaration:  float average
+              float AQI
+              float sum
+Begin
+    for each date
+        average = average AQI of surrounding sensors
+        AQI = getAQI(sensor, date)
+        sum += abs(average - AQI) / average
+    if (sum / numDate) > THRESHOLD
+        trustworthy = false
+    else
+        trustworthy = true
+End
+
+Function calculateMean
+Description:  calculate the mean of AQI of a circular area in a given timeframe
+Input:        float latitude, longitude, radius
+              Sensor[] sensorList
+              date timeframe
+Output:       float mean
+Precondition: valid latitude and longitude in degrees, reasonable radius in meter 
+Declaration:  float sum = 0
+              int num = 0
+Begin
+    for each date in timeframe
+        for each sensor in sensorList
+            if sensor is in the circle
+                num++
+                sum += getAQI(sensor, date)
+    mean = sum / num
+End
+
+Function compareSensors
+Description:  find areas with similar air quality of a certain sensor in a given timeframe
+Input:        sensor targetSensor
+              Sensor[] sensorList
+              date timeframe
+Output:       int[] sorted
+Precondition: valid targetSensor
+Declaration:  float difference[] = {0}
+              float AQI
+              int i
+Begin
+    for (i = 0; i < sensorList.size; i++)
+        sorted[i] = sensorList[i].getId
+    
+    for each date in timeframe
+        AQI = getAQI(targetSensor, date)
+        for (i = 0; i < sensorList.size; i++)
+            difference[i] += abs(getAQI(sensorList[i], date) - AQI)
+    sort difference and sorted the same time by ascending difference
+End
