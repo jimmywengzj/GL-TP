@@ -6,7 +6,7 @@
     e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Réalisation de la classe <Measurement> (fichier Measurement.cpp) ------------
+//---------- Realisation of <Measurement> class (Measurement.cpp file) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -39,12 +39,12 @@ Measurement & Measurement::operator = ( const Measurement & unMeasurement )
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Measurement::Measurement (date aDate, string aSensorid, float O3, float NO2, float PM10)
+Measurement::Measurement (time_t aDate, string aSensorId, float O3, float NO2, float PM10)
 // Algorithme :
 //
 {
-    this->date = aDate;
-    this->sensorid = aSensorId;
+    this->timestamp = aDate;
+    this->sensorId = aSensorId;
     this->valueO3 = O3;
     this->valueNO2 = NO2;
     this->valuePM10= PM10;
@@ -72,6 +72,60 @@ Measurement::~Measurement ( )
     cout << "Appel au destructeur de <Measurement>" << endl;
 #endif
 } //----- Fin de ~Measurement
+
+//------------------------------------------------------------------ Getters/Setters
+
+time_t Measurement:: getTimestamp ( ) const
+// Algorithme :
+//
+{
+    return timestamp;
+#ifdef MAP
+    cout << "Calling for getTimestamp" << endl;
+#endif
+} //----- End of getTimestamp
+
+
+string Measurement:: getSensorId ( ) const
+// Algorithme :
+//
+{
+    return sensorId;
+#ifdef MAP
+    cout << "Calling for getSensorId" << endl;
+#endif
+} //----- End of getSensorId
+
+float Measurement:: getValueO3 ( ) const
+// Algorithme :
+//
+{
+    return valueO3;
+#ifdef MAP
+    cout << "Calling for getValueO3" << endl;
+#endif
+} //----- End of getValueO3
+
+
+float Measurement:: getValueNO2 ( ) const
+// Algorithme :
+//
+{
+    return valueNO2;
+#ifdef MAP
+    cout << "Calling for getValueNO2" << endl;
+#endif
+} //----- End of getValueNO2
+
+float Measurement:: getValuePM10 ( ) const
+// Algorithme :
+//
+{
+    return valuePM10;
+#ifdef MAP
+    cout << "Calling for getValuePM10" << endl;
+#endif
+} //----- End of getValuePM10
 
 
 //------------------------------------------------------------------ PRIVE

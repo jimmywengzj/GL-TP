@@ -7,8 +7,10 @@
 ******************************************************************************/
 
 //------------------ <Sensor> class interface (Sensor.h file) -----------------------
-#if ! defined ( Sensor )
-#define Sensor
+#if ! defined ( Sensor_H )
+#define Sensor_H
+
+using namespace std;
 
 //------------------------------------------------------------------- Used interfaces
 
@@ -17,6 +19,7 @@
 #include <list>
 
 //------------------------------------------------------------------- Constants
+
 
 //----------------------------------------------------------------------- Types
 
@@ -60,17 +63,13 @@ public:
 
 //-------------------------------------- ----------- Getters/Setters
 
-    float getLongitude();
+    float getLongitude() const;
 
-    float getLatitude();
+    float getLatitude() const;
 
-    string getId();
+    string getId() const;
 
-    list<Measurement> getMeasurements();
-
-    void setLongitude(float aLong);
-
-    void setLatitude(float aLat);
+    list<Measurement> getMeasurements() const;
 
 //--------------------------------------------------- Constructors - destructor
     Sensor ( const Sensor & unSensor );

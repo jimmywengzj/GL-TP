@@ -1,18 +1,18 @@
 /******************************************************************************
-                             Measurement  -  description
+                             Sensor  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
     email                : $EMAIL$
 ******************************************************************************/
 
-//------------------ <Measurement> class interface (Measurement.h file) -----------------------
-#if ! defined ( Measurement )
-#define Measurement
+//------------------ <Sensor> class interface (Sensor.h file) -----------------------
+#if ! defined ( Measurement_H )
+#define Measurement_H
 
 //------------------------------------------------------------- Used interfaces
 
-
+#include <time.h>
 
 //------------------------------------------------------------------- Constants
 
@@ -45,21 +45,17 @@ public:
 
 //------------------------------------------------- Getters/Setters
 
-    date getTimestamp();
+    time_t getTimestamp() const;
 
-    string getSensorid();
+    string getSensorId() const;
 
-    float getValueO3();
+    float getValueO3() const;
 
-    float getValueNO2();
+    float getValueNO2() const;
 
-    float getValuePM10();
+    float getValuePM10() const;
     
 
-
-    void setLongitude(float aLong);
-
-    void setLatitude(float aLat);
 
 //--------------------------------------------------- Constructors - destructor
     Measurement ( const Measurement & unMeasurement );
@@ -74,7 +70,7 @@ public:
     // Precondition:
     //
 
-    Measurement (date aDate, string aSensorid, float O3, float NO2, float PM10);
+    Measurement (time_t aDate, string aSensorId, float O3, float NO2, float PM10);
     // Instruction:
     //
     // Precondition:
@@ -90,8 +86,8 @@ public:
 
 private : 
 
-    date timestamp;
-    string sensorid;
+    time_t timestamp;
+    string sensorId;
     float valueO3;
     float valueNO2;
     float valuePM10;
