@@ -36,16 +36,22 @@ using namespace std;
 void Sensor::addMeasurement( Measurement aMeasurement )
 // Algorithm:
 {
-    measurements.add(aMeasurement);
+    measurements.push_back(aMeasurement);
 
-} //----- End of Method
+
+#ifdef MAP
+    cout << "Calling for addMeasurement method of <Sensor>" << endl;
+#endif
+} //----- End of addMeasurement
 
 void Sensor::setBad()
 // Algorithm:
 {
     good = false;
-
-} //----- End of Method
+#ifdef MAP
+    cout << "Calling for setBad method of <Sensor>" << endl;
+#endif
+} //----- End of setBad
 
 //-------------------------------------------------------- Operator overloading
 
@@ -70,7 +76,7 @@ Sensor::Sensor (string anId, float along,  float alat )
     this->longitude = along;
     this->latitude = alat;
     this->good = true;
-    this->measurements = new list <Measurement>;
+   // this->measurements = new list <Measurement>;
 #ifdef MAP
     cout << "Calling constructor of <Sensor>" << endl;
 #endif
@@ -84,6 +90,50 @@ Sensor::~Sensor ( )
     cout << "Calling destructor of <Sensor>" << endl;
 #endif
 } //----- End of ~Sensor
+
+//----------------------------------------------------------------------- Getters/Setters
+
+float Sensor :: getLongitude ( ) const
+// Algorithme :
+//
+{
+    return longitude;
+#ifdef MAP
+    cout << "Calling for getLongitude" << endl;
+#endif
+} //----- End of getLongitude
+
+float Sensor :: getLatitude ( ) const
+// Algorithme :
+//
+{
+    return latitude;
+#ifdef MAP
+    cout << "Calling for getLatitude" << endl;
+#endif
+} //----- End of getLatitude
+
+string Sensor :: getId ( ) const
+// Algorithme :
+//
+{
+    return id;
+#ifdef MAP
+    cout << "Calling for getId" << endl;
+#endif
+} //----- End of getId
+
+list<Measurement> Sensor :: getMeasurements ( ) const
+// Algorithme :
+//
+{
+    return measurements;
+#ifdef MAP
+    cout << "Calling for getMeasurements" << endl;
+#endif
+} //----- End of getId
+
+
 
 //----------------------------------------------------------------------- PRIVE
 
