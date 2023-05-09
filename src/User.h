@@ -36,13 +36,21 @@ public:
     // Precondition:
     //
 
-    void incrementPoints(int numberToAdd)
+    void incrementPoints(const int numberToAdd);
     // Precondition:
     // numberToAdd is positive
 
-    void addSensor(Sensor sensor);
+    void addSensor(const Sensor sensor);
 
     void setBad();
+
+    string getId() const;
+
+    int getPoints() const;
+
+    bool isGood() const;
+
+    list<Sensor> getSensors() const;
 
 //--------------------------------------------------- Constructors - destructor
     User ( const User & unUser );
@@ -51,7 +59,7 @@ public:
     // Precondition:
     //
 
-    User (string id, int initialPoints);
+    User (const string id, const int initialPoints);
     // Instruction:
     //
     // Precondition:

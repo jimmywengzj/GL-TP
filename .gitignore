@@ -1,3 +1,10 @@
+# CLion files
 .idea
-.vscode/*
+CMakeLists.txt
+cmake-build-debug
+
+# VSCode files
+.vscode
+
+# Executables
 **/*.exe
