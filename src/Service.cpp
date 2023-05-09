@@ -1,5 +1,5 @@
 /******************************************************************************
-                             Xxx  -  description
+                             Service  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
@@ -15,7 +15,7 @@ using namespace std;
 #include <iostream>
 
 //----------------------------------------------------------- Personal includes
-#include "Xxx.h"
+#include "Service.h"
 
 //------------------------------------------------------------------- Constants
 

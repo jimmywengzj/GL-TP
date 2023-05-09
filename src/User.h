@@ -1,28 +1,30 @@
 /******************************************************************************
-                             Xxx  -  description
+                             User  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
     email                : $EMAIL$
 ******************************************************************************/
 
-//------------------ <Xxx> class interface (Xxx.h file) -----------------------
-#if ! defined ( XXX_H )
-#define XXX_H
+//------------------ <User> class interface (User.h file) -----------------------
+#if ! defined ( User_H )
+#define User_H
 
 //------------------------------------------------------------- Used interfaces
-
+#include <string>
+#include <list>
+#include "Sensor.h"
 //------------------------------------------------------------------- Constants
 
 //----------------------------------------------------------------------- Types
 
 //-----------------------------------------------------------------------------
-// Role of <Xxx> class
+// Role of <User> class
 //
 //
 //-----------------------------------------------------------------------------
 
-class Xxx : public Ancestor
+class User
 {
 //---------------------------------------------------------------------- PUBLIC
 
@@ -34,41 +36,45 @@ public:
     // Precondition:
     //
 
-//-------------------------------------------------------- Operator overloading
-    Xxx & operator = ( const Xxx & unXxx );
-    // Instruction:
-    //
+    void incrementPoints(int numberToAdd)
     // Precondition:
-    //
+    // numberToAdd is positive
+
+    void addSensor(Sensor sensor);
+
+    void setBad();
 
 //--------------------------------------------------- Constructors - destructor
-    Xxx ( const Xxx & unXxx );
+    User ( const User & unUser );
     // Instruction (copy constructor):
     //
     // Precondition:
     //
 
-    Xxx ( );
+    User (string id, int initialPoints);
     // Instruction:
     //
     // Precondition:
     //
 
-    virtual ~Xxx ( );
+    virtual ~User ( );
     // Instruction:
     //
     // Precondition:
     //
 
-//--------------------------------------------------------------------- PRIVATE
+//----------------------------------------------------------------------- PRIVE
 
 protected:
 //------------------------------------------------------------- Private methods
 
 //-------------------------------------------------------- Protected attributes
-
+    string id;
+    int points;
+    bool good;
+    list<Sensor> sensors;
 };
 
-//---------------------------------------- Other definitions depending on <Xxx>
+//---------------------------------------- Other definitions dependent on <User>
 
-#endif // XXX_H
+#endif // User_H

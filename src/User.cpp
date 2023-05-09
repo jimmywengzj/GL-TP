@@ -1,12 +1,12 @@
 /******************************************************************************
-                             Xxx  -  description
+                             User  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
     email                : $EMAIL$
 ******************************************************************************/
 
-//--------------- Realisation of <Xxx> class (Xxx.cpp file) -------------------
+//--------------- Realisation of <User> class (User.cpp file) -------------------
 
 //-------------------------------------------------------------------- INCLUDES
 
@@ -15,54 +15,68 @@ using namespace std;
 #include <iostream>
 
 //----------------------------------------------------------- Personal includes
-#include "Xxx.h"
+#include "User.h"
 
 //------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type Xxx::Method ( parameter list )
+// type User::Method ( parameter list )
 // Algorithm:
 //
 //{
 //} //----- End of Method
 
+void incrementPoints(int numberToAdd)
+{
+    points += numberToAdd
+} //----- End of incrementPoints
+
+void addSensor(Sensor sensor)
+{
+    sensors.add(sensor);
+} //----- End of addSensor
+
+void setBad(){
+    points += false;
+} //----- End of setBad
+
 //-------------------------------------------------------- Operator overloading
-Xxx & Xxx::operator = ( const Xxx & unXxx )
+User & User::operator = ( const User & unUser )
 // Algorithm:
 //
 {
 } //----- End of operator =
 
 //--------------------------------------------------- Constructors - destructor
-Xxx::Xxx ( const Xxx & unXxx )
+User::User ( const User & unUser )
 // Algorithm:
 //
 {
 #ifdef MAP
-    cout << "Calling copy constructor of <Xxx>" << endl;
+    cout << "Calling copy constructor of <User>" << endl;
 #endif
-} //----- End of Xxx (copy constructor)
+} //----- End of User (copy constructor)
 
-Xxx::Xxx ( )
+User::User ( )
 // Algorithm:
 //
 {
 #ifdef MAP
-    cout << "Calling constructor of <Xxx>" << endl;
+    cout << "Calling constructor of <User>" << endl;
 #endif
-} //----- End of Xxx
+} //----- End of User
 
-Xxx::~Xxx ( )
+User::~User ( )
 // Algorithm:
 //
 {
 #ifdef MAP
-    cout << "Calling destructor of <Xxx>" << endl;
+    cout << "Calling destructor of <User>" << endl;
 #endif
-} //----- End of ~Xxx
+} //----- End of ~User
 
-//----------------------------------------------------------------------- PRIVE
+//--------------------------------------------------------------------- PRIVATE
 
 //------------------------------------------------------------- Private methods
