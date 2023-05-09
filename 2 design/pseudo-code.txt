@@ -51,3 +51,5 @@ Begin
             difference[i] += abs(getAQI(sensorList[i], date) - AQI)
     sort difference and sorted the same time by ascending difference
 End
+
+;
