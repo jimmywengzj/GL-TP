@@ -34,8 +34,15 @@ public:
     //
     // Precondition:
     //
+    void loadFromDatabase();
     int getPoints(string);
     void markUser(string);
+    float meanAirQuality(float, float, float, time_t, time_t);
+    float instantAirQuality(float, float, float, time_t);
+    float * studyAirCleaner(string);
+    float analyseOneSensor(int);
+    float compareOneSensor(int, time_t, time_t);
+
 //-------------------------------------------------------- Operator overloading
     Service & operator = ( const Service & unService );
     // Instruction:

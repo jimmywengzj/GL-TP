@@ -46,7 +46,35 @@ void Service::markUser (string name)
    userFunctions.markUser(name);
 }
 
+float Service::meanAirQuality(float id, float latitude, float longtitude, time_t start, time_t end)
+{
+    float mquality = sensorFunctions.meanAirQuality(id, latitude, longtitude, start, end);
+    return mequality;
+}
 
+float Service::instantAirQuality(float id, float latitude, float longtitude, time_t date)
+{
+    float iequality = sensorFunctions.instantAirQuality(id, latitude, longtitude, date);
+    return iequality;
+}
+
+float * Service::studyAirCleaner(string id)
+{
+    float *iequality = providerFunctions.studyAirCleaner(id);
+    return iequality;
+}
+
+float Service::analyseOneSensor(int id)
+{
+    float quality = sensorFunctions.analyseOneSensor(id);
+    return quality;
+}
+
+float Service::compareOneSensor(int id, time_t start, time_t end)
+{
+    float quality = sensorFunctions.compareOneSensor(id, start, end);
+    return quality;
+}
 
 //-------------------------------------------------------- Operator overloading
 Xxx & Xxx::operator = ( const Xxx & unXxx )
