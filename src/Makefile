@@ -3,7 +3,7 @@ CC=${GPP}
 GPPFLAGS=-ansi -pedantic -Wall -std=c++11
 
 EXEC=main
-OBJ=main.o Service.o SensorFunctions.o UserFunctions.o Provider.o Cleaner.o User.o Sensor.o Measurement.o
+OBJ=Main.o Service.o SensorFunctions.o UserFunctions.o Provider.o Cleaner.o User.o Sensor.o Measurement.o
 
 ${EXEC}: ${OBJ}
 	${GPP} ${GPPFLAGS} -o ${EXEC} $^

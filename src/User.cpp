@@ -28,49 +28,51 @@ using namespace std;
 //{
 //} //----- End of Method
 
-void incrementPoints(int numberToAdd)
+void User::incrementPoints(const int numberToAdd)
 {
-    points += numberToAdd
+    points += numberToAdd;
 } //----- End of incrementPoints
 
-void addSensor(Sensor sensor)
+void User::addSensor(const Sensor sensor)
 {
-    sensors.add(sensor);
+    sensors.push_back(sensor);
 } //----- End of addSensor
 
-void setBad(){
+void User::setBad()
+{
     points += false;
 } //----- End of setBad
 
-//-------------------------------------------------------- Operator overloading
-User & User::operator = ( const User & unUser )
-// Algorithm:
-//
+string User::getId() const
 {
-} //----- End of operator =
+    return id;
+} //----- End of getId()
+
+int User::getPoints() const
+{
+    return points;
+} //----- End of getPoints()
+
+bool User::isGood() const
+{
+    return good;
+} //----- End of isGood()
+
+list<Sensor> User::getSensors() const
+{
+    return sensors;
+} // ----- End of getSensors
 
 //--------------------------------------------------- Constructors - destructor
 User::User ( const User & unUser )
-// Algorithm:
-//
+// Only used for debugging purposes
 {
 #ifdef MAP
     cout << "Calling copy constructor of <User>" << endl;
 #endif
 } //----- End of User (copy constructor)
 
-User::User ( )
-// Algorithm:
-//
-{
-#ifdef MAP
-    cout << "Calling constructor of <User>" << endl;
-#endif
-} //----- End of User
-
 User::~User ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling destructor of <User>" << endl;
