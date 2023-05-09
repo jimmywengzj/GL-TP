@@ -1,17 +1,18 @@
 /******************************************************************************
-                             Xxx  -  description
+                             Service  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
     email                : $EMAIL$
 ******************************************************************************/
 
-//------------------ <Xxx> class interface (Xxx.h file) -----------------------
-#if ! defined ( XXX_H )
-#define XXX_H
+//------------------ <Service> class interface (Service.h file) -----------------------
+#if ! defined ( Service_H )
+#define Service_H
 
 //------------------------------------------------------------- Used interfaces
-
+#include <string>
+#include <list>
 //------------------------------------------------------------------- Constants
 
 //----------------------------------------------------------------------- Types
@@ -22,7 +23,7 @@
 //
 //-----------------------------------------------------------------------------
 
-class Service : public Ancestor
+class Service
 {
 //---------------------------------------------------------------------- PUBLIC
 
@@ -33,28 +34,29 @@ public:
     //
     // Precondition:
     //
-
+    int getPoints(string);
+    void markUser(string);
 //-------------------------------------------------------- Operator overloading
-    Xxx & operator = ( const Xxx & unXxx );
+    Service & operator = ( const Service & unService );
     // Instruction:
     //
     // Precondition:
     //
 
 //--------------------------------------------------- Constructors - destructor
-    Xxx ( const Xxx & unXxx );
+    Service ( const Service & unService );
     // Instruction (copy constructor):
     //
     // Precondition:
     //
 
-    Xxx ( );
+    Service ( );
     // Instruction:
     //
     // Precondition:
     //
 
-    virtual ~Xxx ( );
+    virtual ~Service ( );
     // Instruction:
     //
     // Precondition:
@@ -63,12 +65,16 @@ public:
 //--------------------------------------------------------------------- PRIVATE
 
 protected:
+UserFunctions userFunctions;
+SensorFunctions sensorFunctions;
+ProviderFunctions providerFunctions;
+
 //------------------------------------------------------------- Private methods
 
 //-------------------------------------------------------- Protected attributes
 
 };
 
-//---------------------------------------- Other definitions depending on <Xxx>
+//---------------------------------------- Other definitions depending on <Service>
 
-#endif // XXX_H
+#endif // Service_H

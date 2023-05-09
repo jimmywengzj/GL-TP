@@ -6,7 +6,7 @@
     email                : $EMAIL$
 ******************************************************************************/
 
-//--------------- Realisation of <Xxx> class (Xxx.cpp file) -------------------
+//--------------- Realisation of <Service> class (Service.cpp file) -------------------
 
 //-------------------------------------------------------------------- INCLUDES
 
@@ -27,6 +27,26 @@ using namespace std;
 //
 //{
 //} //----- End of Method
+
+void Service::loadFromDatabase ()
+{
+    userFunctions.loadFromDatabase();
+    sensorFunctions.loadFromDatabase();
+    providerFunctions.loadFromDatabase();
+}
+
+int Service::getPoints (string name)
+{
+    int points = userFunctions.getPoints(name);
+    return points;
+}
+
+void Service::markUser (string name)
+{
+   userFunctions.markUser(name);
+}
+
+
 
 //-------------------------------------------------------- Operator overloading
 Xxx & Xxx::operator = ( const Xxx & unXxx )
