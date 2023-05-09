@@ -14,16 +14,27 @@ int main ()
         cout << "Please enter your user password: ";
         cin >> userPassword;
 
-        if (userName == "greg" && userPassword == "dunn")
+        if (userName == "admin" && userPassword == "1")
         {
-            cout << "Welcome Greg!\n";
+            cout << "Welcome Admin!\n";
             break;
         }
-        else if (userName == "patrick" && userPassword == "dunn")
+        else if (userName == "individual" && userPassword == "2")
         {
-            cout << "Welcome Patrick!\n";
+            cout << "Welcome Individual!\n";
             break;
         }
+        else if (userName == "cleaner" && userPassword == "3")
+        {
+            cout << "Welcome Cleaner!\n";
+            break;
+        }
+        else if (userName == "logout" && userPassword == "0")
+        {
+            cout << "Logged Out \n";
+            return 0;
+        }
+
         else
         {
             cout << "Invalid login attempt. Please try again.\n" << '\n';
@@ -35,6 +46,5 @@ int main ()
             cout << "Too many login attempts! The program will now terminate.";
             return 0;
     }
-
     cout << "Thank you for logging in.\n";
 }

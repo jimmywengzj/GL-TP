@@ -1,5 +1,5 @@
 /******************************************************************************
-                             Xxx  -  description
+                             Service  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
