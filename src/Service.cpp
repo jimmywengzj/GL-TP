@@ -49,13 +49,13 @@ void Service::markUser (string name)
 float Service::meanAirQuality(float id, float latitude, float longtitude, time_t start, time_t end)
 {
     float mquality = sensorFunctions.meanAirQuality(id, latitude, longtitude, start, end);
-    return mequality;
+    return mquality;
 }
 
 float Service::instantAirQuality(float id, float latitude, float longtitude, time_t date)
 {
-    float iequality = sensorFunctions.instantAirQuality(id, latitude, longtitude, date);
-    return iequality;
+    float iquality = sensorFunctions.instantAirQuality(id, latitude, longtitude, date);
+    return iquality;
 }
 
 float * Service::studyAirCleaner(string id)

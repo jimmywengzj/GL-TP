@@ -41,6 +41,7 @@ public:
     float instantAirQuality(float, float, float, time_t);
     float * studyAirCleaner(string);
     float analyseOneSensor(int);
+    
     float compareOneSensor(int, time_t, time_t);
 
 //-------------------------------------------------------- Operator overloading
