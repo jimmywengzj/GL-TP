@@ -82,6 +82,6 @@ protected:
 unordered_map <string, User> users;
 };
 
-//------------------------------ Other definitions depending on <UserFunctions>
+//------------------------------- Other definitions depending on <UserFunctions>
 
 #endif // UserFunctions_H
