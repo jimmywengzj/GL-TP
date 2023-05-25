@@ -72,11 +72,18 @@ void printCleaner(){
 			string endDateString;
 			time.tm_year=stoi(startDateString.substr (0,4))-1900;
 			cout<<time.tm_year<<endl;
-   			time.tm_sec=11;   // seconds of minutes from 0 to 61
-   			time.tm_min=30;   // minutes of hour from 0 to 59
-   			time.tm_hour=13;  // hours of day from 0 to 24
-   			time.tm_mday=3;  // day of month from 1 to 31
-   			time.tm_mon=0;   // month of year from 0 to 11
+			time.tm_mon=stoi(startDateString.substr (5,2));
+			cout<<time.tm_mon<<endl;
+			time.tm_mday=stoi(startDateString.substr (8,2));
+			cout<<time.tm_mday<<endl;
+			time.tm_hour=stoi(startDateString.substr (11,2));
+			cout<<time.tm_hour<<endl;
+			time.tm_min=stoi(startDateString.substr (14,2));
+			cout<<time.tm_min<<endl;
+			time.tm_hour=stoi(startDateString.substr (17,2));
+			cout<<time.tm_hour<<endl;
+
+
 			getline(ifs,endDateString,';');
 			string forget;
 			getline(ifs,forget,'\n');
@@ -126,10 +133,10 @@ void printMeasurements(){
 	}
 }
 int main(){
-	printUsers();
+	//printUsers();
 	printCleaner();
 	//printMeasurements();
-	printProviders();
+	//printProviders();
 	//printSensors();
 	return 0;	
 }

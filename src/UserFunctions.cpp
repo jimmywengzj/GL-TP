@@ -13,7 +13,7 @@
 //------------------------------------------------------------- System includes
 using namespace std;
 #include <iostream>
-
+#include <fstream>
 //----------------------------------------------------------- Personal includes
 #include "UserFunctions.h"
 #include "Sensor.h"
@@ -30,6 +30,33 @@ using namespace std;
 //} //----- End of Method
 void UserFunctions::loadFromDatabase()
 {
+	std::ifstream ifs ("users.csv", std::ifstream::in);
+	while(!ifs.eof()){
+		string user;
+		getline(ifs,user,';');
+		if(user!=""){
+			string sensor;
+			getline(ifs,sensor,';');
+			string forget;
+			getline(ifs,forget,'\n');
+            User u= new User(user,0);
+		}
+	}
+	std::ifstream ifs ("sensors.csv", std::ifstream::in);
+	while(!ifs.eof()){
+		string sensor;
+		getline(ifs,sensor,';');
+		if(sensor!=""){
+			string latitudeString;
+			getline(ifs,latitudeString,';');
+			float latitude = stof(latitudeString);
+			string longitudeString;
+			getline(ifs,longitudeString,';');
+			float longitude = stof(longitudeString);
+			string forget;
+			getline(ifs,forget,'\n');
+		}
+	}
 
 }
 
