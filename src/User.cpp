@@ -78,7 +78,10 @@ User::~User ( )
     cout << "Calling destructor of <User>" << endl;
 #endif
 } //----- End of ~User
-
+User::User (const string id, const int initialPoints){
+    this->id=id;
+    points=initialPoints;
+}
 //--------------------------------------------------------------------- PRIVATE
 
 //------------------------------------------------------------- Private methods

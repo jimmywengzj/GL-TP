@@ -12,12 +12,13 @@
 
 //------------------------------------------------------------- System includes
 using namespace std;
+#include <list>
 #include <iostream>
 #include <fstream>
 //----------------------------------------------------------- Personal includes
 #include "UserFunctions.h"
 #include "Sensor.h"
-
+list<User> userList;
 //------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
@@ -39,22 +40,8 @@ void UserFunctions::loadFromDatabase()
 			getline(ifs,sensor,';');
 			string forget;
 			getline(ifs,forget,'\n');
-            User u= new User(user,0);
-		}
-	}
-	std::ifstream ifs ("sensors.csv", std::ifstream::in);
-	while(!ifs.eof()){
-		string sensor;
-		getline(ifs,sensor,';');
-		if(sensor!=""){
-			string latitudeString;
-			getline(ifs,latitudeString,';');
-			float latitude = stof(latitudeString);
-			string longitudeString;
-			getline(ifs,longitudeString,';');
-			float longitude = stof(longitudeString);
-			string forget;
-			getline(ifs,forget,'\n');
+            User* u= new User(user,0);
+			userList.push_back(*u);
 		}
 	}
 
@@ -75,7 +62,7 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
     vector<pair<User, float>> score;
 
     for (const auto &[id, user] : users) {
-        vector<sensor> sensors = user.getSensors();
+        list<Sensor> sensors = user.getSensors(); //James: changed vector<sensor> to lo list<Sensor> because that's how the code is made
         float sum = 0;
         for (Sensor sensor : sensors) {
             sum += sensorFunctions.analyseOneSensor(sensor);
