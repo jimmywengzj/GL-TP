@@ -60,7 +60,8 @@ void printCleaner(){
 		string cleaner;
 		getline(ifs,cleaner,';');
 		if(cleaner!=""){
-		struct tm time;
+		struct tm timeStart;
+		struct tm timeEnd;
 			string latitudeString;
 			getline(ifs,latitudeString,';');
 			float latitude = stof(latitudeString);
@@ -70,18 +71,12 @@ void printCleaner(){
 			string startDateString;
 			getline(ifs,startDateString,';');
 			string endDateString;
-			time.tm_year=stoi(startDateString.substr (0,4))-1900;
-			cout<<time.tm_year<<endl;
-			time.tm_mon=stoi(startDateString.substr (5,2));
-			cout<<time.tm_mon<<endl;
-			time.tm_mday=stoi(startDateString.substr (8,2));
-			cout<<time.tm_mday<<endl;
-			time.tm_hour=stoi(startDateString.substr (11,2));
-			cout<<time.tm_hour<<endl;
-			time.tm_min=stoi(startDateString.substr (14,2));
-			cout<<time.tm_min<<endl;
-			time.tm_hour=stoi(startDateString.substr (17,2));
-			cout<<time.tm_hour<<endl;
+			timeStart.tm_year=stoi(startDateString.substr (0,4))-1900;
+			timeStart.tm_mon=stoi(startDateString.substr (5,2));
+			timeStart.tm_mday=stoi(startDateString.substr (8,2));
+			timeStart.tm_hour=stoi(startDateString.substr (11,2));
+			timeStart.tm_min=stoi(startDateString.substr (14,2));
+			timeStart.tm_hour=stoi(startDateString.substr (17,2));
 
 
 			getline(ifs,endDateString,';');
@@ -98,8 +93,15 @@ void printMeasurements(){
 		i++;
 		string forget;
 		string measureTimeString;
+		struct tm time;
 		getline(ifs,measureTimeString,';');
 		if(measureTimeString!=""){
+			time.tm_year=stoi(measureTimeString.substr (0,4))-1900;
+			time.tm_mon=stoi(measureTimeString.substr (5,2));
+			time.tm_mday=stoi(measureTimeString.substr (8,2));
+			time.tm_hour=stoi(measureTimeString.substr (11,2));
+			time.tm_min=stoi(measureTimeString.substr (14,2));
+			time.tm_hour=stoi(measureTimeString.substr (17,2));
 			string sensor;
 			getline(ifs,sensor,';');
 			getline(ifs,forget,';');

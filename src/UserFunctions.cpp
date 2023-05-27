@@ -17,6 +17,8 @@ using namespace std;
 #include <fstream>
 //----------------------------------------------------------- Personal includes
 #include "UserFunctions.h"
+#include "SensorFunctions.h"
+
 #include "Sensor.h"
 list<User> userList;
 //------------------------------------------------------------------- Constants
@@ -32,17 +34,22 @@ list<User> userList;
 void UserFunctions::loadFromDatabase()
 {
 	std::ifstream ifs ("users.csv", std::ifstream::in);
+    string lastUser="";
+	string user;
+    User* u;
 	while(!ifs.eof()){
-		string user;
 		getline(ifs,user,';');
 		if(user!=""){
-			string sensor;
-			getline(ifs,sensor,';');
+			string sensorString;
+			getline(ifs,sensorString,';');
 			string forget;
 			getline(ifs,forget,'\n');
-            User* u= new User(user,0);
-			userList.push_back(*u);
+            if(user!=lastUser){
+                u= new User(user,0);
+			    userList.push_back(*u);
+            }
 		}
+        //the list being Sensors and not strings causes issue.
 	}
 
 }

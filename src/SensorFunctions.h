@@ -43,7 +43,9 @@ public:
     // Load the Sensors data from the Database
     // Precondition:
     //
-
+    Sensor* findSensor (string SensorId);
+    //Instruction:
+    //Finds and return whichever sensor has the same Id sends back an error message otherwise
     list<Sensor> searchSurrounding(float f);
     // Instruction: 
     // Load the Sensors data from the Database

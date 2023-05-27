@@ -39,7 +39,7 @@ Measurement & Measurement::operator = ( const Measurement & unMeasurement )
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Measurement::Measurement (time_t aDate, string aSensorId, float O3, float NO2, float PM10)
+Measurement::Measurement (struct tm aDate, string aSensorId, float O3, float NO2,float SO2, float PM10)
 // Algorithme :
 //
 {
@@ -47,6 +47,7 @@ Measurement::Measurement (time_t aDate, string aSensorId, float O3, float NO2, f
     this->sensorId = aSensorId;
     this->valueO3 = O3;
     this->valueNO2 = NO2;
+    this->valueSO2 = SO2;
     this->valuePM10= PM10;
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Measurement>" << endl;
@@ -75,7 +76,7 @@ Measurement::~Measurement ( )
 
 //------------------------------------------------------------------ Getters/Setters
 
-time_t Measurement:: getTimestamp ( ) const
+struct tm Measurement:: getTimestamp ( ) const
 // Algorithme :
 //
 {

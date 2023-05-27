@@ -45,7 +45,7 @@ public:
 
 //------------------------------------------------- Getters/Setters
 
-    time_t getTimestamp() const;
+    struct tm getTimestamp() const;
 
     string getSensorId() const;
 
@@ -70,7 +70,7 @@ public:
     // Precondition:
     //
 
-    Measurement (time_t aDate, string aSensorId, float O3, float NO2, float PM10);
+    Measurement (struct tm aDate, string aSensorId, float O3, float NO2, float SO2, float PM10);
     // Instruction:
     //
     // Precondition:
@@ -86,10 +86,12 @@ public:
 
 private : 
 
-    time_t timestamp;
+    struct tm timestamp;
     string sensorId;
     float valueO3;
     float valueNO2;
+    float valueSO2;
+
     float valuePM10;
 
 protected:
