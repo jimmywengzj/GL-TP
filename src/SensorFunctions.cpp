@@ -120,22 +120,44 @@ Sensor* SensorFunctions::findSensor(string SensorId){
     return sensorFound;
 }
 
-void markSensor(Sensor s){
+void SensorFunctions::markSensor(Sensor s){
 	s.setBad();
 }
-float meanAirQualityArea(float, float, float, tm begin, tm end){
 
-	return 0;
-}
-float instantAirQuality(float lng, float lat, float rang, tm time){
-	list <Measurement> m;
+float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
+
+
+	std::list<Sensor>::iterator it;
+	float avg = 0;
+	float total = 0;
+	for (it = sensorList.begin(); it != sensorList.end(); ++it){
+    	float la2 = it->getLatitude();
+		float lo2 = it->getLongitude();
+		float r = 0.0174533; //Pi/180=3.14159/180
+		float latitude = latitude * r;
+		float la2 = la2 * r;
+		float longtitude = longtitude * r;
+		float lo2 = lo2 * r;
+		float er = 6371.01; //Kilometers
+		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
+		if (d < area){
+			std::list<Measurement>::iterator measurementIt;
+			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+				if (difftime(mktime(&measurementIt->getTimestamp()), mktime(&date)) == 0){
+					avg += measurementIt->getAQI();
+					total++;
+				}
+			}
+		} 
+	}
+	return avg/total;
 
 
 	
 
 }
 
-float analyseOneSensor(Sensor s)
+float SensorFunctions::analyseOneSensor(Sensor s)
 // Algorithm:
 //
 {
@@ -160,13 +182,9 @@ float analyseOneSensor(Sensor s)
 	
 	return sum/numDate;
 
-
-
-
-
 } //----- analyseOneSensor
 
-float SensorFunctions::meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end){
+float SensorFunctions::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end){
 	 
     std::list<Sensor>::iterator it;
 	float avg = 0;
@@ -184,7 +202,7 @@ float SensorFunctions::meanAirQuality(float area, float latitude, float longtitu
 		if (d < area){
 			std::list<Measurement>::iterator measurementIt;
 			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				if (difftime(mktime(&measurementIt->getTimestamp()), start) >= 0 && difftime(mktime(&measurementIt->getTimestamp()), end) <= 0){
+				if (difftime(mktime(&measurementIt->getTimestamp()), mktime(&start)) >= 0 && difftime(mktime(&measurementIt->getTimestamp()), mktime(&end)) <= 0){
 					avg += measurementIt->getAQI();
 					total++;
 				}

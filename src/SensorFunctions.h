@@ -50,37 +50,38 @@ public:
     Sensor* findSensor (string SensorId);
     //Instruction:
     //Finds and return whichever sensor has the same Id sends back an error message otherwise
+    
     list<Sensor> searchSurrounding(float f);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
     //
 
-    void MarkSensor(Sensor s);
+    void markSensor(Sensor s);
     // Instruction: 
     // Mark a Sensor as defective
     // Precondition:
     //
 
 
-    float meanAirQualityArea(float, float, float, tm begin, tm end);
+    float meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
     //
 
-    float instantAirQuality(float lng, float lat, float rang, tm time);
+    float instantAirQuality(float area, float longitude, float latitude, struct tm date);
     // Instruction: 
     // Compute the AirQuality of a Zone in a precise time
     // Precondition:
     //
 
-    float analyseOneSensor(float score);
+    float analyseOneSensor(Sensor s);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
     //
-    float meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end);
+    
 
     list<Sensor> compareOneSensor(Sensor s, tm begin, tm end);
     // Instruction: 
