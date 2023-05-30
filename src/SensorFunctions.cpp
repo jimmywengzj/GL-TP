@@ -33,7 +33,7 @@ list<Sensor> sensorList;
 //
 //{
 //} //----- End of Method
-void SensorFunctions::loadFromDataBase(){
+void SensorFunctions::loadFromDatabase(){
 	std::ifstream ifs ("sensors.csv", std::ifstream::in);
     Sensor* sensorObject;
 	while(!ifs.eof()){
@@ -119,6 +119,56 @@ Sensor* SensorFunctions::findSensor(string SensorId){
     //ce code peut être optimisé mais j'ai préféré créer une base qui marche. EN plus que c'est un code rarement appelé.
     return sensorFound;
 }
+
+void markSensor(Sensor s){
+	s.setBad();
+}
+float meanAirQualityArea(float, float, float, tm begin, tm end){
+
+	return 0;
+}
+float instantAirQuality(float lng, float lat, float rang, tm time){
+	list <Measurement> m;
+
+
+	
+
+}
+
+float analyseOneSensor(Sensor s)
+// Algorithm:
+//
+{
+	list <Measurement> m = s.getMeasurements();
+
+	float sum;
+	
+	int numDate = 0;
+
+	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){
+
+		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
+
+		
+
+		float AQI = it->getAQI();
+
+		sum = sum + abs(avg- AQI)/avg;
+
+		numDate ++;
+
+		
+	}
+	
+	float meanSurr = meanAirQualityArea(s.getLongitude(),s.getLatitude(),80,nullptr_t,NULL);
+
+	float AirIndex = NULL;
+
+
+
+
+
+} //----- analyseOneSensor
 
 float SensorFunctions::meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end){
 	 
