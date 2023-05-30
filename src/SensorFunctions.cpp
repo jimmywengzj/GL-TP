@@ -148,8 +148,6 @@ float analyseOneSensor(Sensor s)
 
 		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
 
-		
-
 		float AQI = it->getAQI();
 
 		sum = sum + abs(avg- AQI)/avg;
@@ -159,7 +157,7 @@ float analyseOneSensor(Sensor s)
 		
 	}
 	
-	float meanSurr = meanAirQualityArea(s.getLongitude(),s.getLatitude(),80,nullptr_t,NULL);
+	//float meanSurr = meanAirQualityArea(s.getLongitude(),s.getLatitude(),80,nullptr_t,NULL);
 
 	float AirIndex = NULL;
 
