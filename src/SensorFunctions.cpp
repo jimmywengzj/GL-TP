@@ -15,6 +15,7 @@ using namespace std;
 #include <list>
 #include <iostream>
 #include <fstream>
+#include <math.h>
 
 //----------------------------------------------------------- Personal includes
 #include "SensorFunctions.h"
@@ -120,6 +121,15 @@ Sensor* SensorFunctions::findSensor(string SensorId){
 
 float SensorFunctions::meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end){
 	
+	////
+	double r = 0.01745327; //Pi/180=3.14159/180
+	double la1 = la1 * r;
+	double la2 = la2 * r;
+	double lo1 = lo1 * r;
+	double lo2 = lo2 * r;
+	double er = 6371.01; //Kilometers
+	float d = er * acos((sin(la1)*sin(la2)) + (cos(la1)*cos(la2)*cos(lo1 - lo2)));
+	////
 }
 //-------------------------------------------------------- Operator overloading
 SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
