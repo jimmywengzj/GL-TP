@@ -190,18 +190,8 @@ float SensorFunctions::meanAirQuality(float area, float latitude, float longtitu
 				}
 			}
 		} 
-		return avg/total;
 	}
-	
-
-	float r = 0.0174533; //Pi/180=3.14159/180
-	float latitude = latitude * r;
-	float la2 = la2 * r;
-	float longtitude = longtitude * r;
-	float lo2 = lo2 * r;
-	float er = 6371.01; //Kilometers
-	float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
-	
+	return avg/total;
 }
 //-------------------------------------------------------- Operator overloading
 SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
