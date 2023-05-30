@@ -68,7 +68,7 @@ void SensorFunctions::loadFromDatabase(){
 			time.tm_mday=stoi(measureTimeString.substr (8,2));
 			time.tm_hour=stoi(measureTimeString.substr (11,2));
 			time.tm_min=stoi(measureTimeString.substr (14,2));
-			time.tm_hour=stoi(measureTimeString.substr (17,2));
+			time.tm_sec=stoi(measureTimeString.substr (17,2));
 			string sensorString;
 			getline(ifs,sensorString,';');
 			getline(ifs,forget,';');
@@ -126,18 +126,15 @@ void SensorFunctions::markSensor(Sensor s){
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
 
-
 	std::list<Sensor>::iterator it;
 	float avg = 0;
 	float total = 0;
 	for (it = sensorList.begin(); it != sensorList.end(); ++it){
-    	float la2 = it->getLatitude();
-		float lo2 = it->getLongitude();
 		float r = 0.0174533; //Pi/180=3.14159/180
 		float latitude = latitude * r;
-		float la2 = la2 * r;
+		float la2 = it->getLatitude() * r;
 		float longtitude = longtitude * r;
-		float lo2 = lo2 * r;
+		float lo2 = it->getLongitude() * r;
 		float er = 6371.01; //Kilometers
 		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
 		if (d < area){
@@ -150,11 +147,8 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 			}
 		} 
 	}
+	if(total == 0) return -1;
 	return avg/total;
-
-
-	
-
 }
 
 float SensorFunctions::analyseOneSensor(Sensor s)
@@ -162,27 +156,28 @@ float SensorFunctions::analyseOneSensor(Sensor s)
 //
 {
 	list <Measurement> m = s.getMeasurements();
-
 	float sum;
-	
 	int numDate = 0;
-
 	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){
-
 		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
-
 		float AQI = it->getAQI();
-
 		sum = sum + abs(avg- AQI)/avg;
-
-		numDate ++;
-
-		
+		numDate++;
 	}
-	
 	return sum/numDate;
-
 } //----- analyseOneSensor
+
+list<Sensor> SensorFunctions::compareOneSensor(Sensor s, tm begin, tm end)
+// Algorithm:
+//
+{
+	list<Sensor> sorted;
+	for (Sensor sensor : sensors) {
+		if (sensor.getId() == s.getId()) continue;
+		sorted.push_back(sensor);
+	}
+	//////////////////////////////////not finished yet, needs pair<sensor, difference>
+} //----- compareOneSensor
 
 float SensorFunctions::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end){
 	 
@@ -190,13 +185,11 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 	float avg = 0;
 	float total = 0;
 	for (it = sensorList.begin(); it != sensorList.end(); ++it){
-    	float la2 = it->getLatitude();
-		float lo2 = it->getLongitude();
 		float r = 0.0174533; //Pi/180=3.14159/180
 		float latitude = latitude * r;
-		float la2 = la2 * r;
+		float la2 = it->getLatitude() * r;
 		float longtitude = longtitude * r;
-		float lo2 = lo2 * r;
+		float lo2 = it->getLongitude() * r;
 		float er = 6371.01; //Kilometers
 		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
 		if (d < area){
@@ -209,6 +202,7 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 			}
 		} 
 	}
+	if (total == 0) return -1;
 	return avg/total;
 }
 //-------------------------------------------------------- Operator overloading
