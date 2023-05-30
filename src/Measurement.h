@@ -54,8 +54,8 @@ public:
     float getValueNO2() const;
 
     float getValuePM10() const;
-    
 
+    float getAQI() const;
 
 //--------------------------------------------------- Constructors - destructor
     Measurement ( const Measurement & unMeasurement );
@@ -92,6 +92,7 @@ private :
     float valueNO2;
     float valueSO2;
     float valuePM10;
+    float AQI;
 
 protected:
 //------------------------------------------------------------- Private methods

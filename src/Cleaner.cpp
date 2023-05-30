@@ -13,6 +13,7 @@
 //------------------------------------------------------------- System includes
 using namespace std;
 #include <iostream>
+#include <string>
 
 //----------------------------------------------------------- Personal includes
 #include "Cleaner.h"
@@ -27,7 +28,10 @@ using namespace std;
 //
 //{
 //} //----- End of Method
-
+string Cleaner::getId()const 
+{
+    return id;
+} 
 //-------------------------------------------------------- Operator overloading
 Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
 // Algorithm:

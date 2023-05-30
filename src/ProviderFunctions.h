@@ -33,7 +33,7 @@ public:
     //
     // Precondition:
     //
-    void loadFromDataBase();
+    void loadFromDatabase();
 //-------------------------------------------------------- Operator overloading
     ProviderFunctions & operator = ( const ProviderFunctions & unProviderFunctions );
     // Instruction:

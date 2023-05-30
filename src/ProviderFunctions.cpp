@@ -19,7 +19,8 @@ using namespace std;
 //----------------------------------------------------------- Personal includes
 #include "ProviderFunctions.h"
 #include "Provider.h"
-
+#include "Cleaner.h"
+#include <map>
 
 list<Provider> providerList;
 //------------------------------------------------------------------- Constants
@@ -32,26 +33,65 @@ list<Provider> providerList;
 //
 //{
 //} //----- End of Method
-void ProviderFunctions::loadFromDataBase(){
+void ProviderFunctions::loadFromDatabase(){
+    map<string,Cleaner> cleanerList;
+    std::ifstream ifs ("cleaners.csv", std::ifstream::in);
+	int i=0;
+	while(!ifs.eof()){
+		string cleaner;
+		getline(ifs,cleaner,';');
+        Cleaner* cleanerObject;
+		if(cleaner!=""){
+		struct tm timeStart;
+		struct tm timeEnd;
+			string latitudeString;
+			getline(ifs,latitudeString,';');
+			float latitude = stof(latitudeString);
+			string longitudeString;
+			getline(ifs,longitudeString,';');
+			float longitude = stof(longitudeString);						
+			string startDateString;
+			getline(ifs,startDateString,';');
+			string endDateString;
+			timeStart.tm_year=stoi(startDateString.substr (0,4))-1900;
+			timeStart.tm_mon=stoi(startDateString.substr (5,2));
+			timeStart.tm_mday=stoi(startDateString.substr (8,2));
+			timeStart.tm_hour=stoi(startDateString.substr (11,2));
+			timeStart.tm_min=stoi(startDateString.substr (14,2));
+			timeStart.tm_hour=stoi(startDateString.substr (17,2));
+            timeEnd.tm_year=stoi(endDateString.substr (0,4))-1900;
+			timeEnd.tm_mon=stoi(endDateString.substr (5,2));
+			timeEnd.tm_mday=stoi(endDateString.substr (8,2));
+			timeEnd.tm_hour=stoi(endDateString.substr (11,2));
+			timeEnd.tm_min=stoi(endDateString.substr (14,2));
+			timeEnd.tm_hour=stoi(endDateString.substr (17,2));
+			getline(ifs,endDateString,';');
+			string forget;
+			getline(ifs,forget,'\n');
+            cleanerObject= new Cleaner(cleaner,longitude,latitude, timeStart,timeEnd);
+            cleanerList[cleanerObject->getId()] =*cleanerObject;
+		}
+	}
     std::ifstream ifs ("providers.csv", std::ifstream::in);
 		string providerString;
         string currentProvider="";
         Provider* providerObject;
-	while(!ifs.eof()){
+	    while(!ifs.eof()){
 		getline(ifs,providerString,';');
 		if(providerString!=""){
-			string cleaner;
-			getline(ifs,cleaner,';');
+			string cleanerId;
+			getline(ifs,cleanerId,';');
 			string forget;
 			getline(ifs,forget,'\n');
             if(providerString!=currentProvider){
                 providerObject= new Provider(providerString);
 			    providerList.push_back(*providerObject);
             }
-            //we must add the measurement to the provider's list.
-		}
-	}
+            providerObject->addCleaner(cleanerList.find(cleanerId)->second);
+            }
+        }
 }
+
 //-------------------------------------------------------- Operator overloading
 ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
 // Algorithm:
