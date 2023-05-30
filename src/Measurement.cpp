@@ -19,30 +19,16 @@ using namespace std;
 
 #include "Measurement.h"
 
-//------------------------------------------------------------- Constantes
-
 //----------------------------------------------------------------- PUBLIC
-
-//----------------------------------------------------- Méthodes publiques
-// type Measurement::Méthode ( liste des paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
 
 //------------------------------------------------- Surcharge d'opérateurs
 Measurement & Measurement::operator = ( const Measurement & unMeasurement )
-// Algorithme :
-//
 {
 } //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
 Measurement::Measurement (struct tm aDate, string aSensorId, float O3, float NO2,float SO2, float PM10)
-// Algorithme :
-//
 {
     this->timestamp = aDate;
     this->sensorId = aSensorId;
@@ -119,8 +105,6 @@ Measurement::Measurement (struct tm aDate, string aSensorId, float O3, float NO2
 
 
 Measurement::Measurement ( )
-// Algorithme :
-//
 {
 #ifdef MAP
     cout << "Appel au constructeur de <Measurement>" << endl;
@@ -129,8 +113,6 @@ Measurement::Measurement ( )
 
 
 Measurement::~Measurement ( )
-// Algorithme :
-//
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Measurement>" << endl;
@@ -140,65 +122,62 @@ Measurement::~Measurement ( )
 //------------------------------------------------------------------ Getters/Setters
 
 struct tm Measurement:: getTimestamp ( ) const
-// Algorithme :
-//
+
 {
-    return timestamp;
 #ifdef MAP
     cout << "Calling for getTimestamp" << endl;
 #endif
+    return timestamp;
 } //----- End of getTimestamp
 
 
 string Measurement:: getSensorId ( ) const
-// Algorithme :
-//
 {
-    return sensorId;
 #ifdef MAP
     cout << "Calling for getSensorId" << endl;
 #endif
+    return sensorId;
 } //----- End of getSensorId
 
 float Measurement:: getValueO3 ( ) const
-// Algorithme :
-//
 {
-    return valueO3;
 #ifdef MAP
     cout << "Calling for getValueO3" << endl;
 #endif
+    return valueO3;
 } //----- End of getValueO3
 
 
 float Measurement:: getValueNO2 ( ) const
-// Algorithme :
-//
 {
-    return valueNO2;
 #ifdef MAP
     cout << "Calling for getValueNO2" << endl;
 #endif
+    return valueNO2;
+} //----- End of getValueNO2
+
+float Measurement:: getValueSO2 ( ) const
+{
+#ifdef MAP
+    cout << "Calling for getValueNO2" << endl;
+#endif
+    return valueSO2;
 } //----- End of getValueNO2
 
 float Measurement:: getValuePM10 ( ) const
-// Algorithme :
-//
 {
-    return valuePM10;
 #ifdef MAP
     cout << "Calling for getValuePM10" << endl;
 #endif
+    return valuePM10;
 } //----- End of getValuePM10
 
 float Measurement:: getAQI ( ) const
-// Algorithme :
-//
 {
-    return AQI;
 #ifdef MAP
     cout << "Calling for getAQI" << endl;
 #endif
+    return AQI;
 } //----- End of getAQI
 
 
