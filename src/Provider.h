@@ -11,6 +11,7 @@
 #define Provider_H
 #include <string>
 #include "Cleaner.h"
+#include <list>
 
 //------------------------------------------------------------- Used interfaces
 
@@ -42,6 +43,8 @@ public:
     //
     // Precondition:
     //
+    string getId() const;
+    list<Cleaner> getCleanerList() const;
 
 //--------------------------------------------------- Constructors - destructor
     Provider ( const Provider & unProvider);

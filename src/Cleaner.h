@@ -40,6 +40,11 @@ public:
     //
     // Precondition:
     //
+    string getId() const;
+    float getLatitude() const;
+    float getLongitude() const;
+    struct tm getStart() const;
+    struct tm getEnd() const;
 
 //--------------------------------------------------- Constructors - destructor
     Cleaner( const Cleaner & unCleaner );
