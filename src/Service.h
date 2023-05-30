@@ -38,8 +38,8 @@ public:
     // Precondition:
     //
     void loadFromDatabase();
-    int getPoints(string);
-    void markUser(string);
+    int getPoints(User);
+    void markUser(User);
     float meanAirQuality(float, float, float, time_t, time_t);
     float instantAirQuality(float, float, float, time_t);
     float * studyAirCleaner(string);

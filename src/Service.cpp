@@ -37,13 +37,13 @@ void Service::loadFromDatabase ()
     providerFunctions.loadFromDatabase();
 }
 
-int Service::getPoints (string name)
+int Service::getPoints (User name)
 {
     int points = userFunctions.getPoints(name);
     return points;
 }
 
-void Service::markUser (string name)
+void Service::markUser (User name)
 {
    userFunctions.markUser(name);
 }
