@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------- Used interfaces
 
-#include <time.h>
+#include "time.h"
 
 //------------------------------------------------------------------- Constants
 
@@ -91,7 +91,6 @@ private :
     float valueO3;
     float valueNO2;
     float valueSO2;
-
     float valuePM10;
 
 protected:
