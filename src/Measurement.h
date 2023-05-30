@@ -53,6 +53,8 @@ public:
 
     float getValueNO2() const;
 
+    float getValueSO2() const;
+
     float getValuePM10() const;
 
     float getAQI() const;

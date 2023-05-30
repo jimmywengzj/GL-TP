@@ -44,7 +44,7 @@ public:
     // Precondition:
     //
     string getId() const;
-    list<Cleaner> getCleanerList() const;
+    map<string,Cleaner> getCleanerList() const;
 
 //--------------------------------------------------- Constructors - destructor
     Provider ( const Provider & unProvider);
@@ -76,7 +76,7 @@ protected:
 
 //-------------------------------------------------------- Protected attributes
 string id;
-list<Cleaner> cleaners;
+map<string,Cleaner> cleaners;
 };
 
 //---------------------------------------- Other definitions depending on <Xxx>
