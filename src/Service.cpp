@@ -72,7 +72,7 @@ float Service::analyseOneSensor(int id)
     return quality;
 }
 
-float Service::compareOneSensor(int id, struct tm start, struct tm end)
+float Service::compareOneSensor(Sensor id, struct tm start, struct tm end)
 {
     float quality = sensorFunctions.compareOneSensor(id, start, end);
     return quality;
