@@ -76,7 +76,7 @@ public:
     // Precondition:
     //
 
-    float analyseOneSensor(Sensor s);
+    float analyseOneSensor(string sensorId);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
