@@ -158,9 +158,7 @@ float analyseOneSensor(Sensor s)
 		
 	}
 	
-	//float meanSurr = meanAirQualityArea(s.getLongitude(),s.getLatitude(),80,nullptr_t,NULL);
-
-	float AirIndex = NULL;
+	return sum/numDate;
 
 
 
