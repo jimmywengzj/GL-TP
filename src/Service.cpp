@@ -48,9 +48,9 @@ void Service::markUser (User name)
    userFunctions.markUser(name);
 }
 
-float Service::meanAirQuality(float id, float latitude, float longtitude, time_t start, time_t end)
+float Service::meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end)
 {
-    float mquality = sensorFunctions.meanAirQuality(id, latitude, longtitude, start, end);
+    float mquality = sensorFunctions.meanAirQuality(area, latitude, longtitude, start, end);
     return mquality;
 }
 

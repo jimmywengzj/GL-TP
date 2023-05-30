@@ -51,7 +51,7 @@ public:
     // Load the Sensors data from the Database
     // Precondition:
     //
-
+    float meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end);
 
 //-------------------------------------------------------- Operator overloading
     SensorFunctions & operator = ( const SensorFunctions & unSensorFunctions );
