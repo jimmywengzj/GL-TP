@@ -20,6 +20,7 @@ using namespace std;
 //----------------------------------------------------------- Personal includes
 #include "SensorFunctions.h"
 #include "Sensor.h"
+#include "Measurement.h"
 list<Sensor> sensorList;
 
 //------------------------------------------------------------------- Constants
@@ -168,16 +169,41 @@ float analyseOneSensor(Sensor s)
 } //----- analyseOneSensor
 
 float SensorFunctions::meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end){
+	 
+    std::list<Sensor>::iterator it;
+	float avg = 0;
+	float total = 0;
+	for (it = sensorList.begin(); it != sensorList.end(); ++it){
+    	float la2 = it->getLatitude();
+		float lo2 = it->getLongitude();
+		float r = 0.0174533; //Pi/180=3.14159/180
+		float latitude = latitude * r;
+		float la2 = la2 * r;
+		float longtitude = longtitude * r;
+		float lo2 = lo2 * r;
+		float er = 6371.01; //Kilometers
+		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
+		if (d < area){
+			std::list<Measurement>::iterator measurementIt;
+			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+				if (difftime(mktime(&measurementIt->getTimestamp()), start) >= 0 && difftime(mktime(&measurementIt->getTimestamp()), end) <= 0){
+					avg += measurementIt->getAQI();
+					total++;
+				}
+			}
+		} 
+		return avg/total;
+	}
 	
-	////
-	double r = 0.01745327; //Pi/180=3.14159/180
-	double la1 = la1 * r;
-	double la2 = la2 * r;
-	double lo1 = lo1 * r;
-	double lo2 = lo2 * r;
-	double er = 6371.01; //Kilometers
-	float d = er * acos((sin(la1)*sin(la2)) + (cos(la1)*cos(la2)*cos(lo1 - lo2)));
-	////
+
+	float r = 0.0174533; //Pi/180=3.14159/180
+	float latitude = latitude * r;
+	float la2 = la2 * r;
+	float longtitude = longtitude * r;
+	float lo2 = lo2 * r;
+	float er = 6371.01; //Kilometers
+	float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
+	
 }
 //-------------------------------------------------------- Operator overloading
 SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
