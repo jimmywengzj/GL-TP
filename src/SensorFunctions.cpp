@@ -31,7 +31,7 @@ list<Sensor> sensorList;
 //
 //{
 //} //----- End of Method
-void SensorFunctions::loadFromDataBase(){
+void SensorFunctions::loadFromDatabase(){
 	std::ifstream ifs ("sensors.csv", std::ifstream::in);
     Sensor* sensorObject;
 	while(!ifs.eof()){
@@ -116,6 +116,16 @@ Sensor* SensorFunctions::findSensor(string SensorId){
     //J'ai tenté avec un iterator mais j'avais des problémes pour stocker les sensor.
     //ce code peut être optimisé mais j'ai préféré créer une base qui marche. EN plus que c'est un code rarement appelé.
     return sensorFound;
+}
+
+void markSensor(Sensor s){
+	s.setBad();
+}
+
+float instantAirQuality(float lng, float lat, float rang, tm time){
+
+
+	
 }
 //-------------------------------------------------------- Operator overloading
 SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )

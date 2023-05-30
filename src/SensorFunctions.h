@@ -1,7 +1,7 @@
 /******************************************************************************
                              SensorFunctions  -  description
                                -------------------
-    start                : $DATE$
+    start                : $tm$
     copyright            : (C) $YEAR$ by $AUTHOR$
     email                : $EMAIL$
 ******************************************************************************/
@@ -13,6 +13,10 @@
 //------------------------------------------------------------- Used interfaces
 
 #include <Sensor.h>
+
+#include <Measurement.h>
+
+#include <time.h>
 
 #include <list>
 
@@ -38,7 +42,7 @@ public:
     // Precondition:
     //
 
-    void loadFromDataBase ();
+    void loadFromDatabase ();
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
@@ -52,7 +56,36 @@ public:
     // Precondition:
     //
 
+    void MarkSensor(Sensor s);
+    // Instruction: 
+    // Mark a Sensor as defective
+    // Precondition:
+    //
 
+
+    float meanAirQualityArea(float, float, float, tm begin, tm end);
+    // Instruction: 
+    // Load the Sensors data from the Database
+    // Precondition:
+    //
+
+    float instantAirQuality(float lng, float lat, float rang, tm time);
+    // Instruction: 
+    // Compute the AirQuality of a Zone in a precise time
+    // Precondition:
+    //
+
+    list <Measurement> analyseOneSensor(int id);
+    // Instruction: 
+    // Load the Sensors data from the Database
+    // Precondition:
+    //
+
+    list<Sensor> compareOneSensor(Sensor s, tm begin, tm end);
+    // Instruction: 
+    // Load the Sensors data from the Database
+    // Precondition:
+    //
 //-------------------------------------------------------- Operator overloading
     SensorFunctions & operator = ( const SensorFunctions & unSensorFunctions );
     // Instruction:
