@@ -75,7 +75,7 @@ public:
     // Precondition:
     //
 
-    list <Measurement> analyseOneSensor(int id);
+    float analyseOneSensor(float score);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
