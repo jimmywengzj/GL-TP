@@ -40,12 +40,12 @@ public:
     void loadFromDatabase();
     int getPoints(User);
     void markUser(User);
-    float meanAirQuality(float, float, float, struct tm, struct tm);
+    float meanAirQualityArea(float, float, float, struct tm, struct tm);
     float instantAirQuality(float, float, float, struct tm);
     float * studyAirCleaner(string);
-    float analyseOneSensor(int);
+    float analyseOneSensor(Sensor);
     
-    float compareOneSensor(int, struct tm, struct tm);
+    float compareOneSensor(Sensor, struct tm, struct tm);
 
 //-------------------------------------------------------- Operator overloading
     Service & operator = ( const Service & unService );

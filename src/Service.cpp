@@ -48,9 +48,9 @@ void Service::markUser (User name)
    userFunctions.markUser(name);
 }
 
-float Service::meanAirQuality(float area, float latitude, float longtitude, struct tm start, struct tm end)
+float Service::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end)
 {
-    float mquality = sensorFunctions.meanAirQuality(area, latitude, longtitude, start, end);
+    float mquality = sensorFunctions.meanAirQualityArea(area, latitude, longtitude, start, end);
     return mquality;
 }
 
@@ -66,7 +66,7 @@ float * Service::studyAirCleaner(string id)
     return iequality;
 }
 
-float Service::analyseOneSensor(int id)
+float Service::analyseOneSensor(Sensor id)
 {
     float quality = sensorFunctions.analyseOneSensor(id);
     return quality;
