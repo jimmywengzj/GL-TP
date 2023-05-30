@@ -117,6 +117,10 @@ Sensor* SensorFunctions::findSensor(string SensorId){
     //ce code peut être optimisé mais j'ai préféré créer une base qui marche. EN plus que c'est un code rarement appelé.
     return sensorFound;
 }
+
+float SensorFunctions::meanAirQuality(float area, float latitude, float longtitude, time_t start, time_t end){
+	
+}
 //-------------------------------------------------------- Operator overloading
 SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
 // Algorithm:
