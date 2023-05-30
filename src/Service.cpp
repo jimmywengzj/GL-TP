@@ -16,13 +16,15 @@ using namespace std;
 
 //----------------------------------------------------------- Personal includes
 #include "Service.h"
-
+#include "UserFunctions.h"
+#include "SensorFunctions.h"
+#include "ProviderFunctions.h"
 //------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type Xxx::Method ( parameter list )
+// type Service::Method ( parameter list )
 // Algorithm:
 //
 //{
@@ -77,39 +79,39 @@ float Service::compareOneSensor(int id, time_t start, time_t end)
 }
 
 //-------------------------------------------------------- Operator overloading
-Xxx & Xxx::operator = ( const Xxx & unXxx )
+Service & Service::operator = ( const Service & unService )
 // Algorithm:
 //
 {
 } //----- End of operator =
 
 //--------------------------------------------------- Constructors - destructor
-Xxx::Xxx ( const Xxx & unXxx )
+Service::Service ( const Service & unService )
 // Algorithm:
 //
 {
 #ifdef MAP
-    cout << "Calling copy constructor of <Xxx>" << endl;
+    cout << "Calling copy constructor of <Service>" << endl;
 #endif
-} //----- End of Xxx (copy constructor)
+} //----- End of Service (copy constructor)
 
-Xxx::Xxx ( )
+Service::Service ( )
 // Algorithm:
 //
 {
 #ifdef MAP
-    cout << "Calling constructor of <Xxx>" << endl;
+    cout << "Calling constructor of <Service>" << endl;
 #endif
-} //----- End of Xxx
+} //----- End of Service
 
-Xxx::~Xxx ( )
+Service::~Service ( )
 // Algorithm:
 //
 {
 #ifdef MAP
-    cout << "Calling destructor of <Xxx>" << endl;
+    cout << "Calling destructor of <Service>" << endl;
 #endif
-} //----- End of ~Xxx
+} //----- End of ~Service
 
 //----------------------------------------------------------------------- PRIVE
 

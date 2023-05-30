@@ -13,6 +13,9 @@
 //------------------------------------------------------------- Used interfaces
 #include <string>
 #include <list>
+#include "UserFunctions.h"
+#include "SensorFunctions.h"
+#include "ProviderFunctions.h"
 //------------------------------------------------------------------- Constants
 
 //----------------------------------------------------------------------- Types

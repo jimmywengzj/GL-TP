@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------- Used interfaces
 
-#include <Sensor.h>
+#include "Sensor.h"
 
 #include <list>
 
