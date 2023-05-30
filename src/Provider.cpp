@@ -17,7 +17,7 @@ using namespace std;
 //----------------------------------------------------------- Personal includes
 #include "Provider.h"
 #include "Cleaner.h"
-
+#include <map> 
 //------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
@@ -31,10 +31,14 @@ using namespace std;
 void Provider::addCleaner( Cleaner aCleaner)
 // Algorithm:
 {
-    cleaners.push_back(aCleaner);
+    cleaners[aCleaner.getId()] =aCleaner;
+
 #ifdef MAP
     cout << "Calling for addMeasurement method of <Sensor>" << endl;
 #endif
+}
+map<string,Cleaner> Provider::getCleanerList() const{
+    return cleaners;
 }
 //-------------------------------------------------------- Operator overloading
 Provider & Provider::operator = ( const Provider & unProvider)

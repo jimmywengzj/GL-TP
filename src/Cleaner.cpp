@@ -32,6 +32,18 @@ string Cleaner::getId()const
 {
     return id;
 } 
+float Cleaner::getLatitude() const{
+    return latitude;
+}
+float Cleaner::getLongitude() const{
+    return longitude;
+}
+struct tm Cleaner::getStart() const{
+    return timestampStart;
+}
+struct tm Cleaner::getEnd() const{
+    return timestampEnd;
+}
 //-------------------------------------------------------- Operator overloading
 Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
 // Algorithm:

@@ -18,6 +18,8 @@ using namespace std;
 #include <fstream>
 //----------------------------------------------------------- Personal includes
 #include "ProviderFunctions.h"
+#include "SensorFunctions.h"
+
 #include "Provider.h"
 #include "Cleaner.h"
 #include <map>
@@ -58,13 +60,13 @@ void ProviderFunctions::loadFromDatabase(){
 			timeStart.tm_mday=stoi(startDateString.substr (8,2));
 			timeStart.tm_hour=stoi(startDateString.substr (11,2));
 			timeStart.tm_min=stoi(startDateString.substr (14,2));
-			timeStart.tm_hour=stoi(startDateString.substr (17,2));
+			timeStart.tm_sec=stoi(startDateString.substr (17,2));
             timeEnd.tm_year=stoi(endDateString.substr (0,4))-1900;
 			timeEnd.tm_mon=stoi(endDateString.substr (5,2));
 			timeEnd.tm_mday=stoi(endDateString.substr (8,2));
 			timeEnd.tm_hour=stoi(endDateString.substr (11,2));
 			timeEnd.tm_min=stoi(endDateString.substr (14,2));
-			timeEnd.tm_hour=stoi(endDateString.substr (17,2));
+			timeEnd.tm_sec=stoi(endDateString.substr (17,2));
 			getline(ifs,endDateString,';');
 			string forget;
 			getline(ifs,forget,'\n');
@@ -91,7 +93,32 @@ void ProviderFunctions::loadFromDatabase(){
             }
         }
 }
-
+list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
+	//This isn't finished but I'm not going to be able to finish it
+	list<float> returnValue;
+    Cleaner* cleanerFound=NULL;
+    Cleaner* cleanerStep=NULL;
+    list<Provider> CheckProviderList=providerList;
+    while(CheckProviderList.size()!=0 && cleanerFound==NULL){
+        *cleanerStep=providerList.front().getCleanerList().find(idCleaner)->second;
+        if(cleanerStep!=NULL){
+            cleanerFound=cleanerStep;
+        }
+        CheckProviderList.pop_front();
+    }
+	struct tm start =cleanerFound->getStart();
+	if(start.tm_mon==1){
+		start.tm_mon=12;
+		start.tm_year=start.tm_year-1;
+	}
+	else{
+		start.tm_mon=start.tm_mon-1;
+	}
+	struct tm end =cleanerFound->getEnd();
+	//I think this will become a problem
+	SensorFunctions sensorFunctions;
+	float start=sensorFunctions.meanAirQualityArea(10.0,cleanerFound->getLongitude(),cleanerFound->getLatitude(),start,cleanerFound->getStart());
+}
 //-------------------------------------------------------- Operator overloading
 ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
 // Algorithm:
