@@ -92,7 +92,8 @@ void ProviderFunctions::loadFromDatabase(){
             providerObject->addCleaner(cleanerList.find(cleanerId)->second);
             }
         }
-}
+} //----- End of loadFromDatabase()
+
 list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	//This isn't finished but I'm not going to be able to finish it
 	list<float> returnValue;
@@ -119,11 +120,11 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	SensorFunctions sensorFunctions;
 	float start=sensorFunctions.meanAirQualityArea(10.0,cleanerFound->getLongitude(),cleanerFound->getLatitude(),start,cleanerFound->getStart());
 }
+
 //-------------------------------------------------------- Operator overloading
 ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
-// Algorithm:
-//
 {
+
 } //----- End of operator =
 
 //--------------------------------------------------- Constructors - destructor
@@ -137,8 +138,6 @@ ProviderFunctions::ProviderFunctions ( const ProviderFunctions & unProviderFunct
 } //----- End of ProviderFunctions (copy constructor)
 
 ProviderFunctions::ProviderFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling constructor of <ProviderFunctions>" << endl;

@@ -37,7 +37,7 @@ public:
     //
 
 //-------------------------------------------------------- Operator overloading
-    Measurement & operator = ( const Measurement & unMeasurement );
+    bool operator == ( const Measurement & unMeasurement );
     // Instruction:
     //
     // Precondition:

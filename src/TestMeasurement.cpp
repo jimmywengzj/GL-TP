@@ -42,7 +42,7 @@ void testMeasurementCreation(){
     assert(difftime(mktime(&measurementDate),mktime(date)) == 0);
     cout << "Passed 2/7 : timestamp is right" << endl;
     assert(measurement->getSensorId() == sensorId);
-    cout << "Passed 3/7 : timestamp is right" << endl;
+    cout << "Passed 3/7 : id is right" << endl;
     assert(measurement->getValueO3() == valueO3);
     cout << "Passed 4/7 : valueO3 is right" << endl;
     assert(measurement->getValueNO2() == valueNO2);

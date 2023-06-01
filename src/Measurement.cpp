@@ -1,7 +1,7 @@
 /*************************************************************************
                            Measurement  -  description
                              -------------------
-    début                : $DATE$
+    beginning                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
     e-mail               : $EMAIL$
 *************************************************************************/
@@ -15,19 +15,29 @@ using namespace std;
 #include <iostream>
 #include <cmath>
 
-//------------------------------------------------------ Include personnel
+//------------------------------------------------------- Personal include
 
 #include "Measurement.h"
 
 //----------------------------------------------------------------- PUBLIC
 
-//------------------------------------------------- Surcharge d'opérateurs
-Measurement & Measurement::operator = ( const Measurement & unMeasurement )
+//------------------------------------------------- Operator Overload
+bool Measurement::operator == ( const Measurement & unMeasurement )
 {
-} //----- Fin de operator =
+    struct tm date = unMeasurement.getTimestamp();
+    return (
+            unMeasurement.sensorId == sensorId &&
+            difftime(mktime(&timestamp),mktime(&date)) == 0 &&
+            unMeasurement.valueNO2 == valueNO2 &&
+            unMeasurement.valueO3 == valueO3 &&
+            unMeasurement.valuePM10 == valuePM10 &&
+            unMeasurement.valueSO2 == valueSO2 &&
+            unMeasurement.AQI == AQI
+            );
+} //----- End of operator =
 
 
-//-------------------------------------------- Constructeurs - destructeur
+//---------------------------------------------- Constructors - destructor
 Measurement::Measurement (struct tm aDate, string aSensorId, float O3, float NO2,float SO2, float PM10)
 {
     this->timestamp = aDate;
@@ -101,7 +111,7 @@ Measurement::Measurement (struct tm aDate, string aSensorId, float O3, float NO2
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Measurement>" << endl;
 #endif
-} //----- Fin de Measurement (constructeur de copie)
+} //----- End of Measurement (copy constructor)
 
 
 Measurement::Measurement ( )
@@ -109,7 +119,14 @@ Measurement::Measurement ( )
 #ifdef MAP
     cout << "Appel au constructeur de <Measurement>" << endl;
 #endif
-} //----- Fin de Measurement
+} //----- End of Measurement
+
+Measurement::Measurement ( const Measurement & unMeasurement )
+{
+#ifdef MAP
+    cout << "Calling copy constructor of <Measurement>" << endl;
+#endif
+} //----- End of Sensor (copy constructor)
 
 
 Measurement::~Measurement ( )
@@ -117,7 +134,7 @@ Measurement::~Measurement ( )
 #ifdef MAP
     cout << "Appel au destructeur de <Measurement>" << endl;
 #endif
-} //----- Fin de ~Measurement
+} //----- End of ~Measurement
 
 //------------------------------------------------------------------ Getters/Setters
 
@@ -139,6 +156,7 @@ string Measurement:: getSensorId ( ) const
     return sensorId;
 } //----- End of getSensorId
 
+
 float Measurement:: getValueO3 ( ) const
 {
 #ifdef MAP
@@ -156,6 +174,7 @@ float Measurement:: getValueNO2 ( ) const
     return valueNO2;
 } //----- End of getValueNO2
 
+
 float Measurement:: getValueSO2 ( ) const
 {
 #ifdef MAP
@@ -164,6 +183,7 @@ float Measurement:: getValueSO2 ( ) const
     return valueSO2;
 } //----- End of getValueNO2
 
+
 float Measurement:: getValuePM10 ( ) const
 {
 #ifdef MAP
@@ -171,6 +191,7 @@ float Measurement:: getValuePM10 ( ) const
 #endif
     return valuePM10;
 } //----- End of getValuePM10
+
 
 float Measurement:: getAQI ( ) const
 {
@@ -181,7 +202,7 @@ float Measurement:: getAQI ( ) const
 } //----- End of getAQI
 
 
-//------------------------------------------------------------------ PRIVE
+//---------------------------------------------------------------- PRIVATE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Protected Methods
 

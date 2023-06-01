@@ -69,6 +69,8 @@ public:
 
     string getId() const;
 
+    bool getGood() const;
+
     list<Measurement> getMeasurements() const;
 
 //--------------------------------------------------- Constructors - destructor

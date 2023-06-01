@@ -14,7 +14,7 @@
 using namespace std;
 #include <iostream>
 
-//---------------------------------------------------------- Personnal includes
+//----------------------------------------------------------- Personal includes
 
 #include "Sensor.h"
 
@@ -27,14 +27,8 @@ using namespace std;
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type Sensor::Method ( parameter list )
-// Algorithm:
-//
-//{
-//} //----- End of Method
 
 void Sensor::addMeasurement( Measurement aMeasurement )
-// Algorithm:
 {
     measurements.push_back(aMeasurement);
 
@@ -45,7 +39,6 @@ void Sensor::addMeasurement( Measurement aMeasurement )
 } //----- End of addMeasurement
 
 void Sensor::setBad()
-// Algorithm:
 {
     good = false;
 #ifdef MAP
@@ -58,8 +51,6 @@ void Sensor::setBad()
 
 //--------------------------------------------------- Constructors - destructor
 Sensor::Sensor ( const Sensor & unSensor )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling copy constructor of <Sensor>" << endl;
@@ -67,10 +58,7 @@ Sensor::Sensor ( const Sensor & unSensor )
 } //----- End of Sensor (copy constructor)
 
 
-
 Sensor::Sensor (string anId, float along,  float alat )
-// Algorithm:
-//
 {
     this->id = anId;
     this->longitude = along;
@@ -83,8 +71,6 @@ Sensor::Sensor (string anId, float along,  float alat )
 } //----- End of Sensor
 
 Sensor::~Sensor ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling destructor of <Sensor>" << endl;
@@ -94,8 +80,6 @@ Sensor::~Sensor ( )
 //----------------------------------------------------------------------- Getters/Setters
 
 float Sensor :: getLongitude ( ) const
-// Algorithme :
-//
 {
     return longitude;
 #ifdef MAP
@@ -104,8 +88,6 @@ float Sensor :: getLongitude ( ) const
 } //----- End of getLongitude
 
 float Sensor :: getLatitude ( ) const
-// Algorithme :
-//
 {
     return latitude;
 #ifdef MAP
@@ -114,8 +96,6 @@ float Sensor :: getLatitude ( ) const
 } //----- End of getLatitude
 
 string Sensor :: getId ( ) const
-// Algorithme :
-//
 {
     return id;
 #ifdef MAP
@@ -123,9 +103,12 @@ string Sensor :: getId ( ) const
 #endif
 } //----- End of getId
 
+bool Sensor :: getGood ( ) const
+{
+    return good;
+} //----- End of getGood
+
 list<Measurement> Sensor :: getMeasurements ( ) const
-// Algorithme :
-//
 {
     return measurements;
 #ifdef MAP
@@ -134,7 +117,6 @@ list<Measurement> Sensor :: getMeasurements ( ) const
 } //----- End of getId
 
 
-
-//----------------------------------------------------------------------- PRIVE
+//--------------------------------------------------------------------- PRIVATE
 
 //------------------------------------------------------------- Private methods
