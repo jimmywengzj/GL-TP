@@ -13,16 +13,13 @@ ${EXEC}: ${OBJ}
 %.o: %.cpp
 	${GPP} ${GPPFLAGS} -o $@ -c $^
 
-test-windows: ${TESTMAINS}
-	$(foreach var,$(TESTMAINS),./$(var).exe ; )
-
-test-linux: ${TESTMAINS}
-	$(foreach var,$(TESTMAINS),./$(var),)
+test: ${TESTMAINS}
+	echo 'All tested passed successfully'
 
 ${TESTMAINS}: ${TESTOBJ}
 	${GPP} ${GPPFLAGS} -c $@.cpp
 	${GPP} ${GPPFLAGS} -o $@ $@.o $^
-
+	./$@.exe
 
 clean:
 	del ${EXEC} ${OBJ} ${OBJ:.o=.gch}
