@@ -78,9 +78,9 @@ float Service::analyseOneSensor(Sensor id)
     return quality;
 }
 
-list<Sensor> Service::compareOneSensor(Sensor id, struct tm start, struct tm end)
+list<Sensor> Service::compareOneSensor(Sensor sensor, struct tm start, struct tm end)
 {
-    list<Sensor> quality = sensorFunctions.compareOneSensor(id.getId(), start, end);
+    list<Sensor> quality = sensorFunctions.compareOneSensor(sensor.getId(), start, end);
     return quality;
 }
 
