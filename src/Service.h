@@ -44,7 +44,7 @@ public:
     float instantAirQuality(float, float, float, struct tm);
     list<float> studyAirCleaner(string);
     float analyseOneSensor(Sensor);
-    
+    Sensor* findSensor(string SensorId);
     list<Sensor> compareOneSensor(Sensor, struct tm, struct tm);
 
 //-------------------------------------------------------- Operator overloading
