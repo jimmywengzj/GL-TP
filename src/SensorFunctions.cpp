@@ -148,17 +148,17 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 	float avg3=0;
 	float avg4=0;
 	float stock;
-	for (it = sensorList.begin(); it != sensorList.end(); ++it){
-		float la2 = it->getLatitude() * r;
-		float lo2 = it->getLongitude() * r;
+	for (Sensor sensor : sensorList){
+		float la2 = sensor->getLatitude() * r;
+		float lo2 = sensor->getLongitude() * r;
 		float d = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));
 		
 		stock=-1.0;
 		vector<Measurement>::iterator measurementIt;
-		for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-			struct tm time=measurementIt->getTimestamp();
+		for (Measurement measurement : sensor.getMeasurements()){
+			struct tm time= measurement.getTimestamp();
 			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
-				stock=measurementIt->getAQI();
+				stock=measurement.getAQI();
 			}
 		}
 
@@ -208,7 +208,6 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 		total = 4;
 		avg=avg1+avg2+avg3+avg4;
 	}
-
 	return avg/total;
 }
 float SensorFunctions::analyseOneSensor(Sensor sensor)
