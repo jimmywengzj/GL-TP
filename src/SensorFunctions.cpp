@@ -271,7 +271,7 @@ list<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struc
 	return sorted;
 } //----- compareOneSensor
 
-float SensorFunctions::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end){
+float SensorFunctions::meanAirQualityArea(float area, float latitude, float longitude, struct tm start, struct tm end){
 	 
     float avg = 0;
 	float total = 0;
@@ -279,7 +279,7 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 	for (time_t time = mktime(&start); time < mktime(&end); time += 86400) {
 		total++;
 		//struct tm tmp = *localtime(&time);
-		avg += instantAirQuality(area, longtitude, latitude, *localtime(&time));
+		avg += instantAirQuality(area, longitude, latitude, *localtime(&time));
 	}
 
 	return avg/total;
