@@ -19,16 +19,10 @@ using namespace std;
 #include "UserFunctions.h"
 #include "SensorFunctions.h"
 #include "ProviderFunctions.h"
-//------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type Service::Method ( parameter list )
-// Algorithm:
-//
-//{
-//} //----- End of Method
 
 void Service::loadFromDatabase ()
 {
@@ -40,30 +34,30 @@ void Service::loadFromDatabase ()
     //cout<<"ended user"<<endl;
 }
 
-int Service::getPoints (User name)
+int Service::getPoints (User user)
 {
-    int points = userFunctions.getPoints(name);
+    int points = userFunctions.getPoints(user);
     return points;
 }
 Sensor* Service::findSensor(string SensorId)
 {
     return sensorFunctions.findSensor(SensorId);
 }
-void Service::markUser (User name)
+void Service::markUser (User user)
 {
-   userFunctions.markUser(name);
+   userFunctions.markUser(user);
 }
 
-float Service::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end)
+float Service::meanAirQualityArea(float area, float latitude, float longitude, tm start, tm end)
 {
-    float mquality = sensorFunctions.meanAirQualityArea(area, latitude, longtitude, start, end);
-    return mquality;
+    float meanQuality = sensorFunctions.meanAirQualityArea(area, latitude, longitude, start, end);
+    return meanQuality;
 }
 
-float Service::instantAirQuality(float id, float latitude, float longtitude, struct tm date)
+float Service::instantAirQuality(float id, float latitude, float longitude, struct tm date)
 {
-    float iquality = sensorFunctions.instantAirQuality(id, latitude, longtitude, date);
-    return iquality;
+    float instantQuality = sensorFunctions.instantAirQuality(id, latitude, longitude, date);
+    return instantQuality;
 }
 
 list<float> Service::studyAirCleaner(string id)
@@ -72,29 +66,21 @@ list<float> Service::studyAirCleaner(string id)
     return iequality;
 }
 
-float Service::analyseOneSensor(Sensor id)
+float Service::analyseOneSensor(Sensor sensor)
 {
-    float quality = sensorFunctions.analyseOneSensor(id);
+    float quality = sensorFunctions.analyseOneSensor(sensor);
     return quality;
 }
 
-list<Sensor> Service::compareOneSensor(Sensor sensor, struct tm start, struct tm end)
+list<Sensor> Service::compareOneSensor(Sensor sensor, tm start, tm end)
 {
     list<Sensor> quality = sensorFunctions.compareOneSensor(sensor.getId(), start, end);
     return quality;
 }
 
-//-------------------------------------------------------- Operator overloading
-/*Service & Service::operator = ( const Service & unService )
-// Algorithm:
-//
-{
-} //----- End of operator =
-*/
 //--------------------------------------------------- Constructors - destructor
 Service::Service ( const Service & unService )
-// Algorithm:
-//
+// Only for debug purpose
 {
 #ifdef MAP
     cout << "Calling copy constructor of <Service>" << endl;
@@ -102,8 +88,6 @@ Service::Service ( const Service & unService )
 } //----- End of Service (copy constructor)
 
 Service::Service ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling constructor of <Service>" << endl;
@@ -111,14 +95,8 @@ Service::Service ( )
 } //----- End of Service
 
 Service::~Service ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling destructor of <Service>" << endl;
 #endif
 } //----- End of ~Service
-
-//----------------------------------------------------------------------- PRIVE
-
-//------------------------------------------------------------- Private methods
