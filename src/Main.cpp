@@ -31,16 +31,30 @@ int main ()
             cout << "Enter Function 1 or 2 !\n";
             cin >> function;
             if (function == "1") {
-                cout << "Enter Area !\n";
+                cout << "Enter Area!\n";
                 cin >> area;
-                cout << "Enter Latitude !\n";
+                cout << "Enter Latitude!\n";
                 cin >> latitude;
-                cout << "Enter Longitude !\n";
+                cout << "Enter Longitude!\n";
                 cin >> longitude;
-                cout << "Start Time !\n";
-                cin >> start;
-                cout << "Enter End Time !\n";
-                cin >> end;
+                cout << "Start Year!\n";
+                cin >> start.tm_year;
+                cout << "Start Month!\n";
+                cin >> start.tm_mon;
+                cout << "Start Day!\n";
+                cin >> start.tm_mday;
+                cout << "Start Time!\n";
+                start.tm_hour = 12;
+
+                cout << "End Year!\n";
+                cin >> end.tm_year;
+                cout << "End Month!\n";
+                cin >> end.tm_mon;
+                cout << "End Day!\n";
+                cin >> start.tm_mday;
+                cout << "End Time!\n";
+                start.tm_hour = 12;
+
                 cout << service->meanAirQualityArea(area, latitude, longitude, start, end);
 
             }
