@@ -216,15 +216,23 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 
 	return avg/total;
 }
-float SensorFunctions::analyseOneSensor(Sensor s)
+
+
+float SensorFunctions::analyseOneSensor(string sensorId)
 // Algorithm:
 //
 {
-	list <Measurement> m = s.getMeasurements();
-	float sum;
+	Sensor * s = (findSensor(sensorId));
+	list <Measurement> m = s->getMeasurements();
+
+
+	float sum=0;
 	int numDate = 0;
-	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){
+	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){		
+
+
 		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
+
 		float AQI = it->getAQI();
 		sum = sum + abs(avg- AQI)/avg;
 		numDate++;
