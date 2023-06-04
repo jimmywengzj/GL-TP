@@ -43,9 +43,9 @@ public:
     float meanAirQualityArea(float, float, float, struct tm, struct tm);
     float instantAirQuality(float, float, float, struct tm);
     list<float> studyAirCleaner(string);
-    list<Sensor> analyseOneSensor(Sensor);
+    float analyseOneSensor(Sensor);
     
-    float compareOneSensor(Sensor, struct tm, struct tm);
+    list<Sensor> compareOneSensor(Sensor, struct tm, struct tm);
 
 //-------------------------------------------------------- Operator overloading
     Service & operator = ( const Service & unService );
