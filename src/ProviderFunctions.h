@@ -9,7 +9,7 @@
 //------------------ <ProviderFunction> class interface (ProviderFunction.h file) -----------------------
 #if ! defined ( ProviderFunctions_H )
 #define ProviderFunctions_H
-
+#include <vector>
 class ProviderFunctions 
 {
 //---------------------------------------------------------------------- PUBLIC

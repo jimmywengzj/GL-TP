@@ -25,12 +25,12 @@ using namespace std;
 #include <map>
 
 vector<Provider> providerList;
+    map<string,Cleaner> cleanerList;
 
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
 void ProviderFunctions::loadFromDatabase(){
-    map<string,Cleaner> cleanerList;
 	  std::ifstream ifs;
 
   ifs.open ("../data/cleaners.csv", std::ifstream::in);
@@ -107,27 +107,11 @@ void ProviderFunctions::loadFromDatabase(){
 vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	float searchRadius=10.0;
 	float APImin=1.0;
+	vector<float> returnValue;
 	//deux valeurs arbitraires
 	//This isn't finished but I'm not going to be able to finish it
-	vector<float> returnValue;
-    Cleaner* cleanerFound=NULL;
-    vector<Provider> CheckProviderList=providerList;
-	cout<<"122"<<endl;
-
-    while(CheckProviderList.size()!=0 && cleanerFound==NULL){
-		std::map<string,Cleaner>::iterator it;
-        it =CheckProviderList.front().getCleanerList().find(idCleaner);
-
-	if (it == CheckProviderList.front().getCleanerList().end()) {
-       CheckProviderList.pop_front();
-
-	} else {
-            *cleanerFound=CheckProviderList.front().getCleanerList().find(idCleaner)->second;
-
-		}
-	}
-	cout<<"130"<<endl;
-	struct tm startDate =cleanerFound->getStart();
+	Cleaner cleanerFound=cleanerList.find(idCleaner)->second;
+	struct tm startDate =cleanerFound.getStart();
 	if(startDate.tm_mon==1){
 		startDate.tm_mon=12;
 		startDate.tm_year=startDate.tm_year-1;
@@ -137,13 +121,13 @@ vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	}
 		cout<<"1"<<endl;
 
-	struct tm endDate =cleanerFound->getEnd();
+	struct tm endDate =cleanerFound.getEnd();
 	//I think this will become a problem
 	SensorFunctions sensorFunctions;
-	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart());
-	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd());
+	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart());
+	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd());
 	float i=1.0;
-	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd()))>APImin){
+	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd()))>APImin){
 		i++;
 	}
 	returnValue.emplace_back(lastMeasurement-firstMeasurement);

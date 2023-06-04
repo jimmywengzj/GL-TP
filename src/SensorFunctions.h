@@ -47,7 +47,7 @@ public:
     // Load the Sensors data from the Database
     // Precondition:
     //
-    Sensor* findSensor (string id);
+    Sensor findSensor (string id);
     //Instruction:
     //Finds and return whichever sensor has the same ID sends back an error message otherwise
     

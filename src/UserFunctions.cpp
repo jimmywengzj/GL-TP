@@ -43,7 +43,7 @@ void UserFunctions::loadFromDatabase(SensorFunctions sensorFunctions)
                 u= new User(user,0);
 			    userList.push_back(*u);
             }
-            u->addSensor(*(sensorFunctions.findSensor(sensorString)));
+            u->addSensor(sensorFunctions.findSensor(sensorString));
 		}
 	}
 

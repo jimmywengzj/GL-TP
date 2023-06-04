@@ -64,7 +64,6 @@ void SensorFunctions::loadFromDatabase(){
 		string forget;
 		string measureTimeString;
 		struct tm time;
-        Sensor * sensor;
 		getline(ifs,measureTimeString,';');
 		if(measureTimeString!=""){
 			time.tm_year=stoi(measureTimeString.substr (0,4))-1900;
@@ -102,30 +101,32 @@ void SensorFunctions::loadFromDatabase(){
 			float PM10 = stof(PM10String);
 			getline(ifs,forget,'\n');
             Measurement* measurement = new Measurement(time, sensorString, O3,  NO2,  SO2,  PM10);
-			sensor=findSensor(sensorString);	
-            sensor->addMeasurement((*measurement));			
+			Sensor sensor=findSensor(sensorString);	
+            sensor.addMeasurement((*measurement));	
+			vector measure=sensor.getMeasurements();	
+				for(int i=0;i<measure.size();i++){
+					cout<<measure[i].getValuePM10()<<" "<<measure[i].getAQI()<<endl;
+				}
+  
 		}
 	}
 
 }
-Sensor* SensorFunctions::findSensor(string id){
-    Sensor* sensorFound=NULL;
-    vector<Sensor> CheckSensorList=sensorList;
-    while(CheckSensorList.size()!=0 && sensorFound==NULL){
-
-        if((CheckSensorList.front().getId())==id){
-            sensorFound=&(CheckSensorList.front());
+Sensor SensorFunctions::findSensor(string id){
+	sensorList[0];
+	int p=0;
+	for(int i=0;i<sensorList.size();i++){
+        if((sensorList[i].getId())==id){
+            p=i;
         }		
-
-        CheckSensorList.pop_front();
     }
     //J'ai tenté avec un iterator mais j'avais des problémes pour stocker les sensor.
     //ce code peut être optimisé mais j'ai préféré créer une base qui marche. EN plus que c'est un code rarement appelé.
-    return sensorFound;
+    return sensorList[p];
 }
 
 void SensorFunctions::markSensor(string id){
-	findSensor(id)->setBad();
+	findSensor(id).setBad();
 }
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
@@ -213,12 +214,12 @@ float SensorFunctions::analyseOneSensor(Sensor sensor)
 // Algorithm:
 //
 {
-	vector <Measurement> measurementVector = s.getMeasurements();
+	vector <Measurement> measurementVector = sensor.getMeasurements();
 	float sum;
 	int numDate = 0;
 	for(Measurement measurement : measurementVector){
-		float avg = instantAirQuality(sensor.getLongitude(),sensor.getLatitude(),80,Measurement->getTimestamp());
-		float AQI = it->getAQI();
+		float avg = instantAirQuality(sensor.getLongitude(),sensor.getLatitude(),80,measurement.getTimestamp());
+		float AQI = measurement.getAQI();
 		sum = sum + abs(avg- AQI)/avg;
 		numDate++;
 	}
@@ -229,19 +230,19 @@ vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, str
 // Algorithm:
 //
 {
-	Sensor *s = findSensor(id);
+	Sensor s = findSensor(id);
 
 	vector<pair<Sensor, float>> order;
 	
 	for (Sensor sensor : sensors) {
-		if (sensor.getId() == s->getId()) continue;
+		if (sensor.getId() == s.getId()) continue;
 		//sorted.push_back(sensor);
 		float difference = 0;
 		for (Measurement measurement : sensor.getMeasurements()) {
 			struct tm tm1 = measurement.getTimestamp();
 			time_t t = mktime(&tm1);
 			if (difftime(t, mktime(&begin)) >= 0 && difftime(t, mktime(&end)) <= 0){
-				for (Measurement m : s->getMeasurements()) {
+				for (Measurement m : s.getMeasurements()) {
 					struct tm tm2 = m.getTimestamp();
 					if (difftime(t, mktime(&tm2)) == 0) {
 						difference += abs(measurement.getAQI() - m.getAQI());

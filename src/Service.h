@@ -46,7 +46,7 @@ public:
 
     float analyseOneSensor(Sensor);
 
-    Sensor* findSensor(string SensorId);
+    Sensor findSensor(string SensorId);
 
     vector<Sensor> compareOneSensor(Sensor, struct tm, struct tm);
 
