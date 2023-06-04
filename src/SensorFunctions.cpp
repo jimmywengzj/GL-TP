@@ -56,11 +56,11 @@ void SensorFunctions::loadFromDatabase(){
 	}
 	cout<<sensorList.front().getId()<<endl;
 	ifs.close();
-	list<Sensor> CheckSensorList=sensorList;
+	/*list<Sensor> CheckSensorList=sensorList;
     while(CheckSensorList.size()!=0){
         cout<<"Get Id: "<<CheckSensorList.front().getId()<<"Lat :"<<CheckSensorList.front().getLatitude()<<"Long :"<<CheckSensorList.front().getLongitude()<<endl;
         CheckSensorList.pop_front();
-    }
+    }*/
   ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){

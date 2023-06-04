@@ -33,9 +33,11 @@ using namespace std;
 void Service::loadFromDatabase ()
 {
     sensorFunctions.loadFromDatabase();
+    //cout<<"ended Sensor"<<endl;
     providerFunctions.loadFromDatabase();
+    //cout<<"ended Provider"<<endl;
     userFunctions.loadFromDatabase(sensorFunctions);
-
+    //cout<<"ended user"<<endl;
 }
 
 int Service::getPoints (User name)
