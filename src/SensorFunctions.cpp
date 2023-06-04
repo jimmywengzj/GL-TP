@@ -29,10 +29,10 @@ vector<Sensor> sensorList;
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-void SensorFunctions::loadFromDatabase(){
-		  std::ifstream ifs;
-
-  ifs.open ("../data/sensors.csv", std::ifstream::in);
+void SensorFunctions::loadFromDatabase()
+{
+    std::ifstream ifs;
+    ifs.open ("../data/sensors.csv", std::ifstream::in);
     Sensor* sensorObject;
 	while(!ifs.eof()){
 		string sensor;
@@ -57,7 +57,7 @@ void SensorFunctions::loadFromDatabase(){
         cout<<"Get Id: "<<CheckSensorList.front().getId()<<"Lat :"<<CheckSensorList.front().getLatitude()<<"Long :"<<CheckSensorList.front().getLongitude()<<endl;
         CheckSensorList.pop_front();
     }*/
-  ifs.open ("../data/measurements.csv", std::ifstream::in);
+    ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
 		i++;
@@ -108,12 +108,12 @@ void SensorFunctions::loadFromDatabase(){
 				for(int i=0;i<measure.size();i++){
 					cout<<measure[i].getValuePM10()<<" "<<measure[i].getAQI()<<endl;
 				}*/
-  
 		}
 	}
-
 }
-Sensor* SensorFunctions::findSensor(string id){
+
+Sensor* SensorFunctions::findSensor(string id)
+{
 	sensorList[0];
 	int p=0;
 	for(int i=0;i<sensorList.size();i++){
@@ -126,12 +126,12 @@ Sensor* SensorFunctions::findSensor(string id){
     return &sensorList[p];
 }
 
-void SensorFunctions::markSensor(string id){
+void SensorFunctions::markSensor(string id)
+{
 	findSensor(id)->setBad();
 }
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
-
 	std::vector<Sensor>::iterator it;
 	float avg = 0;
 	float total = 0;
@@ -212,8 +212,6 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 	return avg/total;
 }
 float SensorFunctions::analyseOneSensor(Sensor sensor)
-// Algorithm:
-//
 {
 	vector <Measurement> measurementVector = sensor.getMeasurements();
 	float sum;
@@ -228,8 +226,6 @@ float SensorFunctions::analyseOneSensor(Sensor sensor)
 } //----- analyseOneSensor
 
 vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struct tm end)
-// Algorithm:
-//
 {
 	Sensor* s = findSensor(id);
 
@@ -279,17 +275,9 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 
 	return avg/total;
 }
-//-------------------------------------------------------- Operator overloading
-/*SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
-// Algorithm:
-//
-{
-} //----- End of operator =
-*/
+
 //--------------------------------------------------- Constructors - destructor
 SensorFunctions::SensorFunctions ( const SensorFunctions & unSensorFunctions )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling copy constructor of <SensorFunctions>" << endl;
@@ -297,8 +285,6 @@ SensorFunctions::SensorFunctions ( const SensorFunctions & unSensorFunctions )
 } //----- End of SensorFunctions (copy constructor)
 
 SensorFunctions::SensorFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling constructor of <SensorFunctions>" << endl;
@@ -306,14 +292,8 @@ SensorFunctions::SensorFunctions ( )
 } //----- End of SensorFunctions
 
 SensorFunctions::~SensorFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling destructor of <SensorFunctions>" << endl;
 #endif
 } //----- End of ~SensorFunctions
-
-//----------------------------------------------------------------------- PRIVE
-
-//------------------------------------------------------------- Private methods

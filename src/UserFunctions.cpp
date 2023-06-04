@@ -27,7 +27,6 @@ vector<User> userList;
 void UserFunctions::loadFromDatabase(SensorFunctions sensorFunctions)
 {
     std::ifstream ifs;
-
     ifs.open ("../data/users.csv", std::ifstream::in);
     string lastUser="";
 	string user;
@@ -71,7 +70,6 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
         }
         score.push_back(make_pair(user, sum / sensors.size()));
     }
-
     return score;
 }
 
@@ -96,7 +94,3 @@ UserFunctions::~UserFunctions ( )
     cout << "Calling destructor of <UserFunctions>" << endl;
 #endif
 } //----- End of ~UserFunctions
-
-//----------------------------------------------------------------------- PRIVE
-
-//------------------------------------------------------------- Private methods
