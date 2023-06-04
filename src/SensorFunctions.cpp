@@ -101,18 +101,19 @@ void SensorFunctions::loadFromDatabase(){
 			float PM10 = stof(PM10String);
 			getline(ifs,forget,'\n');
             Measurement* measurement = new Measurement(time, sensorString, O3,  NO2,  SO2,  PM10);
-			Sensor sensor=findSensor(sensorString);	
-            sensor.addMeasurement((*measurement));	
-			vector measure=sensor.getMeasurements();	
+			Sensor* sensor=findSensor(sensorString);	
+            sensor->addMeasurement((*measurement));	
+			/*cout<<"Unique";
+			vector measure=sensor->getMeasurements();	
 				for(int i=0;i<measure.size();i++){
 					cout<<measure[i].getValuePM10()<<" "<<measure[i].getAQI()<<endl;
-				}
+				}*/
   
 		}
 	}
 
 }
-Sensor SensorFunctions::findSensor(string id){
+Sensor* SensorFunctions::findSensor(string id){
 	sensorList[0];
 	int p=0;
 	for(int i=0;i<sensorList.size();i++){
@@ -122,11 +123,11 @@ Sensor SensorFunctions::findSensor(string id){
     }
     //J'ai tenté avec un iterator mais j'avais des problémes pour stocker les sensor.
     //ce code peut être optimisé mais j'ai préféré créer une base qui marche. EN plus que c'est un code rarement appelé.
-    return sensorList[p];
+    return &sensorList[p];
 }
 
 void SensorFunctions::markSensor(string id){
-	findSensor(id).setBad();
+	findSensor(id)->setBad();
 }
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
@@ -230,19 +231,19 @@ vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, str
 // Algorithm:
 //
 {
-	Sensor s = findSensor(id);
+	Sensor* s = findSensor(id);
 
 	vector<pair<Sensor, float>> order;
 	
 	for (Sensor sensor : sensors) {
-		if (sensor.getId() == s.getId()) continue;
+		if (sensor.getId() == s->getId()) continue;
 		//sorted.push_back(sensor);
 		float difference = 0;
 		for (Measurement measurement : sensor.getMeasurements()) {
 			struct tm tm1 = measurement.getTimestamp();
 			time_t t = mktime(&tm1);
 			if (difftime(t, mktime(&begin)) >= 0 && difftime(t, mktime(&end)) <= 0){
-				for (Measurement m : s.getMeasurements()) {
+				for (Measurement m : s->getMeasurements()) {
 					struct tm tm2 = m.getTimestamp();
 					if (difftime(t, mktime(&tm2)) == 0) {
 						difference += abs(measurement.getAQI() - m.getAQI());
