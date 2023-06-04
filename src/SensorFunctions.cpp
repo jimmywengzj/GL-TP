@@ -132,7 +132,6 @@ void SensorFunctions::markSensor(string id)
 }
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
-	std::vector<Sensor>::iterator it;
 	float avg = 0;
 	float total = 0;
 	float r = 0.0174533; //Pi/180=3.14159/180
@@ -147,67 +146,68 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 	float avg2=0;
 	float avg3=0;
 	float avg4=0;
-	float stock;
 	for (Sensor sensor : sensorList){
-		float la2 = sensor->getLatitude() * r;
-		float lo2 = sensor->getLongitude() * r;
+		float la2 = sensor.getLatitude() * r;
+		float lo2 = sensor.getLongitude() * r;
 		float d = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));
 		
-		stock=-1.0;
-		vector<Measurement>::iterator measurementIt;
+		float stock=-1.0;
 		for (Measurement measurement : sensor.getMeasurements()){
 			struct tm time= measurement.getTimestamp();
 			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
 				stock=measurement.getAQI();
 			}
 		}
+		if(stock==-1.0){
+			continue;
+		}
 
 		if (d <= area){
 			avg += stock;
 			total++;
 		}
-
-		if(stock>=0){
-			if(d<d4){
-				if(d<d3){
-					if(d<d2){
-						if(d<d1){
-							avg4=avg3;
-							avg3=avg2;
-							avg2=avg1;
-							avg1=stock;
-							d4=d3;
-							d3=d2;
-							d2=d1;
-							d1=d;
-						}
-						else{
-							avg4=avg3;
-							avg3=avg2;
-							avg2=stock;
-							d4=d3;
-							d3=d2;
-							d2=d;
-						}
+		cout<<stock;
+		if(d<d4){
+			if(d<d3){
+				if(d<d2){
+					if(d<d1){
+						avg4=avg3;
+						avg3=avg2;
+						avg2=avg1;
+						avg1=stock;
+						d4=d3;
+						d3=d2;
+						d2=d1;
+						d1=d;
 					}
 					else{
 						avg4=avg3;
-						avg3=stock;
+						avg3=avg2;
+						avg2=stock;
 						d4=d3;
-						d3=d;
+						d3=d2;
+						d2=d;
 					}
 				}
 				else{
-					d4=d;
-					avg4=stock;
+					avg4=avg3;
+					avg3=stock;
+					d4=d3;
+					d3=d;
 				}
 			}
-		} 
+			else{
+				d4=d;
+				avg4=stock;
+			}
+		}
+		 
 	}
 	if (total < 4) {
 		total = 4;
 		avg=avg1+avg2+avg3+avg4;
 	}
+	//cout<<"avg"<<avg<<"total"<<total<<"a1 :"<<avg1<<"a2 :"<<avg2<<endl;
 	return avg/total;
 }
 float SensorFunctions::analyseOneSensor(Sensor sensor)
@@ -270,6 +270,8 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 		total++;
 		//struct tm tmp = *localtime(&time);
 		avg += instantAirQuality(area, longitude, latitude, *localtime(&time));
+		cout<<endl<<total<<";"<<avg<<" "<<mktime(&start)<<" "<<mktime(&end)<<endl;
+
 	}
 
 	return avg/total;

@@ -122,25 +122,23 @@ vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	}
 
 	struct tm endDate =cleanerFound.getEnd();
-	if(endDate.tm_mon==1){
-		endDate.tm_mon=12;
-		endDate.tm_year=endDate.tm_year-1;
+	if(endDate.tm_mon==12){
+		endDate.tm_mon=1;
+		endDate.tm_year=endDate.tm_year+1;
 	}
 	else{
-		endDate.tm_mon=endDate.tm_mon-1;
+		endDate.tm_mon=endDate.tm_mon+1;
 	}
 
 	//I think this will become a problem
 	SensorFunctions sensorFunctions;
 	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart());
-				cout<<"1"<<endl;
-
 	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd());
-	float i=1.0;
+	float i=searchRadius;
 	cout<<lastMeasurement-firstMeasurement;
 	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd()))>APImin){
 		i++;
-			cout<<i;
+		cout<<i;
 
 	}
 	returnValue.emplace_back(lastMeasurement-firstMeasurement);
