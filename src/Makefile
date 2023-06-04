@@ -1,6 +1,6 @@
 GPP=g++
 CC=${GPP}
-GPPFLAGS=-ansi -pedantic -Wall -std=c++11 -Wno-maybe-uninitialized -Wno-uninitialized -fcompare-debug-second
+GPPFLAGS=-ansi -pedantic -Wall -std=c++17 -Wno-maybe-uninitialized -Wno-uninitialized -fcompare-debug-second
 
 EXEC=main
 OBJ=Main.o Service.o ProviderFunctions.o SensorFunctions.o UserFunctions.o Provider.o Cleaner.o User.o Sensor.o Measurement.o
