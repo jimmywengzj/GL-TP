@@ -19,6 +19,7 @@ using namespace std;
 #include <limits>
 #include <utility>
 #include <algorithm>
+#include <vector>
 //----------------------------------------------------------- Personal includes
 #include "SensorFunctions.h"
 #include "Sensor.h"
@@ -235,17 +236,19 @@ list<Sensor> SensorFunctions::compareOneSensor(Sensor s, struct tm begin, struct
 // Algorithm:
 //
 {
-	list<pair<Sensor, float>> order;
+	vector<pair<Sensor, float>> order;
 	
 	for (Sensor sensor : sensors) {
 		if (sensor.getId() == s.getId()) continue;
 		//sorted.push_back(sensor);
 		float difference = 0;
 		for (Measurement measurement : sensor.getMeasurements()) {
-			time_t t = mktime(&measurement.getTimestamp());
+			struct tm tm1 = measurement.getTimestamp();
+			time_t t = mktime(&tm1);
 			if (difftime(t, mktime(&begin)) >= 0 && difftime(t, mktime(&end)) <= 0){
 				for (Measurement m : s.getMeasurements()) {
-					if (difftime(t, mktime(&m.getTimestamp())) == 0) {
+					struct tm tm2 = m.getTimestamp();
+					if (difftime(t, mktime(&tm2)) == 0) {
 						difference += abs(measurement.getAQI() - m.getAQI());
 						break;
 					}
