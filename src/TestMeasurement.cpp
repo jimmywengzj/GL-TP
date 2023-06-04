@@ -32,14 +32,17 @@ void testMeasurementCreation(){
     date->tm_hour = 12;
     string sensorId = "1";
     float valueO3 = 0.05;
-    float valueNO2 = 0.05;
-    float valueSO2 = 0.05;
-    float valuePM10 = 0.05;
+    float valueNO2 = 0.04;
+    float valueSO2 = 0.03;
+    float valuePM10 = 0.02;
     Measurement* measurement = new Measurement(*date, sensorId, valueO3, valueNO2, valueSO2, valuePM10);
     assert(measurement != nullptr);
     cout << "Passed 1/7 : pointer is not null" << endl;
     struct tm measurementDate = measurement->getTimestamp();
-    assert(difftime(mktime(&measurementDate),mktime(date)) == 0);
+    assert(measurementDate.tm_mon == date->tm_mon);
+    assert(measurementDate.tm_year == date->tm_year);
+    assert(measurementDate.tm_mday == date->tm_mday);
+    assert(measurementDate.tm_hour == date->tm_hour);
     cout << "Passed 2/7 : timestamp is right" << endl;
     assert(measurement->getSensorId() == sensorId);
     cout << "Passed 3/7 : id is right" << endl;
@@ -53,9 +56,27 @@ void testMeasurementCreation(){
     cout << "Passed 7/7 : valuesPM10 is right" << endl;
 }
 
+int testOperatorEquality(){
+    cout << "Testing Operator ==" << endl;
+    struct tm * date;
+    date->tm_year = 2022;
+    date->tm_mon = 4;
+    date->tm_mday = 4;
+    date->tm_hour = 12;
+    Measurement* m1 = new Measurement(*date, "1", 0.05, 0.04, 0.03, 0.02);
+    Measurement* m2 = new Measurement(*date, "1", 0.05, 0.04, 0.03, 0.02);
+    date->tm_year = 2021;
+    Measurement* m3 = new Measurement(*date, "1", 0.05, 0.04, 0.03, 0.02);
+    assert(*m1==*m2);
+    cout << "Passed 1/2 : two similar measurements are equal" << endl;
+    assert(!(*m1==*m3));
+    cout << "Passed 2/2 : two different measurements are different" << endl;
+}
+
 int main(){
     cout << "Beginning of Measurement Class' test" << endl;
     testMeasurementCreation();
+    testOperatorEquality();
     cout << "End of Measurement Class' test" << endl;
     return 0;
 }

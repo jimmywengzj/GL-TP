@@ -22,6 +22,7 @@
 // Role of <TestMeasurement>
 // Testing function for the Measurements class :
 // - Test Creation & getters
+// - Testing Operator ==
 //-----------------------------------------------------------------------------
 
 //---------------------------------------------------------------------- PUBLIC
