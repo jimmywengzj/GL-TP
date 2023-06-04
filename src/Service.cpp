@@ -39,7 +39,7 @@ int Service::getPoints (User user)
 
 Sensor Service::findSensor(string SensorId)
 {
-    return sensorFunctions.findSensor(SensorId);
+    return *sensorFunctions.findSensor(SensorId);
 }
 void Service::markUser (User user)
 {
