@@ -54,7 +54,13 @@ void SensorFunctions::loadFromDatabase(){
             sensorList.push_back(*sensorObject);
 		}
 	}
-ifs.close();
+	cout<<sensorList.front().getId()<<endl;
+	ifs.close();
+	list<Sensor> CheckSensorList=sensorList;
+    while(CheckSensorList.size()!=0){
+        cout<<"Get Id: "<<CheckSensorList.front().getId()<<"Lat :"<<CheckSensorList.front().getLatitude()<<"Long :"<<CheckSensorList.front().getLongitude()<<endl;
+        CheckSensorList.pop_front();
+    }
   ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
@@ -108,13 +114,13 @@ ifs.close();
 }
 Sensor* SensorFunctions::findSensor(string SensorId){
     Sensor* sensorFound=NULL;
-    Sensor* sensorStep;
     list<Sensor> CheckSensorList=sensorList;
     while(CheckSensorList.size()!=0 && sensorFound==NULL){
-        *sensorStep=CheckSensorList.front();
-        if((sensorStep->getId())==SensorId){
-            sensorFound=sensorStep;
-        }
+
+        if((CheckSensorList.front().getId())==SensorId){
+            sensorFound=&(CheckSensorList.front());
+        }		
+
         CheckSensorList.pop_front();
     }
     //J'ai tenté avec un iterator mais j'avais des problémes pour stocker les sensor.
