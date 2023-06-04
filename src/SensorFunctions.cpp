@@ -34,7 +34,7 @@ list<Sensor> sensorList;
 //{
 //} //----- End of Method
 void SensorFunctions::loadFromDatabase(){
-	std::ifstream ifs ("sensors.csv", std::ifstream::in);
+	std::ifstream ifs ("../data/sensors.csv", std::ifstream::in);
     Sensor* sensorObject;
 	while(!ifs.eof()){
 		string sensor;
@@ -53,7 +53,7 @@ void SensorFunctions::loadFromDatabase(){
 		}
 	}
 
-	std::ifstream ifs ("measurements.csv", std::ifstream::in);
+	std::ifstream ifs ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
 		i++;

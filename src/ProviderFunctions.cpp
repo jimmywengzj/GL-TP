@@ -37,7 +37,7 @@ list<Provider> providerList;
 //} //----- End of Method
 void ProviderFunctions::loadFromDatabase(){
     map<string,Cleaner> cleanerList;
-    std::ifstream ifs ("cleaners.csv", std::ifstream::in);
+    std::ifstream ifs ("../data/cleaners.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
 		string cleaner;
@@ -74,7 +74,7 @@ void ProviderFunctions::loadFromDatabase(){
             cleanerList[cleanerObject->getId()] =*cleanerObject;
 		}
 	}
-    std::ifstream ifs ("providers.csv", std::ifstream::in);
+    std::ifstream ifs ("../data/cproviders.csv", std::ifstream::in);
 		string providerString;
         string currentProvider="";
         Provider* providerObject;

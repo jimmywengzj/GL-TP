@@ -39,7 +39,7 @@ public:
     //
     // Precondition:
     //
-    void loadFromDatabase();
+    void loadFromDatabase(SensorFunctions sensorFunctions);
 
     void markUser(User);
 

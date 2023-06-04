@@ -32,9 +32,10 @@ using namespace std;
 
 void Service::loadFromDatabase ()
 {
-    userFunctions.loadFromDatabase();
     sensorFunctions.loadFromDatabase();
     providerFunctions.loadFromDatabase();
+    userFunctions.loadFromDatabase(sensorFunctions);
+
 }
 
 int Service::getPoints (User name)
