@@ -17,13 +17,12 @@ using namespace std;
 //----------------------------------------------------------- Personal includes
 #include "TestProvider.h"
 
-//------------------------------------------------------------------- Constants
-
 //---------------------------------------------------------------------- PUBLIC
 
 //------------------------------------------------------------ Public functions
 
-void testProviderCreation(){
+void testProviderCreation()
+{
     cout << "Testing Creation" << endl;
     string id = "1";
     Provider* provider = new Provider(id);
@@ -34,9 +33,10 @@ void testProviderCreation(){
     map<string,Cleaner> cleaners = provider->getCleanerList();
     assert(cleaners.size() == 0);
     cout << "Passed 3/3 : cleaner map is empty" << endl;
-}
+} //----- End of testProviderCreation
 
-void testOperatorEquality(){
+void testOperatorEquality()
+{
     cout << "Testing Operator ==" << endl;
     string id = "1";
     Provider* provider = new Provider(id);
@@ -47,9 +47,10 @@ void testOperatorEquality(){
     Provider* provider3 = new Provider(id2);
     assert(!(*provider == *provider3));
     cout << "Passed 2/2 : different Providers are not equal" << endl;
-}
+} //----- End of testOperatorEquality
 
-void testCopyConstructor(){
+void testCopyConstructor()
+{
     cout << "Testing Copy Constructor" << endl;
     string id = "1";
     Provider* provider = new Provider(id);
@@ -58,9 +59,10 @@ void testCopyConstructor(){
     cout << "Passed 1/2 : Copy is equal to original" << endl;
     assert(provider != provider2);
     cout << "Passed 2/2 : Copy is not the same object" << endl;
-}
+} //----- End of testCopyConstructor
 
-void testAddCleaner(){
+void testAddCleaner()
+{
     cout << "Testing Add Cleaner" << endl;
     string id = "1";
     Provider* provider = new Provider(id);
@@ -84,9 +86,10 @@ void testAddCleaner(){
     cout << "Passed 1/2 : cleaner map has one element" << endl;
     assert(cleaners.at(idCleaner) == *cleaner);
     cout << "Passed 2/2 : cleaner map has the right element" << endl;
-}
+} //----- End of testAddCleaner
 
-int main(){
+int main()
+{
     cout << "Beginning of Provider Class' test" << endl;
     testProviderCreation();
     testOperatorEquality();

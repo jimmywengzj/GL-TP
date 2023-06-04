@@ -1,11 +1,11 @@
 GPP=g++
 CC=${GPP}
-GPPFLAGS= -ansi -pedantic -Wall -std=c++17 -Wno-maybe-uninitialized -Wno-uninitialized -fcompare-debug-second
-GPPTESTFLAGS= -DMAP
+GPPFLAGS= -ansi -pedantic -Wall -std=c++17
+GPPTESTFLAGS= -DMAP -Wno-maybe-uninitialized -Wno-uninitialized -fcompare-debug-second
 
 EXEC=main
 OBJ=Main.o Service.o ProviderFunctions.o SensorFunctions.o UserFunctions.o Provider.o Cleaner.o User.o Sensor.o Measurement.o
-TESTOBJ=Cleaner.o User.o Measurement.o Sensor.o
+TESTOBJ=Provider.o Cleaner.o User.o Measurement.o Sensor.o
 TESTMAINS=TestMeasurement TestSensor TestUser TestCleaner TestProvider
 
 ${EXEC}: ${OBJ}

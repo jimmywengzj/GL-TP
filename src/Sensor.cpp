@@ -33,7 +33,7 @@ void Sensor::addMeasurement(const Measurement& aMeasurement )
 #ifdef MAP
     cout << "Calling for addMeasurement method of <Sensor>" << endl;
 #endif
-    measurements.push_back(*(new Measurement(aMeasurement)));
+    measurements.push_back(aMeasurement);
 } //----- End of addMeasurement
 
 void Sensor::setBad()

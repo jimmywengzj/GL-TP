@@ -28,29 +28,36 @@ void Provider::addCleaner( Cleaner aCleaner)
     cout << "Calling for addMeasurement method of <Sensor>" << endl;
 #endif
     cleaners.insert(pair<string,Cleaner>(aCleaner.getId(),aCleaner));
-}
-map<string,Cleaner> Provider::getCleanerList() const{
+} //----- End of addCleaner
+
+map<string,Cleaner> Provider::getCleanerList() const
+{
     return cleaners;
-}
-string Provider::getId() const{
+} //----- End of getCleanerList
+
+string Provider::getId() const
+{
     return id;
-}
+} //----- End of getId
+
 //-------------------------------------------------------- Operator overloading
-Provider & Provider::operator = ( const Provider & aProvider ){
+Provider & Provider::operator = ( const Provider & aProvider )
+{
 #ifdef MAP
     cout << "Calling = operator of <Provider>" << endl;
 #endif
     id = aProvider.id;
     cleaners = *(new map<string,Cleaner>(aProvider.cleaners));
     return *this;
-}
+} //----- End of operator =
 
-bool Provider::operator == ( const Provider & aProvider ) const{
+bool Provider::operator == ( const Provider & aProvider ) const
+{
 #ifdef MAP
     cout << "Calling == operator of <Provider>" << endl;
 #endif
     return id == aProvider.id;
-}
+} //----- End of operator ==
 
 //--------------------------------------------------- Constructors - destructor
 Provider::Provider ( const Provider & aProvider)
@@ -61,13 +68,6 @@ Provider::Provider ( const Provider & aProvider)
     id = aProvider.id;
     cleaners = *(new map<string,Cleaner>(aProvider.cleaners));
 } //----- End of Provider (copy constructor)
-
-Provider::Provider ( )
-{
-#ifdef MAP
-    cout << "Calling constructor of <Provider>" << endl;
-#endif
-} //----- End of Provider
 
 Provider::Provider ( string anId)
 {
