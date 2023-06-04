@@ -31,9 +31,9 @@ list<User> userList;
 //
 //{
 //} //----- End of Method
-void UserFunctions::loadFromDatabase()
+void UserFunctions::loadFromDatabase(SensorFunctions sensorFunctions)
 {
-	std::ifstream ifs ("users.csv", std::ifstream::in);
+	std::ifstream ifs ("../data/users.csv", std::ifstream::in);
     string lastUser="";
 	string user;
     User* u;
@@ -48,8 +48,8 @@ void UserFunctions::loadFromDatabase()
                 u= new User(user,0);
 			    userList.push_back(*u);
             }
+            u->addSensor(*(sensorFunctions.findSensor(sensorString)));
 		}
-        //the list being Sensors and not strings causes issue.
 	}
 
 }
