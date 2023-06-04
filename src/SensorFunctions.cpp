@@ -149,7 +149,7 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 	float avg2=0;
 	float avg3=0;
 	float avg4=0;
-
+	float stock;
 	for (it = sensorList.begin(); it != sensorList.end(); ++it){
 		float la2 = it->getLatitude() * r;
 		float lo2 = it->getLongitude() * r;
@@ -164,6 +164,15 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 				}
 			}
 		}
+		stock=-1.0;
+			std::list<Measurement>::iterator measurementIt;
+				for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+				struct tm time=measurementIt->getTimestamp();
+					if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
+						stock=measurementIt->getAQI();
+					}
+				}
+		if(stock>=0){
 		if(d<d4){
 			if(d<d3){
 				if(d<d2){
@@ -171,13 +180,7 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 						avg4=avg3;
 						avg3=avg2;
 						avg2=avg1;
-						std::list<Measurement>::iterator measurementIt;
-						for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-						struct tm time=measurementIt->getTimestamp();
-							if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
-								avg1=measurementIt->getAQI();
-							}
-						}
+						avg1=stock;
 						d4=d3;
 						d3=d2;
 						d2=d1;
@@ -186,14 +189,7 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 					else{
 						avg4=avg3;
 						avg3=avg2;
-
-						std::list<Measurement>::iterator measurementIt;
-						for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-						struct tm time=measurementIt->getTimestamp();
-							if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
-							avg2=measurementIt->getAQI();
-							}
-						}
+						avg2=stock;
 						d4=d3;
 						d3=d2;
 						d2=d;
@@ -201,31 +197,22 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 				}
 				else{
 					avg4=avg3;
-					std::list<Measurement>::iterator measurementIt;
-					for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-					struct tm time=measurementIt->getTimestamp();
-					if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
-						avg3=measurementIt->getAQI();
-					}
-					}
+					avg3=stock;
+
+
 					d4=d3;
 					d3=d;
 				}
 			}
 			else{
-				std::list<Measurement>::iterator measurementIt;
-				for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				struct tm time=measurementIt->getTimestamp();
-					if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
-						avg4=measurementIt->getAQI();
-					}
-				}
+
 				d4=d;
+				avg4=stock;
 			}
 		}
+		} 
 	}
 	if (total < 4) {
-
 		total = 4;
 		avg=avg1+avg2+avg3+avg4;
 	}
