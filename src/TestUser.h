@@ -1,41 +1,42 @@
 /******************************************************************************
-                             TestSensor  -  description
+                             TestUser  -  description
                                -------------------
     start                : $DATE$
     copyright            : (C) $YEAR$ by $AUTHOR$
     email                : $EMAIL$
 ******************************************************************************/
 
-//------------------ <TestSensor> class interface (TestSensor.h file) -----------------------
-#if ! defined ( TestSensor_H )
-#define TestSensor_H
+//------------------ <TestUser> class interface (TestUser.h file) -----------------------
+#if ! defined ( TestUser_H )
+#define TestUser_H
 
 //------------------------------------------------------------- Used interfaces
 #include "time.h"
-#include "Sensor.h"
+#include "User.h"
 #include <cassert>
 //------------------------------------------------------------------- Constants
 
 //----------------------------------------------------------------------- Types
 
 //-----------------------------------------------------------------------------
-// Role of <TestSensor>
-// Testing function for the Measurements class :
+// Role of <TestUser>
+// Testing function for the User class :
 // - Test Creation & getters
+// - Testing Operator ==
 //-----------------------------------------------------------------------------
 
 //---------------------------------------------------------------------- PUBLIC
 
 //------------------------------------------------------------ Public functions
 
-void testSensorCreation();
+void TestUserCreation();
 
 void testOperatorEquality();
 
 void testCopyConstructor();
 
-void testSensorFlag();
+void testIncrementPoints();
 
-void testAddMeasurement();
+void testAddSensor();
 
-#endif // TestSensor_H
+#endif // TestUser_H

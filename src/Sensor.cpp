@@ -68,7 +68,6 @@ Sensor & Sensor::operator = ( const Sensor & unSensor ){
     return *this;
 } //----- End of operator =
 
-// == operator overloading
 bool Sensor::operator == ( const Sensor & unSensor ){
     return (
             id == unSensor.id &&
