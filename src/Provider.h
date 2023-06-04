@@ -9,16 +9,13 @@
 //------------------ <Provider> class interface (Provider.h file) -----------------------
 #if ! defined ( Provider_H )
 #define Provider_H
-#include <string>
-#include "Cleaner.h"
-#include <list>
-#include <map> 
+
 using namespace std;
 //------------------------------------------------------------- Used interfaces
-
-//------------------------------------------------------------------- Constants
-
-//----------------------------------------------------------------------- Types
+#include <list>
+#include <map>
+#include <string>
+#include "Cleaner.h"
 
 //-----------------------------------------------------------------------------
 // Role of <Provider> class
@@ -33,13 +30,13 @@ class Provider
 public:
 //-------------------------------------------------------------- Public methods
     void addCleaner(Cleaner aCleaner);
+
 //-------------------------------------------------------- Operator overloading
     Provider & operator = ( const Provider & unProvider );
 
     bool operator == ( const Provider & unProvider ) const;
 
 //------------------------------------------------------------- Getters - Setters
-
     string getId() const;
 
     map<string,Cleaner> getCleanerList() const;
