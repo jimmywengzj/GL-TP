@@ -22,25 +22,20 @@ using namespace std;
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type User::Method ( parameter list )
-// Algorithm:
-//
-//{
-//} //----- End of Method
 
 void User::incrementPoints(const int numberToAdd)
 {
     points += numberToAdd;
 } //----- End of incrementPoints
 
-void User::addSensor(const Sensor sensor)
+void User::addSensor(const Sensor& sensor)
 {
-    sensors.push_back(sensor);
+    sensors.push_back((*new Sensor(sensor)));
 } //----- End of addSensor
 
 void User::setBad()
 {
-    points += false;
+    good = false;
 } //----- End of setBad
 
 string User::getId() const
@@ -64,12 +59,22 @@ list<Sensor> User::getSensors() const
 } // ----- End of getSensors
 
 //--------------------------------------------------- Constructors - destructor
+
+User::User (const string id, const int initialPoints){
+    this->id=id;
+    points=initialPoints;
+    good=true;
+} //----- End of User (constructor)
+
 User::User ( const User & unUser )
-// Only used for debugging purposes
 {
 #ifdef MAP
     cout << "Calling copy constructor of <User>" << endl;
 #endif
+    id = unUser.id;
+    points = unUser.points;
+    good = unUser.good;
+    sensors = *(new list<Sensor>(unUser.sensors));
 } //----- End of User (copy constructor)
 
 User::~User ( )
@@ -78,10 +83,19 @@ User::~User ( )
     cout << "Calling destructor of <User>" << endl;
 #endif
 } //----- End of ~User
-User::User (const string id, const int initialPoints){
-    this->id=id;
-    points=initialPoints;
+
+bool User::operator==(const User & unUser) const
+{
+#ifdef MAP
+    cout << "Calling operator == of <User>" << endl;
+#endif
+    return (
+            id==unUser.id &&
+            points==unUser.points &&
+            good==unUser.good
+            );
 }
+
 //--------------------------------------------------------------------- PRIVATE
 
 //------------------------------------------------------------- Private methods

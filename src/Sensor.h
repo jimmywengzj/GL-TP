@@ -35,31 +35,23 @@ class Sensor
 
 public:
 //-------------------------------------------------------------- Public methods
-    // type Method ( parameter list );
+
+
+    void addMeasurement(const Measurement& aMeasurement);
     // Instruction:
-    //
-    // Precondition:
-    //
+    // Add a Measurement to the List
 
-
-    void addMeasurement(Measurement aMeasurement);
-    // Instruction: Add a Measurement to the List
-    //
-    // Precondition:
-    //
 
     void setBad();
-    // Instruction: Mark the sensor as Bad (not reliable)
-    //
-    // Precondition: The sensor is linked to a private user
-    //
+    // Instruction:
+    // Mark the sensor as Bad (not reliable)
+    // Precondition:
+    // The sensor is linked to a private user
 
 //-------------------------------------------------------- Operator overloading
     Sensor & operator = ( const Sensor & unSensor );
-    // Instruction:
-    //
-    // Precondition:
-    //
+
+    bool operator == ( const Sensor & unSensor );
 
 //-------------------------------------- ----------- Getters/Setters
 
@@ -69,26 +61,16 @@ public:
 
     string getId() const;
 
+    bool getGood() const;
+
     list<Measurement> getMeasurements() const;
 
 //--------------------------------------------------- Constructors - destructor
     Sensor ( const Sensor & unSensor );
-    // Instruction (copy constructor):
-    //
-    // Precondition:
-    //
 
-    Sensor (string anId, float along,  float alat );
-    // Instruction:
-    //
-    // Precondition:
-    //
+    Sensor (string anId, float aLongitude,  float aLatitude);
 
     virtual ~Sensor ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
 //----------------------------------------------------------------------- PRIVATE
 
@@ -99,13 +81,6 @@ private :
     bool good;
     list<Measurement> measurements;
 
-protected:
-//------------------------------------------------------------- Private methods
-
-//-------------------------------------------------------- Protected attributes
-
 };
-
-//---------------------------------------- Other definitions dependent on <Sensor>
 
 #endif // Sensor

@@ -32,9 +32,12 @@ using namespace std;
 
 void Service::loadFromDatabase ()
 {
-    userFunctions.loadFromDatabase();
     sensorFunctions.loadFromDatabase();
+    //cout<<"ended Sensor"<<endl;
     providerFunctions.loadFromDatabase();
+    //cout<<"ended Provider"<<endl;
+    userFunctions.loadFromDatabase(sensorFunctions);
+    //cout<<"ended user"<<endl;
 }
 
 int Service::getPoints (User name)
@@ -42,15 +45,18 @@ int Service::getPoints (User name)
     int points = userFunctions.getPoints(name);
     return points;
 }
-
+Sensor* Service::findSensor(string SensorId)
+{
+    return sensorFunctions.findSensor(SensorId);
+}
 void Service::markUser (User name)
 {
    userFunctions.markUser(name);
 }
 
-float Service::meanAirQuality(float area, float latitude, float longtitude, struct tm start, struct tm end)
+float Service::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end)
 {
-    float mquality = sensorFunctions.meanAirQuality(area, latitude, longtitude, start, end);
+    float mquality = sensorFunctions.meanAirQualityArea(area, latitude, longtitude, start, end);
     return mquality;
 }
 
@@ -60,31 +66,31 @@ float Service::instantAirQuality(float id, float latitude, float longtitude, str
     return iquality;
 }
 
-float * Service::studyAirCleaner(string id)
+list<float> Service::studyAirCleaner(string id)
 {
-    float *iequality = providerFunctions.studyAirCleaner(id);
+    list<float> iequality = providerFunctions.studyAirCleaner(id);
     return iequality;
 }
 
-float Service::analyseOneSensor(int id)
+float Service::analyseOneSensor(Sensor id)
 {
     float quality = sensorFunctions.analyseOneSensor(id);
     return quality;
 }
 
-float Service::compareOneSensor(Sensor id, struct tm start, struct tm end)
+list<Sensor> Service::compareOneSensor(Sensor id, struct tm start, struct tm end)
 {
-    float quality = sensorFunctions.compareOneSensor(id, start, end);
+    list<Sensor> quality = sensorFunctions.compareOneSensor(id, start, end);
     return quality;
 }
 
 //-------------------------------------------------------- Operator overloading
-Service & Service::operator = ( const Service & unService )
+/*Service & Service::operator = ( const Service & unService )
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 Service::Service ( const Service & unService )
 // Algorithm:

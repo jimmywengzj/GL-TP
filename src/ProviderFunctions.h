@@ -34,6 +34,8 @@ public:
     // Precondition:
     //
     void loadFromDatabase();
+    list<float> studyAirCleaner(string idCleaner);
+
 //-------------------------------------------------------- Operator overloading
     ProviderFunctions & operator = ( const ProviderFunctions & unProviderFunctions );
     // Instruction:

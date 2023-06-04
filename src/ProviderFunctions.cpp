@@ -18,6 +18,8 @@ using namespace std;
 #include <fstream>
 //----------------------------------------------------------- Personal includes
 #include "ProviderFunctions.h"
+#include "SensorFunctions.h"
+
 #include "Provider.h"
 #include "Cleaner.h"
 #include <map>
@@ -35,15 +37,16 @@ list<Provider> providerList;
 //} //----- End of Method
 void ProviderFunctions::loadFromDatabase(){
     map<string,Cleaner> cleanerList;
-    std::ifstream ifs ("cleaners.csv", std::ifstream::in);
-	int i=0;
+	  std::ifstream ifs;
+
+  ifs.open ("../data/cleaners.csv", std::ifstream::in);
 	while(!ifs.eof()){
 		string cleaner;
 		getline(ifs,cleaner,';');
         Cleaner* cleanerObject;
 		if(cleaner!=""){
-		struct tm timeStart;
-		struct tm timeEnd;
+			struct tm timeStart;
+			struct tm timeEnd;
 			string latitudeString;
 			getline(ifs,latitudeString,';');
 			float latitude = stof(latitudeString);
@@ -53,26 +56,36 @@ void ProviderFunctions::loadFromDatabase(){
 			string startDateString;
 			getline(ifs,startDateString,';');
 			string endDateString;
+			getline(ifs,endDateString,';');
+			//cout<<startDateString<<endl;
+			//cout<<endDateString<<endl;
 			timeStart.tm_year=stoi(startDateString.substr (0,4))-1900;
 			timeStart.tm_mon=stoi(startDateString.substr (5,2));
 			timeStart.tm_mday=stoi(startDateString.substr (8,2));
 			timeStart.tm_hour=stoi(startDateString.substr (11,2));
 			timeStart.tm_min=stoi(startDateString.substr (14,2));
-			timeStart.tm_hour=stoi(startDateString.substr (17,2));
+			timeStart.tm_sec=stoi(startDateString.substr (17,2));
             timeEnd.tm_year=stoi(endDateString.substr (0,4))-1900;
 			timeEnd.tm_mon=stoi(endDateString.substr (5,2));
 			timeEnd.tm_mday=stoi(endDateString.substr (8,2));
 			timeEnd.tm_hour=stoi(endDateString.substr (11,2));
 			timeEnd.tm_min=stoi(endDateString.substr (14,2));
-			timeEnd.tm_hour=stoi(endDateString.substr (17,2));
-			getline(ifs,endDateString,';');
+			timeEnd.tm_sec=stoi(endDateString.substr (17,2));
 			string forget;
 			getline(ifs,forget,'\n');
             cleanerObject= new Cleaner(cleaner,longitude,latitude, timeStart,timeEnd);
             cleanerList[cleanerObject->getId()] =*cleanerObject;
 		}
 	}
-    std::ifstream ifs ("providers.csv", std::ifstream::in);
+
+    /*for (auto const &pair: cleanerList) {
+        std::cout << "{" << pair.first << ": " << pair.second.getId()<< pair.second.getLatitude()<< "}\n";
+    }*/
+
+	ifs.close();
+	  ifs.open ("../data/providers.csv", std::ifstream::in);
+
+
 		string providerString;
         string currentProvider="";
         Provider* providerObject;
@@ -90,15 +103,66 @@ void ProviderFunctions::loadFromDatabase(){
             providerObject->addCleaner(cleanerList.find(cleanerId)->second);
             }
         }
+	/*list<Provider> CheckProviderList=providerList;
+    while(CheckProviderList.size()!=0){
+        cout<<"Get Id: "<<CheckProviderList.front().getId()<<endl;
+        CheckProviderList.pop_front();
+    }*/
+} //----- End of loadFromDatabase()
+
+list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
+	float searchRadius=10.0;
+	float APImin=1.0;
+	//deux valeurs arbitraires
+	//This isn't finished but I'm not going to be able to finish it
+	list<float> returnValue;
+    Cleaner* cleanerFound=NULL;
+    list<Provider> CheckProviderList=providerList;
+	cout<<"122"<<endl;
+
+    while(CheckProviderList.size()!=0 && cleanerFound==NULL){
+		std::map<string,Cleaner>::iterator it;
+        it =CheckProviderList.front().getCleanerList().find(idCleaner);
+
+	if (it == CheckProviderList.front().getCleanerList().end()) {
+       CheckProviderList.pop_front();
+
+	} else {
+            *cleanerFound=CheckProviderList.front().getCleanerList().find(idCleaner)->second;
+
+		}
+	}
+	cout<<"130"<<endl;
+	struct tm startDate =cleanerFound->getStart();
+	if(startDate.tm_mon==1){
+		startDate.tm_mon=12;
+		startDate.tm_year=startDate.tm_year-1;
+	}
+	else{
+		startDate.tm_mon=startDate.tm_mon-1;
+	}
+		cout<<"1"<<endl;
+
+	struct tm endDate =cleanerFound->getEnd();
+	//I think this will become a problem
+	SensorFunctions sensorFunctions;
+	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart());
+	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd());
+	float i=1.0;
+	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd()))>APImin){
+		i++;
+	}
+	returnValue.emplace_back(lastMeasurement-firstMeasurement);
+	returnValue.emplace_back(i);
+	return returnValue; 
 }
 
 //-------------------------------------------------------- Operator overloading
-ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
-// Algorithm:
-//
+/*ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
 {
-} //----- End of operator =
 
+} //----- End of operator =
+*/
 //--------------------------------------------------- Constructors - destructor
 ProviderFunctions::ProviderFunctions ( const ProviderFunctions & unProviderFunctions )
 // Algorithm:
@@ -110,8 +174,6 @@ ProviderFunctions::ProviderFunctions ( const ProviderFunctions & unProviderFunct
 } //----- End of ProviderFunctions (copy constructor)
 
 ProviderFunctions::ProviderFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling constructor of <ProviderFunctions>" << endl;

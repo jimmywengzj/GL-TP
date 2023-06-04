@@ -30,17 +30,12 @@ class User
 
 public:
 //-------------------------------------------------------------- Public methods
-    // type Method ( parameter list );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
     void incrementPoints(const int numberToAdd);
     // Precondition:
     // numberToAdd is positive
 
-    void addSensor(const Sensor sensor);
+    void addSensor(const Sensor& sensor);
 
     void setBad();
 
@@ -54,24 +49,14 @@ public:
 
 //--------------------------------------------------- Constructors - destructor
     User ( const User & unUser );
-    // Instruction (copy constructor):
-    //
-    // Precondition:
-    //
 
     User (const string id, const int initialPoints);
-    // Instruction:
-    //
-    // Precondition:
-    //
 
     virtual ~User ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
-//----------------------------------------------------------------------- PRIVE
+    bool operator==(const User & unUser) const;
+
+//--------------------------------------------------------------------- PRIVATE
 
 protected:
 //------------------------------------------------------------- Private methods
@@ -82,7 +67,5 @@ protected:
     bool good;
     list<Sensor> sensors;
 };
-
-//---------------------------------------- Other definitions dependent on <User>
 
 #endif // User_H

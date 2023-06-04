@@ -37,11 +37,7 @@ public:
     //
 
 //-------------------------------------------------------- Operator overloading
-    Measurement & operator = ( const Measurement & unMeasurement );
-    // Instruction:
-    //
-    // Precondition:
-    //
+    bool operator == ( const Measurement & unMeasurement );
 
 //------------------------------------------------- Getters/Setters
 
@@ -52,6 +48,8 @@ public:
     float getValueO3() const;
 
     float getValueNO2() const;
+
+    float getValueSO2() const;
 
     float getValuePM10() const;
 

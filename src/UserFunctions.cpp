@@ -18,7 +18,7 @@ using namespace std;
 //----------------------------------------------------------- Personal includes
 #include "UserFunctions.h"
 #include "SensorFunctions.h"
-
+#include "User.h"
 #include "Sensor.h"
 list<User> userList;
 //------------------------------------------------------------------- Constants
@@ -31,9 +31,11 @@ list<User> userList;
 //
 //{
 //} //----- End of Method
-void UserFunctions::loadFromDatabase()
+void UserFunctions::loadFromDatabase(SensorFunctions sensorFunctions)
 {
-	std::ifstream ifs ("users.csv", std::ifstream::in);
+    std::ifstream ifs;
+
+    ifs.open ("../data/users.csv", std::ifstream::in);
     string lastUser="";
 	string user;
     User* u;
@@ -48,8 +50,8 @@ void UserFunctions::loadFromDatabase()
                 u= new User(user,0);
 			    userList.push_back(*u);
             }
+            u->addSensor(*(sensorFunctions.findSensor(sensorString)));
 		}
-        //the list being Sensors and not strings causes issue.
 	}
 
 }
@@ -61,7 +63,7 @@ void UserFunctions::markUser(User user)
 
 int UserFunctions::getPoints(User user)
 {
-    user.getPoints();
+    return user.getPoints();
 }
 
 vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctions)
@@ -81,12 +83,12 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
 }
 
 //-------------------------------------------------------- Operator overloading
-UserFunctions & UserFunctions::operator = ( const UserFunctions & unUserFunctions )
+/*UserFunctions & UserFunctions::operator = ( const UserFunctions & unUserFunctions )
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 UserFunctions::UserFunctions ( const UserFunctions & unUserFunctions )
 // Algorithm:

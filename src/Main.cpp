@@ -1,12 +1,17 @@
 #include <iostream>
 using namespace std;
-
+#include "Service.h"
 int main ()
 {
     string userName;
     string userPassword;
     int loginAttempt = 0;
-
+    Service* service= new Service();
+    service->loadFromDatabase();
+    list<float> a=service->studyAirCleaner("Cleaner0");
+    cout<<a.front()<<";"<<a.back()<<endl;
+        list<float> b=service->studyAirCleaner("Cleaner1");
+    cout<<b.front()<<";"<<b.back()<<endl;
     while (loginAttempt < 5)
     {
         cout << "Please enter your user name: ";
@@ -16,7 +21,44 @@ int main ()
 
         if (userName == "admin" && userPassword == "1")
         {
+            string function;
+            float area;
+            float latitude;
+            float longitude;
+            struct tm start;
+            struct tm end;
             cout << "Welcome Admin!\n";
+            cout << "Enter Function 1 or 2 !\n";
+            cin >> function;
+            if (function == "1") {
+                cout << "Enter Area!\n";
+                cin >> area;
+                cout << "Enter Latitude!\n";
+                cin >> latitude;
+                cout << "Enter Longitude!\n";
+                cin >> longitude;
+                cout << "Start Year!\n";
+                cin >> start.tm_year;
+                cout << "Start Month!\n";
+                cin >> start.tm_mon;
+                cout << "Start Day!\n";
+                cin >> start.tm_mday;
+                cout << "Start Time!\n";
+                start.tm_hour = 12;
+
+                cout << "End Year!\n";
+                cin >> end.tm_year;
+                cout << "End Month!\n";
+                cin >> end.tm_mon;
+                cout << "End Day!\n";
+                cin >> start.tm_mday;
+                cout << "End Time!\n";
+                start.tm_hour = 12;
+
+                cout << service->meanAirQualityArea(area, latitude, longitude, start, end);
+
+            }
+
             break;
         }
         else if (userName == "individual" && userPassword == "2")

@@ -16,7 +16,10 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <math.h>
-
+#include <limits>
+#include <utility>
+#include <algorithm>
+#include <vector>
 //----------------------------------------------------------- Personal includes
 #include "SensorFunctions.h"
 #include "Sensor.h"
@@ -34,7 +37,9 @@ list<Sensor> sensorList;
 //{
 //} //----- End of Method
 void SensorFunctions::loadFromDatabase(){
-	std::ifstream ifs ("sensors.csv", std::ifstream::in);
+		  std::ifstream ifs;
+
+  ifs.open ("../data/sensors.csv", std::ifstream::in);
     Sensor* sensorObject;
 	while(!ifs.eof()){
 		string sensor;
@@ -52,8 +57,14 @@ void SensorFunctions::loadFromDatabase(){
             sensorList.push_back(*sensorObject);
 		}
 	}
-
-	std::ifstream ifs ("measurements.csv", std::ifstream::in);
+	cout<<sensorList.front().getId()<<endl;
+	ifs.close();
+	/*list<Sensor> CheckSensorList=sensorList;
+    while(CheckSensorList.size()!=0){
+        cout<<"Get Id: "<<CheckSensorList.front().getId()<<"Lat :"<<CheckSensorList.front().getLatitude()<<"Long :"<<CheckSensorList.front().getLongitude()<<endl;
+        CheckSensorList.pop_front();
+    }*/
+  ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
 		i++;
@@ -68,7 +79,7 @@ void SensorFunctions::loadFromDatabase(){
 			time.tm_mday=stoi(measureTimeString.substr (8,2));
 			time.tm_hour=stoi(measureTimeString.substr (11,2));
 			time.tm_min=stoi(measureTimeString.substr (14,2));
-			time.tm_hour=stoi(measureTimeString.substr (17,2));
+			time.tm_sec=stoi(measureTimeString.substr (17,2));
 			string sensorString;
 			getline(ifs,sensorString,';');
 			getline(ifs,forget,';');
@@ -104,15 +115,15 @@ void SensorFunctions::loadFromDatabase(){
 	}
 
 }
-Sensor* SensorFunctions::findSensor(string SensorId){
+Sensor* SensorFunctions::findSensor(string id){
     Sensor* sensorFound=NULL;
-    Sensor* sensorStep;
     list<Sensor> CheckSensorList=sensorList;
     while(CheckSensorList.size()!=0 && sensorFound==NULL){
-        *sensorStep=CheckSensorList.front();
-        if((sensorStep->getId())==SensorId){
-            sensorFound=sensorStep;
-        }
+
+        if((CheckSensorList.front().getId())==id){
+            sensorFound=&(CheckSensorList.front());
+        }		
+
         CheckSensorList.pop_front();
     }
     //J'ai tenté avec un iterator mais j'avais des problémes pour stocker les sensor.
@@ -120,42 +131,92 @@ Sensor* SensorFunctions::findSensor(string SensorId){
     return sensorFound;
 }
 
-void SensorFunctions::markSensor(Sensor s){
-	s.setBad();
+void SensorFunctions::markSensor(string id){
+	findSensor(id)->setBad();
 }
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
 
-
 	std::list<Sensor>::iterator it;
 	float avg = 0;
 	float total = 0;
+	float r = 0.0174533; //Pi/180=3.14159/180
+	float lat = latitude * r;
+	float lon = longitude * r;
+	float er = 6371.01; //Kilometers
+	float d1=100000000000000000.0;
+	float d2=d1;
+	float d3=d1;
+	float d4=d1;
+	float avg1=0;
+	float avg2=0;
+	float avg3=0;
+	float avg4=0;
+	float stock;
 	for (it = sensorList.begin(); it != sensorList.end(); ++it){
-    	float la2 = it->getLatitude();
-		float lo2 = it->getLongitude();
-		float r = 0.0174533; //Pi/180=3.14159/180
-		float latitude = latitude * r;
-		float la2 = la2 * r;
-		float longtitude = longtitude * r;
-		float lo2 = lo2 * r;
-		float er = 6371.01; //Kilometers
-		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
-		if (d < area){
-			std::list<Measurement>::iterator measurementIt;
-			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				if (difftime(mktime(&measurementIt->getTimestamp()), mktime(&date)) == 0){
-					avg += measurementIt->getAQI();
-					total++;
+		float la2 = it->getLatitude() * r;
+		float lo2 = it->getLongitude() * r;
+		float d = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));
+		
+		stock=-1.0;
+		std::list<Measurement>::iterator measurementIt;
+		for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+			struct tm time=measurementIt->getTimestamp();
+			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
+				stock=measurementIt->getAQI();
+			}
+		}
+
+		if (d <= area){
+			avg += stock;
+			total++;
+		}
+
+		if(stock>=0){
+			if(d<d4){
+				if(d<d3){
+					if(d<d2){
+						if(d<d1){
+							avg4=avg3;
+							avg3=avg2;
+							avg2=avg1;
+							avg1=stock;
+							d4=d3;
+							d3=d2;
+							d2=d1;
+							d1=d;
+						}
+						else{
+							avg4=avg3;
+							avg3=avg2;
+							avg2=stock;
+							d4=d3;
+							d3=d2;
+							d2=d;
+						}
+					}
+					else{
+						avg4=avg3;
+						avg3=stock;
+						d4=d3;
+						d3=d;
+					}
+				}
+				else{
+					d4=d;
+					avg4=stock;
 				}
 			}
 		} 
 	}
+	if (total < 4) {
+		total = 4;
+		avg=avg1+avg2+avg3+avg4;
+	}
+
 	return avg/total;
-
-
-	
-
 }
+
 
 float SensorFunctions::analyseOneSensor(string sensorId)
 // Algorithm:
@@ -164,61 +225,80 @@ float SensorFunctions::analyseOneSensor(string sensorId)
 	Sensor * s = (findSensor(sensorId));
 	list <Measurement> m = s->getMeasurements();
 
-	float sum;
-	
+
+	float sum=0;
 	int numDate = 0;
+	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){		
 
-	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){
 
-		float avg = instantAirQuality(s->getLongitude(),s->getLatitude(),80,it->getTimestamp());
+		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
 
 		float AQI = it->getAQI();
-
 		sum = sum + abs(avg- AQI)/avg;
-
-		numDate ++;
-
-		
+		numDate++;
 	}
-	
 	return sum/numDate;
-
 } //----- analyseOneSensor
 
-float SensorFunctions::meanAirQualityArea(float area, float latitude, float longtitude, struct tm start, struct tm end){
-	 
-    std::list<Sensor>::iterator it;
-	float avg = 0;
-	float total = 0;
-	for (it = sensorList.begin(); it != sensorList.end(); ++it){
-    	float la2 = it->getLatitude();
-		float lo2 = it->getLongitude();
-		float r = 0.0174533; //Pi/180=3.14159/180
-		float latitude = latitude * r;
-		float la2 = la2 * r;
-		float longtitude = longtitude * r;
-		float lo2 = lo2 * r;
-		float er = 6371.01; //Kilometers
-		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
-		if (d < area){
-			std::list<Measurement>::iterator measurementIt;
-			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				if (difftime(mktime(&measurementIt->getTimestamp()), mktime(&start)) >= 0 && difftime(mktime(&measurementIt->getTimestamp()), mktime(&end)) <= 0){
-					avg += measurementIt->getAQI();
-					total++;
+list<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struct tm end)
+// Algorithm:
+//
+{
+	Sensor *s = findSensor(id);
+
+	vector<pair<Sensor, float>> order;
+	
+	for (Sensor sensor : sensors) {
+		if (sensor.getId() == s->getId()) continue;
+		//sorted.push_back(sensor);
+		float difference = 0;
+		for (Measurement measurement : sensor.getMeasurements()) {
+			struct tm tm1 = measurement.getTimestamp();
+			time_t t = mktime(&tm1);
+			if (difftime(t, mktime(&begin)) >= 0 && difftime(t, mktime(&end)) <= 0){
+				for (Measurement m : s->getMeasurements()) {
+					struct tm tm2 = m.getTimestamp();
+					if (difftime(t, mktime(&tm2)) == 0) {
+						difference += abs(measurement.getAQI() - m.getAQI());
+						break;
+					}
 				}
 			}
-		} 
+		}
+		order.push_back(make_pair(sensor, difference));
 	}
+	sort(order.begin(), order.end(), [](auto &left, auto &right) {
+		return left.second < right.second;
+	});
+
+	list<Sensor> sorted;
+	for (const auto &[sensor, difference] : order) {
+		sorted.push_back(sensor);
+	}
+
+	return sorted;
+} //----- compareOneSensor
+
+float SensorFunctions::meanAirQualityArea(float area, float latitude, float longitude, struct tm start, struct tm end){
+	 
+    float avg = 0;
+	float total = 0;
+
+	for (time_t time = mktime(&start); time < mktime(&end); time += 86400) {
+		total++;
+		//struct tm tmp = *localtime(&time);
+		avg += instantAirQuality(area, longitude, latitude, *localtime(&time));
+	}
+
 	return avg/total;
 }
 //-------------------------------------------------------- Operator overloading
-SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
+/*SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 SensorFunctions::SensorFunctions ( const SensorFunctions & unSensorFunctions )
 // Algorithm:
