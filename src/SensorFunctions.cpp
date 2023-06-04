@@ -242,10 +242,11 @@ list<Sensor> SensorFunctions::compareOneSensor(Sensor s, struct tm begin, struct
 		//sorted.push_back(sensor);
 		float difference = 0;
 		for (Measurement measurement : sensor.getMeasurements()) {
-			time_t t = mktime(&measurement.getTimestamp());
-			if (difftime(t, mktime(&begin)) >= 0 && difftime(t, mktime(&end)) <= 0){
+			struct tm t = measurement.getTimestamp();
+			if (difftime(mktime(&t), mktime(&begin)) >= 0 && difftime(mktime(&t), mktime(&end)) <= 0){
 				for (Measurement m : s.getMeasurements()) {
-					if (difftime(t, mktime(&m.getTimestamp())) == 0) {
+					struct tm time2=m.getTimestamp();
+					if (difftime(mktime(&t), mktime(&time2)) == 0) {
 						difference += abs(measurement.getAQI() - m.getAQI());
 						break;
 					}
