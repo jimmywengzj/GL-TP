@@ -56,7 +56,7 @@ void testMeasurementCreation(){
     cout << "Passed 7/7 : valuesPM10 is right" << endl;
 }
 
-int testOperatorEquality(){
+void testOperatorEquality(){
     cout << "Testing Operator ==" << endl;
     struct tm * date;
     date->tm_year = 2022;
@@ -73,10 +73,25 @@ int testOperatorEquality(){
     cout << "Passed 2/2 : two different measurements are different" << endl;
 }
 
+void testCopyConstructor(){
+    cout << "Testing Copy Constructor" << endl;
+    struct tm * date;
+    date->tm_year = 2022;
+    date->tm_mon = 4;
+    date->tm_mday = 4;
+    date->tm_hour = 12;
+    Measurement* m1 = new Measurement(*date, "1", 0.05, 0.04, 0.03, 0.02);
+    Measurement* m2 = new Measurement(*m1);
+    assert(*m1==*m2);
+    cout << "Passed 1/1 : copy construction produces similar object" << endl;
+    assert(m1!=m2);
+}
+
 int main(){
     cout << "Beginning of Measurement Class' test" << endl;
     testMeasurementCreation();
     testOperatorEquality();
+    testCopyConstructor();
     cout << "End of Measurement Class' test" << endl;
     return 0;
 }

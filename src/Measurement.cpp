@@ -150,7 +150,7 @@ Measurement::Measurement (struct tm aDate, string aSensorId, float O3, float NO2
 #ifdef MAP
     cout << "Appel au constructeur de copie de <Measurement>" << endl;
 #endif
-} //----- End of Measurement (copy constructor)
+} //----- End of Measurement (constructor)
 
 
 Measurement::Measurement ( )
@@ -160,12 +160,24 @@ Measurement::Measurement ( )
 #endif
 } //----- End of Measurement
 
-Measurement::Measurement ( const Measurement & unMeasurement )
+Measurement::Measurement ( const Measurement & aMeasurement )
 {
 #ifdef MAP
     cout << "Calling copy constructor of <Measurement>" << endl;
 #endif
-} //----- End of Sensor (copy constructor)
+    sensorId = aMeasurement.sensorId;
+    timestamp.tm_year = aMeasurement.timestamp.tm_year;
+    timestamp.tm_mon = aMeasurement.timestamp.tm_mon;
+    timestamp.tm_mday = aMeasurement.timestamp.tm_mday;
+    timestamp.tm_hour = aMeasurement.timestamp.tm_hour;
+    timestamp.tm_min = aMeasurement.timestamp.tm_min;
+    timestamp.tm_sec = aMeasurement.timestamp.tm_sec;
+    valueO3 = aMeasurement.valueO3;
+    valueSO2 = aMeasurement.valueSO2;
+    valueNO2 = aMeasurement.valueNO2;
+    valuePM10 = aMeasurement.valuePM10;
+    AQI = aMeasurement.AQI;
+} //----- End of Measurement (copy constructor)
 
 
 Measurement::~Measurement ( )

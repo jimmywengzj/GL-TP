@@ -31,5 +31,8 @@
 
 void testMeasurementCreation();
 
+void testOperatorEquality();
+
+void testCopyConstructor();
 
 #endif // TestMeasurement_H
