@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------- System includes
 using namespace std;
-#include <list>
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <math.h>
@@ -24,18 +24,11 @@ using namespace std;
 #include "SensorFunctions.h"
 #include "Sensor.h"
 #include "Measurement.h"
-list<Sensor> sensorList;
-
-//------------------------------------------------------------------- Constants
+vector<Sensor> sensorList;
 
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type SensorFunctions::Method ( parameter list )
-// Algorithm:
-//
-//{
-//} //----- End of Method
 void SensorFunctions::loadFromDatabase(){
 		  std::ifstream ifs;
 
@@ -59,7 +52,7 @@ void SensorFunctions::loadFromDatabase(){
 	}
 	cout<<sensorList.front().getId()<<endl;
 	ifs.close();
-	/*list<Sensor> CheckSensorList=sensorList;
+	/*vector<Sensor> CheckSensorList=sensorList;
     while(CheckSensorList.size()!=0){
         cout<<"Get Id: "<<CheckSensorList.front().getId()<<"Lat :"<<CheckSensorList.front().getLatitude()<<"Long :"<<CheckSensorList.front().getLongitude()<<endl;
         CheckSensorList.pop_front();
@@ -117,7 +110,7 @@ void SensorFunctions::loadFromDatabase(){
 }
 Sensor* SensorFunctions::findSensor(string id){
     Sensor* sensorFound=NULL;
-    list<Sensor> CheckSensorList=sensorList;
+    vector<Sensor> CheckSensorList=sensorList;
     while(CheckSensorList.size()!=0 && sensorFound==NULL){
 
         if((CheckSensorList.front().getId())==id){
@@ -137,7 +130,7 @@ void SensorFunctions::markSensor(string id){
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
 
-	std::list<Sensor>::iterator it;
+	std::vector<Sensor>::iterator it;
 	float avg = 0;
 	float total = 0;
 	float r = 0.0174533; //Pi/180=3.14159/180
@@ -159,7 +152,7 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 		float d = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));
 		
 		stock=-1.0;
-		std::list<Measurement>::iterator measurementIt;
+		vector<Measurement>::iterator measurementIt;
 		for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
 			struct tm time=measurementIt->getTimestamp();
 			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
@@ -216,15 +209,15 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 
 	return avg/total;
 }
-float SensorFunctions::analyseOneSensor(Sensor s)
+float SensorFunctions::analyseOneSensor(Sensor sensor)
 // Algorithm:
 //
 {
-	list <Measurement> m = s.getMeasurements();
+	vector <Measurement> measurementVector = s.getMeasurements();
 	float sum;
 	int numDate = 0;
-	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){
-		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
+	for(Measurement measurement : measurementVector){
+		float avg = instantAirQuality(sensor.getLongitude(),sensor.getLatitude(),80,Measurement->getTimestamp());
 		float AQI = it->getAQI();
 		sum = sum + abs(avg- AQI)/avg;
 		numDate++;
@@ -232,7 +225,7 @@ float SensorFunctions::analyseOneSensor(Sensor s)
 	return sum/numDate;
 } //----- analyseOneSensor
 
-list<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struct tm end)
+vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struct tm end)
 // Algorithm:
 //
 {
@@ -263,7 +256,7 @@ list<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struc
 		return left.second < right.second;
 	});
 
-	list<Sensor> sorted;
+	vector<Sensor> sorted;
 	for (const auto &[sensor, difference] : order) {
 		sorted.push_back(sensor);
 	}

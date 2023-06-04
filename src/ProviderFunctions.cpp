@@ -24,17 +24,11 @@ using namespace std;
 #include "Cleaner.h"
 #include <map>
 
-list<Provider> providerList;
-//------------------------------------------------------------------- Constants
+vector<Provider> providerList;
 
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type ProviderFunctions::Method ( parameter list )
-// Algorithm:
-//
-//{
-//} //----- End of Method
 void ProviderFunctions::loadFromDatabase(){
     map<string,Cleaner> cleanerList;
 	  std::ifstream ifs;
@@ -103,21 +97,21 @@ void ProviderFunctions::loadFromDatabase(){
             providerObject->addCleaner(cleanerList.find(cleanerId)->second);
             }
         }
-	/*list<Provider> CheckProviderList=providerList;
+	/*vector<Provider> CheckProviderList=providerList;
     while(CheckProviderList.size()!=0){
         cout<<"Get Id: "<<CheckProviderList.front().getId()<<endl;
         CheckProviderList.pop_front();
     }*/
 } //----- End of loadFromDatabase()
 
-list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
+vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	float searchRadius=10.0;
 	float APImin=1.0;
 	//deux valeurs arbitraires
 	//This isn't finished but I'm not going to be able to finish it
-	list<float> returnValue;
+	vector<float> returnValue;
     Cleaner* cleanerFound=NULL;
-    list<Provider> CheckProviderList=providerList;
+    vector<Provider> CheckProviderList=providerList;
 	cout<<"122"<<endl;
 
     while(CheckProviderList.size()!=0 && cleanerFound==NULL){
@@ -157,16 +151,8 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	return returnValue; 
 }
 
-//-------------------------------------------------------- Operator overloading
-/*ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
-{
-
-} //----- End of operator =
-*/
 //--------------------------------------------------- Constructors - destructor
 ProviderFunctions::ProviderFunctions ( const ProviderFunctions & unProviderFunctions )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling copy constructor of <ProviderFunctions>" << endl;
@@ -181,14 +167,8 @@ ProviderFunctions::ProviderFunctions ( )
 } //----- End of ProviderFunctions
 
 ProviderFunctions::~ProviderFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling destructor of <ProviderFunctions>" << endl;
 #endif
 } //----- End of ~ProviderFunctions
-
-//--------------------------------------------------------------------- PRIVATE
-
-//-------------------------------------------------------------- Private methods

@@ -53,7 +53,7 @@ bool User::isGood() const
     return good;
 } //----- End of isGood()
 
-list<Sensor> User::getSensors() const
+vector<Sensor> User::getSensors() const
 {
     return sensors;
 } // ----- End of getSensors
@@ -74,7 +74,7 @@ User::User ( const User & unUser )
     id = unUser.id;
     points = unUser.points;
     good = unUser.good;
-    sensors = *(new list<Sensor>(unUser.sensors));
+    sensors = *(new vector<Sensor>(unUser.sensors));
 } //----- End of User (copy constructor)
 
 User::~User ( )

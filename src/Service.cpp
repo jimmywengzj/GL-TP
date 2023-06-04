@@ -16,9 +16,6 @@ using namespace std;
 
 //----------------------------------------------------------- Personal includes
 #include "Service.h"
-#include "UserFunctions.h"
-#include "SensorFunctions.h"
-#include "ProviderFunctions.h"
 
 //---------------------------------------------------------------------- PUBLIC
 
@@ -39,6 +36,7 @@ int Service::getPoints (User user)
     int points = userFunctions.getPoints(user);
     return points;
 }
+
 Sensor* Service::findSensor(string SensorId)
 {
     return sensorFunctions.findSensor(SensorId);
@@ -60,9 +58,9 @@ float Service::instantAirQuality(float id, float latitude, float longitude, stru
     return instantQuality;
 }
 
-list<float> Service::studyAirCleaner(string id)
+vector<float> Service::studyAirCleaner(string id)
 {
-    list<float> iequality = providerFunctions.studyAirCleaner(id);
+    vector<float> iequality = providerFunctions.studyAirCleaner(id);
     return iequality;
 }
 
@@ -72,9 +70,9 @@ float Service::analyseOneSensor(Sensor sensor)
     return quality;
 }
 
-list<Sensor> Service::compareOneSensor(Sensor sensor, tm start, tm end)
+vector<Sensor> Service::compareOneSensor(Sensor sensor, tm start, tm end)
 {
-    list<Sensor> quality = sensorFunctions.compareOneSensor(sensor.getId(), start, end);
+    vector<Sensor> quality = sensorFunctions.compareOneSensor(sensor.getId(), start, end);
     return quality;
 }
 

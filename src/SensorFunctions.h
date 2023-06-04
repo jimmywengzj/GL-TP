@@ -18,7 +18,7 @@
 
 #include <time.h>
 
-#include <list>
+#include <vector>
 
 //------------------------------------------------------------------- Constants
 
@@ -36,7 +36,7 @@ class SensorFunctions
 
 public:
 //-------------------------------------------------------------- Public methods
-    // type Method ( parameter list );
+    // type Method ( parameter vector );
     // Instruction:
     //
     // Precondition:
@@ -49,9 +49,9 @@ public:
     //
     Sensor* findSensor (string id);
     //Instruction:
-    //Finds and return whichever sensor has the same Id sends back an error message otherwise
+    //Finds and return whichever sensor has the same ID sends back an error message otherwise
     
-    list<Sensor> searchSurrounding(float f);
+    vector<Sensor> searchSurrounding(float f);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
@@ -83,7 +83,7 @@ public:
     //
     
 
-    list<Sensor> compareOneSensor(string id, struct tm begin, struct tm end);
+    vector<Sensor> compareOneSensor(string id, struct tm begin, struct tm end);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:
@@ -118,7 +118,7 @@ public:
 
 private:
 
-    list<Sensor> sensors;
+    vector<Sensor> sensors;
 
 
 

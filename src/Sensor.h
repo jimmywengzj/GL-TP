@@ -13,10 +13,8 @@
 using namespace std;
 
 //------------------------------------------------------------------- Used interfaces
-
+#include <vector>
 #include "Measurement.h"
-
-#include <list>
 
 //------------------------------------------------------------------- Constants
 
@@ -39,7 +37,7 @@ public:
 
     void addMeasurement(const Measurement& aMeasurement);
     // Instruction:
-    // Add a Measurement to the List
+    // Add a Measurement to the vector
 
 
     void setBad();
@@ -63,7 +61,7 @@ public:
 
     bool getGood() const;
 
-    list<Measurement> getMeasurements() const;
+    vector<Measurement> getMeasurements() const;
 
 //--------------------------------------------------- Constructors - destructor
     Sensor ( const Sensor & unSensor );
@@ -79,7 +77,7 @@ private :
     float longitude;
     float latitude;
     bool good;
-    list<Measurement> measurements;
+    vector<Measurement> measurements;
 
 };
 

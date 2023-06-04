@@ -10,67 +10,26 @@
 #if ! defined ( ProviderFunctions_H )
 #define ProviderFunctions_H
 
-//------------------------------------------------------------- Used interfaces
-
-//------------------------------------------------------------------- Constants
-
-//----------------------------------------------------------------------- Types
-
-//-----------------------------------------------------------------------------
-// Role of <ProviderFunctions> class
-//
-//
-//-----------------------------------------------------------------------------
-
 class ProviderFunctions 
 {
 //---------------------------------------------------------------------- PUBLIC
 
 public:
 //-------------------------------------------------------------- Public methods
-    // type Method ( parameter list );
-    // Instruction:
-    //
-    // Precondition:
-    //
     void loadFromDatabase();
-    list<float> studyAirCleaner(string idCleaner);
+
+    vector<float> studyAirCleaner(string idCleaner);
 
 //-------------------------------------------------------- Operator overloading
     ProviderFunctions & operator = ( const ProviderFunctions & unProviderFunctions );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
 //--------------------------------------------------- Constructors - destructor
     ProviderFunctions ( const ProviderFunctions & unProviderFunctions);
-    // Instruction (copy constructor):
-    //
-    // Precondition:
-    //
 
     ProviderFunctions ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
     virtual ~ProviderFunctions ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
-
-//--------------------------------------------------------------------- PRIVATE
-
-protected:
-//------------------------------------------------------------- Private methods
-
-//-------------------------------------------------------- Protected attributes
 
 };
 
-//---------------------------------------- Other definitions depending on <Xxx>
-
-#endif // XXX_H
+#endif // ProviderFunctions_H

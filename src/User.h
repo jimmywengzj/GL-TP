@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------- Used interfaces
 #include <string>
-#include <list>
+#include <vector>
 #include "Sensor.h"
 //------------------------------------------------------------------- Constants
 
@@ -45,7 +45,7 @@ public:
 
     bool isGood() const;
 
-    list<Sensor> getSensors() const;
+    vector<Sensor> getSensors() const;
 
 //--------------------------------------------------- Constructors - destructor
     User ( const User & unUser );
@@ -65,7 +65,7 @@ protected:
     string id;
     int points;
     bool good;
-    list<Sensor> sensors;
+    vector<Sensor> sensors;
 };
 
 #endif // User_H

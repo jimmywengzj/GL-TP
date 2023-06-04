@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------- Used interfaces
 #include <string>
-#include <list>
+#include <vector>
 #include "UserFunctions.h"
 #include "SensorFunctions.h"
 #include "ProviderFunctions.h"
@@ -32,60 +32,44 @@ class Service
 
 public:
 //-------------------------------------------------------------- Public methods
-    // type Method ( parameter list );
-    // Instruction:
-    //
-    // Precondition:
-    //
     void loadFromDatabase();
+
     int getPoints(User);
+
     void markUser(User);
+
     float meanAirQualityArea(float, float, float, struct tm, struct tm);
+
     float instantAirQuality(float, float, float, struct tm);
-    list<float> studyAirCleaner(string);
+
+    vector<float> studyAirCleaner(string);
+
     float analyseOneSensor(Sensor);
+
     Sensor* findSensor(string SensorId);
-    list<Sensor> compareOneSensor(Sensor, struct tm, struct tm);
+
+    vector<Sensor> compareOneSensor(Sensor, struct tm, struct tm);
 
 //-------------------------------------------------------- Operator overloading
     Service & operator = ( const Service & unService );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
 //--------------------------------------------------- Constructors - destructor
     Service ( const Service & unService );
-    // Instruction (copy constructor):
-    //
-    // Precondition:
-    //
 
     Service ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
     virtual ~Service ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
 //--------------------------------------------------------------------- PRIVATE
 
 protected:
-UserFunctions userFunctions;
-SensorFunctions sensorFunctions;
-ProviderFunctions providerFunctions;
 
 //------------------------------------------------------------- Private methods
+    UserFunctions userFunctions;
 
-//-------------------------------------------------------- Protected attributes
+    SensorFunctions sensorFunctions;
+
+    ProviderFunctions providerFunctions;
 
 };
-
-//---------------------------------------- Other definitions depending on <Service>
-
 #endif // Service_H

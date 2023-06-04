@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------- System includes
 using namespace std;
-#include <list>
+#include <vector>
 #include <iostream>
 #include <fstream>
 //----------------------------------------------------------- Personal includes
@@ -20,17 +20,10 @@ using namespace std;
 #include "SensorFunctions.h"
 #include "User.h"
 #include "Sensor.h"
-list<User> userList;
-//------------------------------------------------------------------- Constants
-
+vector<User> userList;
 //---------------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------------- Public methods
-// type UserFunctions::Method ( parameter list )
-// Algorithm:
-//
-//{
-//} //----- End of Method
 void UserFunctions::loadFromDatabase(SensorFunctions sensorFunctions)
 {
     std::ifstream ifs;
@@ -71,7 +64,7 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
     vector<pair<User, float>> score;
 
     for (const auto &[id, user] : users) {
-        list<Sensor> sensors = user.getSensors(); //James: changed vector<sensor> to lo list<Sensor> because that's how the code is made
+        vector<Sensor> sensors = user.getSensors();
         float sum = 0;
         for (Sensor sensor : sensors) {
             sum += sensorFunctions.analyseOneSensor(sensor);
@@ -82,17 +75,8 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
     return score;
 }
 
-//-------------------------------------------------------- Operator overloading
-/*UserFunctions & UserFunctions::operator = ( const UserFunctions & unUserFunctions )
-// Algorithm:
-//
-{
-} //----- End of operator =
-*/
 //--------------------------------------------------- Constructors - destructor
 UserFunctions::UserFunctions ( const UserFunctions & unUserFunctions )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling copy constructor of <UserFunctions>" << endl;
@@ -100,8 +84,6 @@ UserFunctions::UserFunctions ( const UserFunctions & unUserFunctions )
 } //----- End of UserFunctions (copy constructor)
 
 UserFunctions::UserFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling constructor of <UserFunctions>" << endl;
@@ -109,8 +91,6 @@ UserFunctions::UserFunctions ( )
 } //----- End of UserFunctions
 
 UserFunctions::~UserFunctions ( )
-// Algorithm:
-//
 {
 #ifdef MAP
     cout << "Calling destructor of <UserFunctions>" << endl;

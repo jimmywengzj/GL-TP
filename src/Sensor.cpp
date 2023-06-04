@@ -15,14 +15,7 @@ using namespace std;
 #include <iostream>
 
 //----------------------------------------------------------- Personal includes
-
 #include "Sensor.h"
-
-#include <list>
-
-#include "Measurement.h"
-
-//------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
 
@@ -57,7 +50,7 @@ Sensor::Sensor ( const Sensor & unSensor )
     longitude = unSensor.longitude;
     latitude = unSensor.latitude;
     good = unSensor.good;
-    measurements = *(new list<Measurement>(unSensor.measurements));
+    measurements = *(new vector<Measurement>(unSensor.measurements));
 } //----- End of Sensor (copy constructor)
 
 Sensor & Sensor::operator = ( const Sensor & unSensor ){
@@ -129,7 +122,7 @@ bool Sensor :: getGood ( ) const
     return good;
 } //----- End of getGood
 
-list<Measurement> Sensor :: getMeasurements ( ) const
+vector<Measurement> Sensor :: getMeasurements ( ) const
 {
 #ifdef MAP
     cout << "Calling for getMeasurements" << endl;
