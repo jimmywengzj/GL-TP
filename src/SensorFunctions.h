@@ -47,7 +47,7 @@ public:
     // Load the Sensors data from the Database
     // Precondition:
     //
-    Sensor* findSensor (string SensorId);
+    Sensor* findSensor (string id);
     //Instruction:
     //Finds and return whichever sensor has the same Id sends back an error message otherwise
     
@@ -57,7 +57,7 @@ public:
     // Precondition:
     //
 
-    void markSensor(Sensor s);
+    void markSensor(string id);
     // Instruction: 
     // Mark a Sensor as defective
     // Precondition:
@@ -83,7 +83,7 @@ public:
     //
     
 
-    list<Sensor> compareOneSensor(Sensor s, struct tm begin, struct tm end);
+    list<Sensor> compareOneSensor(string id, struct tm begin, struct tm end);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:

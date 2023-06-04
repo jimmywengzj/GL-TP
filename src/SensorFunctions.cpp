@@ -115,12 +115,12 @@ void SensorFunctions::loadFromDatabase(){
 	}
 
 }
-Sensor* SensorFunctions::findSensor(string SensorId){
+Sensor* SensorFunctions::findSensor(string id){
     Sensor* sensorFound=NULL;
     list<Sensor> CheckSensorList=sensorList;
     while(CheckSensorList.size()!=0 && sensorFound==NULL){
 
-        if((CheckSensorList.front().getId())==SensorId){
+        if((CheckSensorList.front().getId())==id){
             sensorFound=&(CheckSensorList.front());
         }		
 
@@ -131,8 +131,8 @@ Sensor* SensorFunctions::findSensor(string SensorId){
     return sensorFound;
 }
 
-void SensorFunctions::markSensor(Sensor s){
-	s.setBad();
+void SensorFunctions::markSensor(string id){
+	findSensor(id)->setBad();
 }
 
 float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
@@ -232,21 +232,23 @@ float SensorFunctions::analyseOneSensor(Sensor s)
 	return sum/numDate;
 } //----- analyseOneSensor
 
-list<Sensor> SensorFunctions::compareOneSensor(Sensor s, struct tm begin, struct tm end)
+list<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, struct tm end)
 // Algorithm:
 //
 {
+	Sensor *s = findSensor(id);
+
 	vector<pair<Sensor, float>> order;
 	
 	for (Sensor sensor : sensors) {
-		if (sensor.getId() == s.getId()) continue;
+		if (sensor.getId() == s->getId()) continue;
 		//sorted.push_back(sensor);
 		float difference = 0;
 		for (Measurement measurement : sensor.getMeasurements()) {
 			struct tm tm1 = measurement.getTimestamp();
 			time_t t = mktime(&tm1);
 			if (difftime(t, mktime(&begin)) >= 0 && difftime(t, mktime(&end)) <= 0){
-				for (Measurement m : s.getMeasurements()) {
+				for (Measurement m : s->getMeasurements()) {
 					struct tm tm2 = m.getTimestamp();
 					if (difftime(t, mktime(&tm2)) == 0) {
 						difference += abs(measurement.getAQI() - m.getAQI());
