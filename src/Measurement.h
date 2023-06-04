@@ -38,10 +38,6 @@ public:
 
 //-------------------------------------------------------- Operator overloading
     bool operator == ( const Measurement & unMeasurement );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
 //------------------------------------------------- Getters/Setters
 

@@ -30,5 +30,12 @@
 
 void testSensorCreation();
 
+void testOperatorEquality()
+
+void testCopyConstructor();
+
+void testSensorFlag();
+
+void testAddMeasurement();
 
 #endif // TestSensor_H

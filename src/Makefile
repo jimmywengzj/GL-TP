@@ -1,6 +1,6 @@
 GPP=g++
 CC=${GPP}
-GPPFLAGS=-ansi -pedantic -Wall -std=c++11
+GPPFLAGS=-ansi -pedantic -Wall -std=c++11 -Wno-maybe-uninitialized -Wno-uninitialized
 
 EXEC=main
 OBJ=Main.o Service.o SensorFunctions.o UserFunctions.o Provider.o Cleaner.o User.o Sensor.o Measurement.o
@@ -22,4 +22,4 @@ ${TESTMAINS}: ${TESTOBJ}
 	./$@.exe
 
 clean:
-	del ${EXEC} ${OBJ} ${OBJ:.o=.gch}
+	del ${EXEC} *.o *.gch *.exe
