@@ -60,9 +60,9 @@ float Service::instantAirQuality(float id, float latitude, float longtitude, str
     return iquality;
 }
 
-float * Service::studyAirCleaner(string id)
+list<float> Service::studyAirCleaner(string id)
 {
-    float *iequality = providerFunctions.studyAirCleaner(id);
+    list<float> iequality = providerFunctions.studyAirCleaner(id);
     return iequality;
 }
 
@@ -72,9 +72,9 @@ float Service::analyseOneSensor(Sensor id)
     return quality;
 }
 
-float Service::compareOneSensor(Sensor id, struct tm start, struct tm end)
+list<Sensor> Service::compareOneSensor(Sensor id, struct tm start, struct tm end)
 {
-    float quality = sensorFunctions.compareOneSensor(id, start, end);
+    list<Sensor> quality = sensorFunctions.compareOneSensor(id, start, end);
     return quality;
 }
 

@@ -42,8 +42,8 @@ public:
     void markUser(User);
     float meanAirQualityArea(float, float, float, struct tm, struct tm);
     float instantAirQuality(float, float, float, struct tm);
-    float * studyAirCleaner(string);
-    float analyseOneSensor(Sensor);
+    list<float> studyAirCleaner(string);
+    list<Sensor> analyseOneSensor(Sensor);
     
     float compareOneSensor(Sensor, struct tm, struct tm);
 

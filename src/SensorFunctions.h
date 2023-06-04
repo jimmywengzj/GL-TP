@@ -83,7 +83,7 @@ public:
     //
     
 
-    list<Sensor> compareOneSensor(Sensor s, tm begin, tm end);
+    list<Sensor> compareOneSensor(Sensor s, struct tm begin, struct tm end);
     // Instruction: 
     // Load the Sensors data from the Database
     // Precondition:

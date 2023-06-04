@@ -167,7 +167,7 @@ float SensorFunctions::analyseOneSensor(Sensor s)
 	return sum/numDate;
 } //----- analyseOneSensor
 
-list<Sensor> SensorFunctions::compareOneSensor(Sensor s, tm begin, tm end)
+list<Sensor> SensorFunctions::compareOneSensor(Sensor s, struct tm begin, struct tm end)
 // Algorithm:
 //
 {
