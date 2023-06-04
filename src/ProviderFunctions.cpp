@@ -102,6 +102,9 @@ void ProviderFunctions::loadFromDatabase(){
 } //----- End of loadFromDatabase()
 
 list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
+	float searchRadius=10.0;
+	float APImin=1.0;
+	//deux valeurs arbitraires
 	//This isn't finished but I'm not going to be able to finish it
 	list<float> returnValue;
     Cleaner* cleanerFound=NULL;
@@ -125,8 +128,15 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	struct tm endDate =cleanerFound->getEnd();
 	//I think this will become a problem
 	SensorFunctions sensorFunctions;
-	float firstMeasurement=sensorFunctions.meanAirQualityArea(10.0,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart());
-	return returnValue;
+	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart());
+	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd());
+	float i=1.0;
+	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd()))>APImin){
+		i++;
+	}
+	returnValue.emplace_back(lastMeasurement-lastMeasurement);
+	returnValue.emplace_back(i);
+	return returnValue; 
 }
 
 //-------------------------------------------------------- Operator overloading
