@@ -78,6 +78,10 @@ void ProviderFunctions::loadFromDatabase(){
 		}
 	}
 
+    /*for (auto const &pair: cleanerList) {
+        std::cout << "{" << pair.first << ": " << pair.second.getId()<< pair.second.getLatitude()<< "}\n";
+    }*/
+
 	ifs.close();
 	  ifs.open ("../data/providers.csv", std::ifstream::in);
 
@@ -99,11 +103,11 @@ void ProviderFunctions::loadFromDatabase(){
             providerObject->addCleaner(cleanerList.find(cleanerId)->second);
             }
         }
-			list<Provider> CheckProviderList=providerList;
+	/*list<Provider> CheckProviderList=providerList;
     while(CheckProviderList.size()!=0){
         cout<<"Get Id: "<<CheckProviderList.front().getId()<<endl;
         CheckProviderList.pop_front();
-    }
+    }*/
 } //----- End of loadFromDatabase()
 
 list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
@@ -113,15 +117,22 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	//This isn't finished but I'm not going to be able to finish it
 	list<float> returnValue;
     Cleaner* cleanerFound=NULL;
-    Cleaner* cleanerStep=NULL;
     list<Provider> CheckProviderList=providerList;
+	cout<<"122"<<endl;
+
     while(CheckProviderList.size()!=0 && cleanerFound==NULL){
-        *cleanerStep=providerList.front().getCleanerList().find(idCleaner)->second;
-        if(cleanerStep!=NULL){
-            cleanerFound=cleanerStep;
-        }
-        CheckProviderList.pop_front();
-    }
+		std::map<string,Cleaner>::iterator it;
+        it =CheckProviderList.front().getCleanerList().find(idCleaner);
+
+	if (it == CheckProviderList.front().getCleanerList().end()) {
+       CheckProviderList.pop_front();
+
+	} else {
+            *cleanerFound=CheckProviderList.front().getCleanerList().find(idCleaner)->second;
+
+		}
+	}
+	cout<<"130"<<endl;
 	struct tm startDate =cleanerFound->getStart();
 	if(startDate.tm_mon==1){
 		startDate.tm_mon=12;
@@ -130,6 +141,8 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	else{
 		startDate.tm_mon=startDate.tm_mon-1;
 	}
+		cout<<"1"<<endl;
+
 	struct tm endDate =cleanerFound->getEnd();
 	//I think this will become a problem
 	SensorFunctions sensorFunctions;
