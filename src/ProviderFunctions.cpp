@@ -46,8 +46,8 @@ void ProviderFunctions::loadFromDatabase(){
 		getline(ifs,cleaner,';');
         Cleaner* cleanerObject;
 		if(cleaner!=""){
-		struct tm timeStart;
-		struct tm timeEnd;
+			struct tm timeStart;
+			struct tm timeEnd;
 			string latitudeString;
 			getline(ifs,latitudeString,';');
 			float latitude = stof(latitudeString);
@@ -57,6 +57,9 @@ void ProviderFunctions::loadFromDatabase(){
 			string startDateString;
 			getline(ifs,startDateString,';');
 			string endDateString;
+			getline(ifs,endDateString,';');
+			//cout<<startDateString<<endl;
+			//cout<<endDateString<<endl;
 			timeStart.tm_year=stoi(startDateString.substr (0,4))-1900;
 			timeStart.tm_mon=stoi(startDateString.substr (5,2));
 			timeStart.tm_mday=stoi(startDateString.substr (8,2));
@@ -69,7 +72,6 @@ void ProviderFunctions::loadFromDatabase(){
 			timeEnd.tm_hour=stoi(endDateString.substr (11,2));
 			timeEnd.tm_min=stoi(endDateString.substr (14,2));
 			timeEnd.tm_sec=stoi(endDateString.substr (17,2));
-			getline(ifs,endDateString,';');
 			string forget;
 			getline(ifs,forget,'\n');
             cleanerObject= new Cleaner(cleaner,longitude,latitude, timeStart,timeEnd);
