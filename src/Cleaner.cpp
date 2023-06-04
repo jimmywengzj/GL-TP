@@ -101,6 +101,13 @@ Cleaner::Cleaner ( const Cleaner & unCleaner )
     this->timestampEnd.tm_hour=unCleaner.timestampEnd.tm_hour;
 } //----- End of Cleaner (copy constructor)
 
+Cleaner::Cleaner ( )
+{
+#ifdef MAP
+    cout << "Calling constructor of <Cleaner>" << endl;
+#endif
+} //----- End of Cleaner
+
 Cleaner::Cleaner (string anId, float aLongitude, float aLatitude, const tm aTimestampStart, const tm aTimestampEnd)
 {
 #ifdef MAP
