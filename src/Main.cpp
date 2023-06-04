@@ -8,6 +8,10 @@ int main ()
     int loginAttempt = 0;
     Service* service= new Service();
     service->loadFromDatabase();
+    list<float> a=service->studyAirCleaner("Cleaner0");
+    cout<<a.front()<<";"<<a.back()<<endl;
+        list<float> b=service->studyAirCleaner("Cleaner1");
+    cout<<b.front()<<";"<<b.back()<<endl;
     while (loginAttempt < 5)
     {
         cout << "Please enter your user name: ";
