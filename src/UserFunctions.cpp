@@ -18,7 +18,7 @@ using namespace std;
 //----------------------------------------------------------- Personal includes
 #include "UserFunctions.h"
 #include "SensorFunctions.h"
-
+#include "User.h"
 #include "Sensor.h"
 list<User> userList;
 //------------------------------------------------------------------- Constants

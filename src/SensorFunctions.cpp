@@ -16,7 +16,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <math.h>
-
+#include <limits>
 //----------------------------------------------------------- Personal includes
 #include "SensorFunctions.h"
 #include "Sensor.h"
@@ -137,29 +137,101 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 	std::list<Sensor>::iterator it;
 	float avg = 0;
 	float total = 0;
+	float r = 0.0174533; //Pi/180=3.14159/180
+	float lat = latitude * r;
+	float lon = longitude * r;
+	float er = 6371.01; //Kilometers
+	float d1=100000000000000000.0;
+	float d2=d1;
+	float d3=d1;
+	float d4=d1;
+	float avg1=0;
+	float avg2=0;
+	float avg3=0;
+	float avg4=0;
+
 	for (it = sensorList.begin(); it != sensorList.end(); ++it){
-		float r = 0.0174533; //Pi/180=3.14159/180
-		float latitude = latitude * r;
 		float la2 = it->getLatitude() * r;
-		float longtitude = longtitude * r;
 		float lo2 = it->getLongitude() * r;
-		float er = 6371.01; //Kilometers
-		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longtitude - lo2)));
+		float d = er * acos((sin(latitude)*sin(la2)) + (cos(latitude)*cos(la2)*cos(longitude - lo2)));
 		if (d < area){
 			std::list<Measurement>::iterator measurementIt;
 			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				struct tm time =measurementIt->getTimestamp();
-				if (difftime(mktime(&time), mktime(&date)) == 0){
+				struct tm time=measurementIt->getTimestamp();
+				if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
 					avg += measurementIt->getAQI();
 					total++;
 				}
 			}
-		} 
+		}
+		if(d<d4){
+			if(d<d3){
+				if(d<d2){
+					if(d<d1){
+						avg4=avg3;
+						avg3=avg2;
+						avg2=avg1;
+						std::list<Measurement>::iterator measurementIt;
+						for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+						struct tm time=measurementIt->getTimestamp();
+							if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
+								avg1=measurementIt->getAQI();
+							}
+						}
+						d4=d3;
+						d3=d2;
+						d2=d1;
+						d1=d;
+					}
+					else{
+						avg4=avg3;
+						avg3=avg2;
+
+						std::list<Measurement>::iterator measurementIt;
+						for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+						struct tm time=measurementIt->getTimestamp();
+							if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
+							avg2=measurementIt->getAQI();
+							}
+						}
+						d4=d3;
+						d3=d2;
+						d2=d;
+					}
+				}
+				else{
+					avg4=avg3;
+					std::list<Measurement>::iterator measurementIt;
+					for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+					struct tm time=measurementIt->getTimestamp();
+					if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
+						avg3=measurementIt->getAQI();
+					}
+					}
+					d4=d3;
+					d3=d;
+				}
+			}
+			else{
+				std::list<Measurement>::iterator measurementIt;
+				for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
+				struct tm time=measurementIt->getTimestamp();
+					if (difftime(mktime(&time), mktime(&date)) <= 86400 || difftime(mktime(&time), mktime(&date)) >= 86400){
+						avg4=measurementIt->getAQI();
+					}
+				}
+				d4=d;
+			}
+		}
 	}
-	if(total == 0) return -1;
+	if (total < 4) {
+
+		total = 4;
+		avg=avg1+avg2+avg3+avg4;
+	}
+
 	return avg/total;
 }
-
 float SensorFunctions::analyseOneSensor(Sensor s)
 // Algorithm:
 //
