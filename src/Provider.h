@@ -32,54 +32,34 @@ class Provider
 
 public:
 //-------------------------------------------------------------- Public methods
-    // type Method ( parameter list );
-    // Instruction:
-    //
-    // Precondition:
-    //
     void addCleaner(Cleaner aCleaner);
 //-------------------------------------------------------- Operator overloading
     Provider & operator = ( const Provider & unProvider );
-    // Instruction:
-    //
-    // Precondition:
-    //
+
+    bool operator == ( const Provider & unProvider ) const;
+
+//------------------------------------------------------------- Getters - Setters
+
     string getId() const;
+
     map<string,Cleaner> getCleanerList() const;
 
 //--------------------------------------------------- Constructors - destructor
     Provider ( const Provider & unProvider);
-    // Instruction (copy constructor):
-    //
-    // Precondition:
-    //
 
     Provider ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
+
     Provider (string id);
-    // Instruction:
-    //
-    // Precondition:
-    //
+
     virtual ~Provider ( );
-    // Instruction:
-    //
-    // Precondition:
-    //
 
 //--------------------------------------------------------------------- PRIVATE
 
 protected:
-//------------------------------------------------------------- Private methods
-
 //-------------------------------------------------------- Protected attributes
-string id;
-map<string,Cleaner> cleaners;
+    string id;
+    map<string,Cleaner> cleaners;
 };
 
-//---------------------------------------- Other definitions depending on <Xxx>
 
-#endif // XXX_H
+#endif

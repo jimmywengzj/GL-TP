@@ -14,7 +14,6 @@
 using namespace std;
 #include <iostream>
 #include <string>
-#include <cassert>
 
 //----------------------------------------------------------- Personal includes
 #include "Cleaner.h"
