@@ -41,12 +41,12 @@ map<string,Cleaner> Provider::getCleanerList() const{
     return cleaners;
 }
 //-------------------------------------------------------- Operator overloading
-Provider & Provider::operator = ( const Provider & unProvider)
+/*Provider & Provider::operator = ( const Provider & unProvider)
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 Provider::Provider ( const Provider & unProvider)
 // Algorithm:

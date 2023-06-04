@@ -37,7 +37,9 @@ list<Provider> providerList;
 //} //----- End of Method
 void ProviderFunctions::loadFromDatabase(){
     map<string,Cleaner> cleanerList;
-    std::ifstream ifs ("../data/cleaners.csv", std::ifstream::in);
+	  std::ifstream ifs;
+
+  ifs.open ("../data/cleaners.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
 		string cleaner;
@@ -74,7 +76,10 @@ void ProviderFunctions::loadFromDatabase(){
             cleanerList[cleanerObject->getId()] =*cleanerObject;
 		}
 	}
-    std::ifstream ifs ("../data/cproviders.csv", std::ifstream::in);
+	ifs.close();
+	  ifs.open ("../data/providers.csv", std::ifstream::in);
+
+
 		string providerString;
         string currentProvider="";
         Provider* providerObject;
@@ -107,26 +112,27 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
         }
         CheckProviderList.pop_front();
     }
-	struct tm start =cleanerFound->getStart();
-	if(start.tm_mon==1){
-		start.tm_mon=12;
-		start.tm_year=start.tm_year-1;
+	struct tm startDate =cleanerFound->getStart();
+	if(startDate.tm_mon==1){
+		startDate.tm_mon=12;
+		startDate.tm_year=startDate.tm_year-1;
 	}
 	else{
-		start.tm_mon=start.tm_mon-1;
+		startDate.tm_mon=startDate.tm_mon-1;
 	}
-	struct tm end =cleanerFound->getEnd();
+	struct tm endDate =cleanerFound->getEnd();
 	//I think this will become a problem
 	SensorFunctions sensorFunctions;
-	float start=sensorFunctions.meanAirQualityArea(10.0,cleanerFound->getLongitude(),cleanerFound->getLatitude(),start,cleanerFound->getStart());
+	float firstMeasurement=sensorFunctions.meanAirQualityArea(10.0,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart());
+	return returnValue;
 }
 
 //-------------------------------------------------------- Operator overloading
-ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
+/*ProviderFunctions & ProviderFunctions::operator = ( const ProviderFunctions & unProviderFunctions)
 {
 
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 ProviderFunctions::ProviderFunctions ( const ProviderFunctions & unProviderFunctions )
 // Algorithm:

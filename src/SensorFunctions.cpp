@@ -34,7 +34,9 @@ list<Sensor> sensorList;
 //{
 //} //----- End of Method
 void SensorFunctions::loadFromDatabase(){
-	std::ifstream ifs ("../data/sensors.csv", std::ifstream::in);
+		  std::ifstream ifs;
+
+  ifs.open ("../data/sensors.csv", std::ifstream::in);
     Sensor* sensorObject;
 	while(!ifs.eof()){
 		string sensor;
@@ -52,8 +54,8 @@ void SensorFunctions::loadFromDatabase(){
             sensorList.push_back(*sensorObject);
 		}
 	}
-
-	std::ifstream ifs ("../data/measurements.csv", std::ifstream::in);
+ifs.close();
+  ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
 		i++;
@@ -140,7 +142,8 @@ float SensorFunctions::instantAirQuality(float area, float longitude, float lati
 		if (d < area){
 			std::list<Measurement>::iterator measurementIt;
 			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				if (difftime(mktime(&measurementIt->getTimestamp()), mktime(&date)) == 0){
+				struct tm time =measurementIt->getTimestamp();
+				if (difftime(mktime(&time), mktime(&date)) == 0){
 					avg += measurementIt->getAQI();
 					total++;
 				}
@@ -176,6 +179,7 @@ list<Sensor> SensorFunctions::compareOneSensor(Sensor s, struct tm begin, struct
 		if (sensor.getId() == s.getId()) continue;
 		sorted.push_back(sensor);
 	}
+	return sorted;
 	//////////////////////////////////not finished yet, needs pair<sensor, difference>
 } //----- compareOneSensor
 
@@ -195,7 +199,8 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 		if (d < area){
 			std::list<Measurement>::iterator measurementIt;
 			for (measurementIt = it->getMeasurements().begin(); measurementIt != it->getMeasurements().end(); ++measurementIt){
-				if (difftime(mktime(&measurementIt->getTimestamp()), mktime(&start)) >= 0 && difftime(mktime(&measurementIt->getTimestamp()), mktime(&end)) <= 0){
+				struct tm time =measurementIt->getTimestamp();
+				if (difftime(mktime(&time), mktime(&start)) >= 0 && difftime(mktime(&time), mktime(&end)) <= 0){
 					avg += measurementIt->getAQI();
 					total++;
 				}
@@ -206,12 +211,12 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
 	return avg/total;
 }
 //-------------------------------------------------------- Operator overloading
-SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
+/*SensorFunctions & SensorFunctions::operator = ( const SensorFunctions & unSensorFunctions )
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 SensorFunctions::SensorFunctions ( const SensorFunctions & unSensorFunctions )
 // Algorithm:

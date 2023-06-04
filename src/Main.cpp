@@ -6,8 +6,8 @@ int main ()
     string userName;
     string userPassword;
     int loginAttempt = 0;
-    Service service;
-    service.loadFromDatabase();
+    Service* service= new Service();
+    service->loadFromDatabase();
     while (loginAttempt < 5)
     {
         cout << "Please enter your user name: ";

@@ -12,7 +12,8 @@
 #include <string>
 #include "Cleaner.h"
 #include <list>
-
+#include <map> 
+using namespace std;
 //------------------------------------------------------------- Used interfaces
 
 //------------------------------------------------------------------- Constants

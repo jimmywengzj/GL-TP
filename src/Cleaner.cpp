@@ -49,6 +49,12 @@ Cleaner & Cleaner::operator = ( const Cleaner & unCleaner )
 // Algorithm:
 //
 {
+    this->id=unCleaner.id;
+    this->longitude=unCleaner.longitude;
+    this->latitude=unCleaner.latitude;
+    this->timestampStart=unCleaner.timestampStart;
+    this->timestampEnd=unCleaner.timestampEnd;
+    return *this;
 } //----- End of operator =
 
 //--------------------------------------------------- Constructors - destructor

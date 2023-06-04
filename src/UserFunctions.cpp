@@ -33,7 +33,9 @@ list<User> userList;
 //} //----- End of Method
 void UserFunctions::loadFromDatabase(SensorFunctions sensorFunctions)
 {
-	std::ifstream ifs ("../data/users.csv", std::ifstream::in);
+    std::ifstream ifs;
+
+    ifs.open ("../data/users.csv", std::ifstream::in);
     string lastUser="";
 	string user;
     User* u;
@@ -61,7 +63,7 @@ void UserFunctions::markUser(User user)
 
 int UserFunctions::getPoints(User user)
 {
-    user.getPoints();
+    return user.getPoints();
 }
 
 vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctions)
@@ -81,12 +83,12 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
 }
 
 //-------------------------------------------------------- Operator overloading
-UserFunctions & UserFunctions::operator = ( const UserFunctions & unUserFunctions )
+/*UserFunctions & UserFunctions::operator = ( const UserFunctions & unUserFunctions )
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 UserFunctions::UserFunctions ( const UserFunctions & unUserFunctions )
 // Algorithm:

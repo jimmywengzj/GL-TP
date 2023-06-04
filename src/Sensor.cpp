@@ -57,6 +57,13 @@ Sensor::Sensor ( const Sensor & unSensor )
 #endif
 } //----- End of Sensor (copy constructor)
 
+Sensor & Sensor::operator = ( const Sensor & unSensor ){
+    this->id = unSensor.id;
+    this->longitude = unSensor.longitude;
+    this->latitude = unSensor.latitude;
+    this->good = unSensor.good;
+    return *this;
+}
 
 Sensor::Sensor (string anId, float along,  float alat )
 {

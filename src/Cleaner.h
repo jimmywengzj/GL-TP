@@ -9,7 +9,8 @@
 //------------------ <Cleaner> class interface (Cleaner.h file) -----------------------
 #if ! defined ( CLEANER_H )
 #define CLEANER_H
-
+#include <string>
+using namespace std;
 //------------------------------------------------------------- Used interfaces
 
 //------------------------------------------------------------------- Constants

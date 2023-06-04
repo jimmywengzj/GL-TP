@@ -80,12 +80,12 @@ list<Sensor> Service::compareOneSensor(Sensor id, struct tm start, struct tm end
 }
 
 //-------------------------------------------------------- Operator overloading
-Service & Service::operator = ( const Service & unService )
+/*Service & Service::operator = ( const Service & unService )
 // Algorithm:
 //
 {
 } //----- End of operator =
-
+*/
 //--------------------------------------------------- Constructors - destructor
 Service::Service ( const Service & unService )
 // Algorithm:
