@@ -1,12 +1,13 @@
 #include <iostream>
 using namespace std;
-
+#include "Service.h"
 int main ()
 {
     string userName;
     string userPassword;
     int loginAttempt = 0;
-
+    Service service;
+    service.loadFromDatabase();
     while (loginAttempt < 5)
     {
         cout << "Please enter your user name: ";
