@@ -18,6 +18,7 @@ using namespace std;
 #include "Provider.h"
 #include "Cleaner.h"
 #include <map> 
+#include <string>
 //------------------------------------------------------------------- Constants
 
 //---------------------------------------------------------------------- PUBLIC
@@ -39,6 +40,9 @@ void Provider::addCleaner( Cleaner aCleaner)
 }
 map<string,Cleaner> Provider::getCleanerList() const{
     return cleaners;
+}
+string Provider::getId() const{
+    return id;
 }
 //-------------------------------------------------------- Operator overloading
 /*Provider & Provider::operator = ( const Provider & unProvider)

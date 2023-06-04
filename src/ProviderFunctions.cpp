@@ -40,7 +40,6 @@ void ProviderFunctions::loadFromDatabase(){
 	  std::ifstream ifs;
 
   ifs.open ("../data/cleaners.csv", std::ifstream::in);
-	int i=0;
 	while(!ifs.eof()){
 		string cleaner;
 		getline(ifs,cleaner,';');
@@ -78,6 +77,7 @@ void ProviderFunctions::loadFromDatabase(){
             cleanerList[cleanerObject->getId()] =*cleanerObject;
 		}
 	}
+
 	ifs.close();
 	  ifs.open ("../data/providers.csv", std::ifstream::in);
 
@@ -99,6 +99,11 @@ void ProviderFunctions::loadFromDatabase(){
             providerObject->addCleaner(cleanerList.find(cleanerId)->second);
             }
         }
+			list<Provider> CheckProviderList=providerList;
+    while(CheckProviderList.size()!=0){
+        cout<<"Get Id: "<<CheckProviderList.front().getId()<<endl;
+        CheckProviderList.pop_front();
+    }
 } //----- End of loadFromDatabase()
 
 list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
@@ -134,7 +139,7 @@ list<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),startDate,cleanerFound->getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound->getLongitude(),cleanerFound->getLatitude(),endDate,cleanerFound->getEnd()))>APImin){
 		i++;
 	}
-	returnValue.emplace_back(lastMeasurement-lastMeasurement);
+	returnValue.emplace_back(lastMeasurement-firstMeasurement);
 	returnValue.emplace_back(i);
 	return returnValue; 
 }
