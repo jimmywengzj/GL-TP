@@ -65,14 +65,14 @@ Provider::Provider ( const Provider & aProvider)
     cleaners = *(new map<string,Cleaner>(aProvider.cleaners));
 } //----- End of Provider (copy constructor)
 
-Provider::Provider ( string anId)
+/*Provider::Provider ( string anId)
 {
 #ifdef MAP
     cout << "Calling constructor of <Provider>" << endl;
 #endif
     id= anId;
 } //----- End of Provider
-
+*/ //already done
 Provider::Provider ( )
 // Algorithm:
 //
