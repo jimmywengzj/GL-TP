@@ -45,7 +45,10 @@ int Service::getPoints (User name)
     int points = userFunctions.getPoints(name);
     return points;
 }
-
+Sensor* Service::findSensor(string SensorId)
+{
+    return sensorFunctions.findSensor(SensorId);
+}
 void Service::markUser (User name)
 {
    userFunctions.markUser(name);

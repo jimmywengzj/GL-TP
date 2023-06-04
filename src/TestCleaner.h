@@ -1,16 +1,38 @@
-//
-// Created by alexa_rhnokcr on 04/06/2023.
-//
+/******************************************************************************
+                             TestCleaner  -  description
+                               -------------------
+    start                : $DATE$
+    copyright            : (C) $YEAR$ by $AUTHOR$
+    email                : $EMAIL$
+******************************************************************************/
 
-#ifndef GL_TP_TESTCLEANER_H
-#define GL_TP_TESTCLEANER_H
+//------------------ <TestCleaner> class interface (TestCleaner.h file) -----------------------
+#if ! defined ( TestCleaner_H )
+#define TestCleaner_H
 
+//------------------------------------------------------------- Used interfaces
+#include "time.h"
+#include "Cleaner.h"
+#include <cassert>
+//------------------------------------------------------------------- Constants
 
+//----------------------------------------------------------------------- Types
 
-class TestCleaner {
+//-----------------------------------------------------------------------------
+// Role of <TestCleaner>
+// Testing function for the Cleaners class :
+// - Test Creation & getters
+// - Testing Operator ==
+//-----------------------------------------------------------------------------
 
-};
+//---------------------------------------------------------------------- PUBLIC
 
+//------------------------------------------------------------ Public functions
 
+void testCleanerCreation();
 
-#endif //GL_TP_TESTCLEANER_H
+void testOperatorEquality();
+
+void testCopyConstructor();
+
+#endif // TestCleaner_H
