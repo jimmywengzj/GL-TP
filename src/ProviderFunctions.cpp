@@ -107,7 +107,8 @@ void ProviderFunctions::loadFromDatabase(){
 vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	float searchRadius=10.0;
 	float APImin=1.0;
-	vector<float> returnValue;
+	vector<float> returnValue;	
+
 	//deux valeurs arbitraires
 	//This isn't finished but I'm not going to be able to finish it
 	Cleaner cleanerFound=cleanerList.find(idCleaner)->second;
@@ -119,16 +120,28 @@ vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 	else{
 		startDate.tm_mon=startDate.tm_mon-1;
 	}
-		cout<<"1"<<endl;
 
 	struct tm endDate =cleanerFound.getEnd();
+	if(endDate.tm_mon==1){
+		endDate.tm_mon=12;
+		endDate.tm_year=endDate.tm_year-1;
+	}
+	else{
+		endDate.tm_mon=endDate.tm_mon-1;
+	}
+
 	//I think this will become a problem
 	SensorFunctions sensorFunctions;
 	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart());
+				cout<<"1"<<endl;
+
 	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd());
 	float i=1.0;
+	cout<<lastMeasurement-firstMeasurement;
 	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd()))>APImin){
 		i++;
+			cout<<i;
+
 	}
 	returnValue.emplace_back(lastMeasurement-firstMeasurement);
 	returnValue.emplace_back(i);
