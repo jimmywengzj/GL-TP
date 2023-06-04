@@ -21,7 +21,30 @@ int main ()
 
         if (userName == "admin" && userPassword == "1")
         {
+            string function;
+            float area;
+            float latitude;
+            float longitude;
+            struct tm start;
+            struct tm end;
             cout << "Welcome Admin!\n";
+            cout << "Enter Function 1 or 2 !\n";
+            cin >> function;
+            if (function == "1") {
+                cout << "Enter Area !\n";
+                cin >> area;
+                cout << "Enter Latitude !\n";
+                cin >> latitude;
+                cout << "Enter Longitude !\n";
+                cin >> longitude;
+                cout << "Start Time !\n";
+                cin >> start;
+                cout << "Enter End Time !\n";
+                cin >> end;
+                cout << service->meanAirQualityArea(area, latitude, longitude, start, end);
+
+            }
+
             break;
         }
         else if (userName == "individual" && userPassword == "2")
