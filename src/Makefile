@@ -6,7 +6,7 @@ GPPTESTFLAGS= -DMAP
 EXEC=main
 OBJ=Main.o Service.o ProviderFunctions.o SensorFunctions.o UserFunctions.o Provider.o Cleaner.o User.o Sensor.o Measurement.o
 TESTOBJ=Cleaner.o User.o Measurement.o Sensor.o
-TESTMAINS=TestMeasurement TestSensor TestUser TestCleaner
+TESTMAINS=TestMeasurement TestSensor TestUser TestCleaner TestProvider
 
 ${EXEC}: ${OBJ}
 	${GPP} ${GPPFLAGS} -o ${EXEC} $^
