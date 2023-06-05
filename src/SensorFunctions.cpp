@@ -196,7 +196,7 @@ float SensorFunctions::instantAirQuality(float radius, float longitude, float la
 
 float SensorFunctions::analyseOneSensor(string idSensor)
 {
-	float sum;
+	float sum=0.0;
 	int numDate = 0;
 	Sensor* sensor=findSensor(idSensor);
 	for(Measurement &measurement : sensor->getMeasurements()){
