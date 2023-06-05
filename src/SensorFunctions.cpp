@@ -15,7 +15,7 @@ using namespace std;
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include <limits>
 #include <utility>
 #include <algorithm>
@@ -50,13 +50,7 @@ void SensorFunctions::loadFromDatabase()
             sensorList.push_back(*sensorObject);
 		}
 	}
-	cout<<sensorList.front().getId()<<endl;
 	ifs.close();
-	/*vector<Sensor> CheckSensorList=sensorList;
-    while(CheckSensorList.size()!=0){
-        cout<<"Get Id: "<<CheckSensorList.front().getId()<<"Lat :"<<CheckSensorList.front().getLatitude()<<"Long :"<<CheckSensorList.front().getLongitude()<<endl;
-        CheckSensorList.pop_front();
-    }*/
     ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
 	while(!ifs.eof()){
@@ -104,11 +98,6 @@ void SensorFunctions::loadFromDatabase()
             Measurement* measurement = new Measurement(time, sensorString, O3,  NO2,  SO2,  PM10);
 			Sensor* sensor=findSensor(sensorString);	
             sensor->addMeasurement((*measurement));	
-			/*cout<<"Unique";
-			vector measure=sensor->getMeasurements();	
-				for(int i=0;i<measure.size();i++){
-					cout<<measure[i].getValuePM10()<<" "<<measure[i].getAQI()<<endl;
-				}*/
 		}
 	}
 }
@@ -128,85 +117,83 @@ void SensorFunctions::markSensor(string id)
 	findSensor(id)->setBad();
 }
 
-float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
+float SensorFunctions::instantAirQuality(float radius, float longitude, float latitude, struct tm date){
 	float avg = 0;
 	float total = 0;
-	float r = 0.0174533; //Pi/180=3.14159/180
-	float lat = latitude * r;
-	float lon = longitude * r;
-	float er = 6371.01; //Kilometers
-	float d1=100000000000000000.0;
-	float d2=d1;
-	float d3=d1;
-	float d4=d1;
-	float avg1=0;
-	float avg2=0;
-	float avg3=0;
-	float avg4=0;
+	float radian = 0.0174533; //Pi/180=3.14159/180
+	float latTarget = latitude * radian;
+	float lonTarget = longitude * radian;
+	float earthRadius = 6371.01; //Kilometers
+    float bigFloat = std::numeric_limits<float>::max();
+	float distances[4]={bigFloat,bigFloat,bigFloat,bigFloat};
+	float averages[4]={0.0,0.0,0.0,0.0};
+
+    // Finding the 4 closest Measurements' AQI
 	for (Sensor sensor : sensorList){
-		float la2 = sensor.getLatitude() * r;
-		float lo2 = sensor.getLongitude() * r;
-		float d = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));
-		
-		float stock=-1.0;
+		float latSensor = sensor.getLatitude() * radian;
+		float lonSensor = sensor.getLongitude() * radian;
+		float distance = earthRadius * acos((sin(latTarget)*sin(latSensor)) + (cos(latTarget)*cos(latSensor)*cos(lonTarget - lonSensor)));
+		float valueAQI=-1.0;
+        // Finding a measurement made within the time range
 		for (Measurement &measurement : sensor.getMeasurements()){
 			struct tm time= measurement.getTimestamp();
 			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
-				stock=measurement.getAQI();
+                valueAQI=measurement.getAQI();
+				break;
 			}
 		}
-		if(stock==-1.0){
+		if(valueAQI==-1.0){
 			continue;
 		}
 
-		if (d <= area){
-			avg += stock;
+		if (distance <= radius){
+			avg += valueAQI;
 			total++;
 		}
-		cout<<stock;
-		if(d<d4){
-			if(d<d3){
-				if(d<d2){
-					if(d<d1){
-						avg4=avg3;
-						avg3=avg2;
-						avg2=avg1;
-						avg1=stock;
-						d4=d3;
-						d3=d2;
-						d2=d1;
-						d1=d;
+        // Updating and sorting distances and averages arrays
+        // To keep 4 closest
+		if(distance<distances[3]){
+			if(distance<distances[2]){
+				if(distance<distances[1]){
+					if(distance<distances[0]){
+						averages[3]=averages[2];
+						averages[2]=averages[1];
+						averages[1]=averages[0];
+						averages[0]=valueAQI;
+						distances[3]=distances[2];
+						distances[2]=distances[1];
+						distances[1]=distances[0];
+						distances[0]=distance;
 					}
 					else{
-						avg4=avg3;
-						avg3=avg2;
-						avg2=stock;
-						d4=d3;
-						d3=d2;
-						d2=d;
+						averages[3]=averages[2];
+						averages[2]=averages[1];
+						averages[1]=valueAQI;
+						distances[3]=distances[2];
+						distances[2]=distances[1];
+						distances[1]=distance;
 					}
 				}
 				else{
-					avg4=avg3;
-					avg3=stock;
-					d4=d3;
-					d3=d;
+					averages[3]=averages[2];
+					averages[2]=valueAQI;
+					distances[3]=distances[2];
+					distances[2]=distance;
 				}
 			}
 			else{
-				d4=d;
-				avg4=stock;
+				distances[3]=distance;
+				averages[3]=valueAQI;
 			}
 		}
-		 
 	}
 	if (total < 4) {
 		total = 4;
-		avg=avg1+avg2+avg3+avg4;
+		avg=averages[0]+averages[1]+averages[2]+averages[3];
 	}
-	//cout<<"avg"<<avg<<"total"<<total<<"a1 :"<<avg1<<"a2 :"<<avg2<<endl;
 	return avg/total;
 }
+
 float SensorFunctions::analyseOneSensor(Sensor sensor)
 {
 	vector <Measurement> measurementVector = sensor.getMeasurements();
@@ -229,7 +216,6 @@ vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, str
 
 	for (Sensor &sensor : sensorList) {
 		if (sensor.getId() == s->getId()) continue;
-		
 		float difference = 0;
 		for (Measurement &measurement : sensor.getMeasurements()) {
 			struct tm tm1 = measurement.getTimestamp();
@@ -261,16 +247,12 @@ vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, str
 float SensorFunctions::meanAirQualityArea(float area, float latitude, float longitude, struct tm start, struct tm end){
 	 
     float avg = 0;
-	float total = 0;
+	float total = 0.0;
 
 	for (time_t time = mktime(&start); time < mktime(&end); time += 86400) {
 		total++;
-		//struct tm tmp = *localtime(&time);
 		avg += instantAirQuality(area, longitude, latitude, *localtime(&time));
-		cout<<endl<<total<<";"<<avg<<" "<<mktime(&start)<<" "<<mktime(&end)<<endl;
-
 	}
-
 	return avg/total;
 }
 
