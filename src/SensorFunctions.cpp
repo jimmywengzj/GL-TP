@@ -15,7 +15,7 @@ using namespace std;
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include <limits>
 #include <utility>
 #include <algorithm>
@@ -123,74 +123,80 @@ void SensorFunctions::markSensor(string id)
 float SensorFunctions::instantAirQuality(float radius, float longitude, float latitude, struct tm date){
 	float avg = 0;
 	float total = 0;
-	float r = 0.0174533; //Pi/180=3.14159/180
-	float lat = latitude * r;
-	float lon = longitude * r;
-	float er = 6371.01; //Kilometers
-	float distanceFour[4]={1000000000000000000.0,1000000000000000000.0,1000000000000000000.0,1000000000000000000.0};
-	float avgFour[4]={0.0,0.0,0.0,0.0};
+	float radian = 0.0174533; //Pi/180=3.14159/180
+	float latTarget = latitude * radian;
+	float lonTarget = longitude * radian;
+	float earthRadius = 6371.01; //Kilometers
+    float bigFloat = std::numeric_limits<float>::max();
+	float distances[4]={bigFloat,bigFloat,bigFloat,bigFloat};
+	float averages[4]={0.0,0.0,0.0,0.0};
+
+    // Finding the 4 closest Measurements' AQI
 	for (Sensor sensor : sensorList){
-		float la2 = sensor.getLatitude() * r;
-		float lo2 = sensor.getLongitude() * r;
-		float distance = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));		
-		float stock=-1.0;
+		float latSensor = sensor.getLatitude() * radian;
+		float lonSensor = sensor.getLongitude() * radian;
+		float distance = earthRadius * acos((sin(latTarget)*sin(latSensor)) + (cos(latTarget)*cos(latSensor)*cos(lonTarget - lonSensor)));
+		float valueAQI=-1.0;
+        // Finding a measurement made within the time range
 		for (Measurement measurement : sensor.getMeasurements()){
 			struct tm time= measurement.getTimestamp();
 			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
-				stock=measurement.getAQI();
+                valueAQI=measurement.getAQI();
 				break;
 			}
 		}
-		if(stock==-1.0){
+		if(valueAQI==-1.0){
 			continue;
 		}
 
 		if (distance <= radius){
-			avg += stock;
+			avg += valueAQI;
 			total++;
 		}
-		if(distance<distanceFour[3]){
-			if(distance<distanceFour[2]){
-				if(distance<distanceFour[1]){
-					if(distance<distanceFour[0]){
-						avgFour[3]=avgFour[2];
-						avgFour[2]=avgFour[1];
-						avgFour[1]=avgFour[0];
-						avgFour[0]=stock;
-						distanceFour[3]=distanceFour[2];
-						distanceFour[2]=distanceFour[1];
-						distanceFour[1]=distanceFour[0];
-						distanceFour[0]=distance;
+        // Updating and sorting distances and averages arrays
+        // To keep 4 closest
+		if(distance<distances[3]){
+			if(distance<distances[2]){
+				if(distance<distances[1]){
+					if(distance<distances[0]){
+						averages[3]=averages[2];
+						averages[2]=averages[1];
+						averages[1]=averages[0];
+						averages[0]=valueAQI;
+						distances[3]=distances[2];
+						distances[2]=distances[1];
+						distances[1]=distances[0];
+						distances[0]=distance;
 					}
 					else{
-						avgFour[3]=avgFour[2];
-						avgFour[2]=avgFour[1];
-						avgFour[1]=stock;
-						distanceFour[3]=distanceFour[2];
-						distanceFour[2]=distanceFour[1];
-						distanceFour[1]=distance;
+						averages[3]=averages[2];
+						averages[2]=averages[1];
+						averages[1]=valueAQI;
+						distances[3]=distances[2];
+						distances[2]=distances[1];
+						distances[1]=distance;
 					}
 				}
 				else{
-					avgFour[3]=avgFour[2];
-					avgFour[2]=stock;
-					distanceFour[3]=distanceFour[2];
-					distanceFour[2]=distance;
+					averages[3]=averages[2];
+					averages[2]=valueAQI;
+					distances[3]=distances[2];
+					distances[2]=distance;
 				}
 			}
 			else{
-				distanceFour[3]=distance;
-				avgFour[3]=stock;
+				distances[3]=distance;
+				averages[3]=valueAQI;
 			}
 		}
-		 
 	}
 	if (total < 4) {
 		total = 4;
-		avg=avgFour[0]+avgFour[1]+avgFour[2]+avgFour[3];
+		avg=averages[0]+averages[1]+averages[2]+averages[3];
 	}
 	return avg/total;
 }
+
 float SensorFunctions::analyseOneSensor(Sensor sensor)
 {
 	vector <Measurement> measurementVector = sensor.getMeasurements();
