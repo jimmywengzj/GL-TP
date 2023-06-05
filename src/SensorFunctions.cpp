@@ -196,10 +196,9 @@ float SensorFunctions::instantAirQuality(float radius, float longitude, float la
 
 float SensorFunctions::analyseOneSensor(Sensor sensor)
 {
-	vector <Measurement> measurementVector = sensor.getMeasurements();
 	float sum;
 	int numDate = 0;
-	for(Measurement &measurement : measurementVector){
+	for(Measurement &measurement : sensor.getMeasurements()){
 		float avg = instantAirQuality(sensor.getLongitude(),sensor.getLatitude(),80,measurement.getTimestamp());
 		float AQI = measurement.getAQI();
 		sum = sum + abs(avg- AQI)/avg;
