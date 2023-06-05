@@ -231,7 +231,7 @@ float SensorFunctions::analyseOneSensor(string sensorId)
 	for(list<Measurement>::iterator it = m.begin(); it != m.end(); it++){		
 
 
-		float avg = instantAirQuality(s.getLongitude(),s.getLatitude(),80,it->getTimestamp());
+		float avg = instantAirQuality(s->getLongitude(),s->getLatitude(),80,it->getTimestamp());
 
 		float AQI = it->getAQI();
 		sum = sum + abs(avg- AQI)/avg;
