@@ -53,7 +53,7 @@ public:
     // Instruction: 
     // Compute the AirQuality of a Zone in a precise time
 
-    float analyseOneSensor(Sensor s);
+    float analyseOneSensor(string s);
     // Instruction: 
     // Load the Sensors data from the Database
 

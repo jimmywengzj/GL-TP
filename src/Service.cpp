@@ -64,9 +64,9 @@ vector<float> Service::studyAirCleaner(string id)
     return iequality;
 }
 
-float Service::analyseOneSensor(Sensor sensor)
+float Service::analyseOneSensor(string sensorId)
 {
-    float quality = sensorFunctions.analyseOneSensor(sensor);
+    float quality = sensorFunctions.analyseOneSensor(sensorId);
     return quality;
 }
 
