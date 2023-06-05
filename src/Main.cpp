@@ -8,7 +8,6 @@ Service service;
 void useMeanAirQualityArea() {
     float area, latitude, longitude;
     struct tm start, end;
-
     cout << "Area: ";
     cin >> area;
     cout << "Latitude: ";
@@ -17,30 +16,35 @@ void useMeanAirQualityArea() {
     cin >> longitude;
 
     cout << "Start Year: ";
-    cin >> start.tm_year;
-    start.tm_year -= 1900;
+    int a;
+    cin >> a; 
+    start.tm_year=a-1900;    
     cout << "Start Month: ";
     cin >> start.tm_mon;
-    start.tm_mon--;
     cout << "Start Day: ";
     cin >> start.tm_mday;
     start.tm_hour = 12;
-    start.tm_min = 0;
-    start.tm_sec = 0;
-    start.tm_isdst = 0;
+ start.tm_sec=0;
+  start.tm_min=0; 
+  start.tm_wday=0;          /* Day of week. [0-6]   */
+start.tm_yday=0;          /* Days in year.[0-365] */
+start.tm_isdst=0;  
 
+
+       /* DST.     [-1/0/1]    */
     cout << "End Year: ";
-    cin >> end.tm_year;
-    end.tm_year -= 1900;
+    cin >> a; 
+    end.tm_year=a-1900;
     cout << "End Month: ";
     cin >> end.tm_mon;
-    end.tm_mon--;
     cout << "End Day: ";
     cin >> end.tm_mday;
     end.tm_hour = 12;
-    end.tm_min = 0;
-    end.tm_sec = 0;
-    end.tm_isdst = 0;
+    end.tm_sec=0;
+    end.tm_min=0; 
+    end.tm_wday=0;          /* Day of week. [0-6]   */
+    end.tm_yday=0;          /* Days in year.[0-365] */
+    end.tm_isdst=0;  
 
     cout << service.meanAirQualityArea(area, latitude, longitude, start, end) << endl;
 }
