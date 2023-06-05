@@ -50,7 +50,6 @@ void SensorFunctions::loadFromDatabase()
             sensorList.push_back(*sensorObject);
 		}
 	}
-	cout<<sensorList.front().getId()<<endl;
 	ifs.close();
     ifs.open ("../data/measurements.csv", std::ifstream::in);
 	int i=0;
@@ -121,81 +120,74 @@ void SensorFunctions::markSensor(string id)
 	findSensor(id)->setBad();
 }
 
-float SensorFunctions::instantAirQuality(float area, float longitude, float latitude, struct tm date){
+float SensorFunctions::instantAirQuality(float radius, float longitude, float latitude, struct tm date){
 	float avg = 0;
 	float total = 0;
 	float r = 0.0174533; //Pi/180=3.14159/180
 	float lat = latitude * r;
 	float lon = longitude * r;
 	float er = 6371.01; //Kilometers
-	float distance1=100000000000000000.0;
-	float distance2=distance1;
-	float distance3=distance1;
-	float distance4=distance1;
-	float avg1=0;
-	float avg2=0;
-	float avg3=0;
-	float avg4=0;
+	float distanceFour[4]={1000000000000000000.0,1000000000000000000.0,1000000000000000000.0,1000000000000000000.0};
+	float avgFour[4]={0.0,0.0,0.0,0.0};
 	for (Sensor sensor : sensorList){
 		float la2 = sensor.getLatitude() * r;
 		float lo2 = sensor.getLongitude() * r;
-		float distance = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));
-		
+		float distance = er * acos((sin(lat)*sin(la2)) + (cos(lat)*cos(la2)*cos(lon - lo2)));		
 		float stock=-1.0;
 		for (Measurement measurement : sensor.getMeasurements()){
 			struct tm time= measurement.getTimestamp();
 			if (abs(difftime(mktime(&time), mktime(&date))) < 86400){
 				stock=measurement.getAQI();
+				break;
 			}
 		}
 		if(stock==-1.0){
 			continue;
 		}
 
-		if (distance <= area){
+		if (distance <= radius){
 			avg += stock;
 			total++;
 		}
-		cout<<stock;
-		if(distance<distance4){
-			if(distance<distance3){
-				if(distance<distance2){
-					if(distance<distance1){
-						avg4=avg3;
-						avg3=avg2;
-						avg2=avg1;
-						avg1=stock;
-						distance4=distance3;
-						distance3=distance2;
-						distance2=distance1;
-						distance1=distance;
+		if(distance<distanceFour[3]){
+			if(distance<distanceFour[2]){
+				if(distance<distanceFour[1]){
+					if(distance<distanceFour[0]){
+						avgFour[3]=avgFour[2];
+						avgFour[2]=avgFour[1];
+						avgFour[1]=avgFour[0];
+						avgFour[0]=stock;
+						distanceFour[3]=distanceFour[2];
+						distanceFour[2]=distanceFour[1];
+						distanceFour[1]=distanceFour[0];
+						distanceFour[0]=distance;
 					}
 					else{
-						avg4=avg3;
-						avg3=avg2;
-						avg2=stock;
-						distance4=distance3;
-						distance3=distance2;
-						distance2=distance;
+						avgFour[3]=avgFour[2];
+						avgFour[2]=avgFour[1];
+						avgFour[1]=stock;
+						distanceFour[3]=distanceFour[2];
+						distanceFour[2]=distanceFour[1];
+						distanceFour[1]=distance;
 					}
 				}
 				else{
-					avg4=avg3;
-					avg3=stock;
-					distance4=distance3;
-					distance3=distance;
+					avgFour[3]=avgFour[2];
+					avgFour[2]=stock;
+					distanceFour[3]=distanceFour[2];
+					distanceFour[2]=distance;
 				}
 			}
 			else{
-				distance4=distance;
-				avg4=stock;
+				distanceFour[3]=distance;
+				avgFour[3]=stock;
 			}
 		}
 		 
 	}
 	if (total < 4) {
 		total = 4;
-		avg=avg1+avg2+avg3+avg4;
+		avg=avgFour[0]+avgFour[1]+avgFour[2]+avgFour[3];
 	}
 	return avg/total;
 }
@@ -252,14 +244,12 @@ vector<Sensor> SensorFunctions::compareOneSensor(string id, struct tm begin, str
 float SensorFunctions::meanAirQualityArea(float area, float latitude, float longitude, struct tm start, struct tm end){
 	 
     float avg = 0;
-	float total = 0;
+	float total = 0.0;
 
 	for (time_t time = mktime(&start); time < mktime(&end); time += 86400) {
 		total++;
 		avg += instantAirQuality(area, longitude, latitude, *localtime(&time));
-
 	}
-
 	return avg/total;
 }
 
