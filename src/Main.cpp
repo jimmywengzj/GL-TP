@@ -88,7 +88,7 @@ void useCompareOneSensor() {
     }
 }
 
-void useStudyAirCleaner() {
+void a() {
     string id;
 
     cout << "Cleaner id: ";

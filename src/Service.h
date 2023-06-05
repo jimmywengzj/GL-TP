@@ -44,7 +44,7 @@ public:
 
     vector<float> studyAirCleaner(string);
 
-    float analyseOneSensor(Sensor);
+    float analyseOneSensor(string);
 
     Sensor findSensor(string SensorId);
 
