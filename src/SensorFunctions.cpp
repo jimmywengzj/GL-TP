@@ -249,7 +249,7 @@ float SensorFunctions::meanAirQualityArea(float area, float latitude, float long
     float avg = 0;
 	float total = 0.0;
 
-	for (time_t time = mktime(&start); time < mktime(&end); time += 86400) {
+	for (time_t time = mktime(&start); time <= mktime(&end); time += 86400) {
 		total++;
 		avg += instantAirQuality(area, longitude, latitude, *localtime(&time));
 	}
