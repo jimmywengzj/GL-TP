@@ -88,18 +88,16 @@ void useCompareOneSensor() {
     }
 }
 
-void a() {
+void analyseOneSensors() {
     string id;
 
-    cout << "Cleaner id: ";
+    cout << "Sensor id: ";
     cin >> id;
 
-    vector<float> res = service.studyAirCleaner(id);
+    float res = service.analyseOneSensor(id);
 
-    for (float f : res) {
-        cout << f << endl;
-    }
-}
+    cout<<res<<endl;
+} 
 
 int main () {
     service.loadFromDatabase();
@@ -120,7 +118,7 @@ int main () {
                 useCompareOneSensor();
                 break;
             case 3:
-                useStudyAirCleaner();
+                analyseOneSensors();
                 break;
             default:
                 break;
