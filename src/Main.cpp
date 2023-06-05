@@ -1,8 +1,9 @@
 #include <iostream>
 #include <algorithm>
+#include <chrono>
 using namespace std;
 #include "Service.h"
-
+using namespace std::chrono;
 Service service;
 
 void useMeanAirQualityArea() {
@@ -40,8 +41,13 @@ void useMeanAirQualityArea() {
     end.tm_min = 0;
     end.tm_sec = 0;
     end.tm_isdst = 0;
+    auto startFunction = high_resolution_clock::now();
 
     cout << service.meanAirQualityArea(area, latitude, longitude, start, end) << endl;
+    auto stopFunction = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stopFunction - startFunction);
+     cout << "Function took: "<< duration.count()/1000000.0 << " seconds" << endl;
+
 }
 
 void useCompareOneSensor() {
@@ -80,9 +86,12 @@ void useCompareOneSensor() {
 
     cout << "Number of most similar sensors: ";
     cin >> num;
+    auto startFunction = high_resolution_clock::now();
 
     vector<Sensor> res = service.compareOneSensor(id, start, end);
-    
+    auto stopFunction = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stopFunction - startFunction);
+    cout << "Function took: "<< duration.count()/1000000.0 << " seconds" << endl;    
     for (int i = 0; i < min((int)res.size(), num); i++) {
         cout << i+1 << " most similar sensor: " << res[i].getId() << endl;
     }
@@ -93,8 +102,12 @@ void analyseOneSensors() {
 
     cout << "Sensor id: ";
     cin >> id;
+    auto startFunction = high_resolution_clock::now();
 
     float res = service.analyseOneSensor(id);
+    auto stopFunction = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stopFunction - startFunction);
+    cout << "Function took: "<< duration.count()/1000000.0 << " seconds" << endl;    
 
     cout<<res<<endl;
 } 
@@ -116,14 +129,17 @@ int main () {
                 break;
             case 2:
                 useCompareOneSensor();
+
                 break;
             case 3:
                 analyseOneSensors();
+
                 break;
             default:
                 break;
         }
         if (command == 0) break;
+
     }
 
     return 0;

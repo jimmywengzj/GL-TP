@@ -105,6 +105,7 @@ void ProviderFunctions::loadFromDatabase(){
 } //----- End of loadFromDatabase()
 
 vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
+	//partially complete studyAirCleaner code, not part of the two key functionnalities implemented
 	float searchRadius=10.0;
 	float APImin=1.0;
 	vector<float> returnValue;	
@@ -130,15 +131,13 @@ vector<float> ProviderFunctions::studyAirCleaner(string idCleaner){
 		endDate.tm_mon=endDate.tm_mon+1;
 	}
 
-	//I think this will become a problem
+	//this is the issue with seperate SensorFunctions, we could send it as a variable.
 	SensorFunctions sensorFunctions;
 	float firstMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart());
 	float lastMeasurement=sensorFunctions.meanAirQualityArea(searchRadius,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd());
 	float i=searchRadius;
-	cout<<lastMeasurement-firstMeasurement;
 	while((-sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),startDate,cleanerFound.getStart())+sensorFunctions.meanAirQualityArea(i,cleanerFound.getLongitude(),cleanerFound.getLatitude(),endDate,cleanerFound.getEnd()))>APImin){
 		i++;
-		cout<<i;
 
 	}
 	returnValue.emplace_back(lastMeasurement-firstMeasurement);
