@@ -107,7 +107,7 @@ int main () {
         cout << "Choose functionality" << endl;
         cout << "1: mean air quality of an area" << endl;
         cout << "2: compare one sensor (find most similar sensor results)" << endl;
-        cout << "3: study air cleaner" << endl;
+        cout << "3: analyse one sensor" << endl;
         cout << "0: exit" << endl;
         cin >> command;
         switch(command) {

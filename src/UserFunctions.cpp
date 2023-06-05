@@ -66,7 +66,7 @@ vector<pair<User, float>> UserFunctions::checkData(SensorFunctions sensorFunctio
         vector<Sensor> sensors = user.getSensors();
         float sum = 0;
         for (Sensor sensor : sensors) {
-            sum += sensorFunctions.analyseOneSensor(sensor);
+            sum += sensorFunctions.analyseOneSensor(sensor.getId());
         }
         score.push_back(make_pair(user, sum / sensors.size()));
     }
