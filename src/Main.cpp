@@ -1,92 +1,112 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 #include "Service.h"
-int main ()
-{
-    string userName;
-    string userPassword;
-    int loginAttempt = 0;
-    Service* service= new Service();
-    service->loadFromDatabase();
-    vector<float> a=service->studyAirCleaner("Cleaner0");
-    cout<<a.front()<<";"<<a.back()<<endl;
-    vector<float> b=service->studyAirCleaner("Cleaner1");
-    cout<<b.front()<<";"<<b.back()<<endl;
-    while (loginAttempt < 5)
-    {
-        cout << "Please enter your user name: ";
-        cin >> userName;
-        cout << "Please enter your user password: ";
-        cin >> userPassword;
 
-        if (userName == "admin" && userPassword == "1")
-        {
-            string function;
-            float area;
-            float latitude;
-            float longitude;
-            struct tm start;
-            struct tm end;
-            cout << "Welcome Admin!\n";
-            cout << "Enter Function 1 or 2 !\n";
-            cin >> function;
-            if (function == "1") {
-                cout << "Enter Area!\n";
-                cin >> area;
-                cout << "Enter Latitude!\n";
-                cin >> latitude;
-                cout << "Enter Longitude!\n";
-                cin >> longitude;
-                cout << "Start Year!\n";
-                cin >> start.tm_year;
-                cout << "Start Month!\n";
-                cin >> start.tm_mon;
-                cout << "Start Day!\n";
-                cin >> start.tm_mday;
-                cout << "Start Time!\n";
-                start.tm_hour = 12;
+Service service;
 
-                cout << "End Year!\n";
-                cin >> end.tm_year;
-                cout << "End Month!\n";
-                cin >> end.tm_mon;
-                cout << "End Day!\n";
-                cin >> start.tm_mday;
-                cout << "End Time!\n";
-                start.tm_hour = 12;
+void useMeanAirQualityArea() {
+    float area, latitude, longitude;
+    struct tm start, end;
+    cout << "Area: ";
+    cin >> area;
+    cout << "Latitude: ";
+    cin >> latitude;
+    cout << "Longitude: ";
+    cin >> longitude;
 
-                cout << service->meanAirQualityArea(area, latitude, longitude, start, end);
+    cout << "Start Year: ";
+    cin >> start.tm_year;
+    cout << "Start Month: ";
+    cin >> start.tm_mon;
+    cout << "Start Day: ";
+    cin >> start.tm_mday;
+    start.tm_hour = 12;
 
-            }
+    cout << "End Year: ";
+    cin >> end.tm_year;
+    cout << "End Month: ";
+    cin >> end.tm_mon;
+    cout << "End Day: ";
+    cin >> start.tm_mday;
+    start.tm_hour = 12;
 
-            break;
-        }
-        else if (userName == "individual" && userPassword == "2")
-        {
-            cout << "Welcome Individual!\n";
-            break;
-        }
-        else if (userName == "cleaner" && userPassword == "3")
-        {
-            cout << "Welcome Cleaner!\n";
-            break;
-        }
-        else if (userName == "logout" && userPassword == "0")
-        {
-            cout << "Logged Out \n";
-            return 0;
-        }
+    cout << service.meanAirQualityArea(area, latitude, longitude, start, end) << endl;
+}
 
-        else
-        {
-            cout << "Invalid login attempt. Please try again.\n" << '\n';
-            loginAttempt++;
-        }
+void useCompareOneSensor() {
+    string id;
+    struct tm start, end;
+    int num;
+
+    cout << "Sensor id: ";
+    cin >> id;
+
+    cout << "Start Year: ";
+    cin >> start.tm_year;
+    cout << "Start Month: ";
+    cin >> start.tm_mon;
+    cout << "Start Day: ";
+    cin >> start.tm_mday;
+    start.tm_hour = 12;
+
+    cout << "End Year: ";
+    cin >> end.tm_year;
+    cout << "End Month: ";
+    cin >> end.tm_mon;
+    cout << "End Day: ";
+    cin >> start.tm_mday;
+    start.tm_hour = 12;
+
+    cout << "Number of most similar sensors: ";
+    cin >> num;
+
+    vector<Sensor> res = service.compareOneSensor(id, start, end);
+    
+    for (int i = 0; i < min((int)res.size(), num); i++) {
+        cout << i+1 << " most similar sensor: " << res[i].getId() << endl;
     }
-    if (loginAttempt == 5)
-    {
-            cout << "Too many login attempts! The program will now terminate.";
-            return 0;
+}
+
+void useStudyAirCleaner() {
+    string id;
+
+    cout << "Cleaner id: ";
+    cin >> id;
+
+    vector<float> res = service.studyAirCleaner(id);
+
+    for (float f : res) {
+        cout << f << endl;
     }
-    cout << "Thank you for logging in.\n";
+}
+
+int main () {
+    service.loadFromDatabase();
+
+    int command = -1;
+    while (1) {
+        cout << "Choose functionality" << endl;
+        cout << "1: mean air quality of an area" << endl;
+        cout << "2: compare one sensor (find most similar sensor results)" << endl;
+        cout << "3: study air cleaner" << endl;
+        cout << "0: exit" << endl;
+        cin >> command;
+        switch(command) {
+            case 1:
+                useMeanAirQualityArea();
+                break;
+            case 2:
+                useCompareOneSensor();
+                break;
+            case 3:
+                useStudyAirCleaner();
+                break;
+            default:
+                break;
+        }
+        if (command == 0) break;
+    }
+
+    return 0;
 }

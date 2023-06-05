@@ -70,9 +70,9 @@ float Service::analyseOneSensor(Sensor sensor)
     return quality;
 }
 
-vector<Sensor> Service::compareOneSensor(Sensor sensor, tm start, tm end)
+vector<Sensor> Service::compareOneSensor(string id, tm start, tm end)
 {
-    vector<Sensor> quality = sensorFunctions.compareOneSensor(sensor.getId(), start, end);
+    vector<Sensor> quality = sensorFunctions.compareOneSensor(id, start, end);
     return quality;
 }
 

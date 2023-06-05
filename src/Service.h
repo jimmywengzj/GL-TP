@@ -48,7 +48,7 @@ public:
 
     Sensor findSensor(string SensorId);
 
-    vector<Sensor> compareOneSensor(Sensor, struct tm, struct tm);
+    vector<Sensor> compareOneSensor(string, struct tm, struct tm);
 
 //-------------------------------------------------------- Operator overloading
     Service & operator = ( const Service & unService );
