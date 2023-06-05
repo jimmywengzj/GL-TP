@@ -71,11 +71,6 @@ public:
 
     virtual ~SensorFunctions ( );
 
-//--------------------------------------------------------------------- PRIVATE
-
-private:
-
-    vector<Sensor> sensors;
 };
 
 #endif // SensorFunctions_H

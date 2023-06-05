@@ -8,6 +8,7 @@ Service service;
 void useMeanAirQualityArea() {
     float area, latitude, longitude;
     struct tm start, end;
+
     cout << "Area: ";
     cin >> area;
     cout << "Latitude: ";
@@ -17,19 +18,29 @@ void useMeanAirQualityArea() {
 
     cout << "Start Year: ";
     cin >> start.tm_year;
+    start.tm_year -= 1900;
     cout << "Start Month: ";
     cin >> start.tm_mon;
+    start.tm_mon--;
     cout << "Start Day: ";
     cin >> start.tm_mday;
     start.tm_hour = 12;
+    start.tm_min = 0;
+    start.tm_sec = 0;
+    start.tm_isdst = 0;
 
     cout << "End Year: ";
     cin >> end.tm_year;
+    end.tm_year -= 1900;
     cout << "End Month: ";
     cin >> end.tm_mon;
+    end.tm_mon--;
     cout << "End Day: ";
-    cin >> start.tm_mday;
-    start.tm_hour = 12;
+    cin >> end.tm_mday;
+    end.tm_hour = 12;
+    end.tm_min = 0;
+    end.tm_sec = 0;
+    end.tm_isdst = 0;
 
     cout << service.meanAirQualityArea(area, latitude, longitude, start, end) << endl;
 }
@@ -44,19 +55,29 @@ void useCompareOneSensor() {
 
     cout << "Start Year: ";
     cin >> start.tm_year;
+    start.tm_year -= 1900;
     cout << "Start Month: ";
     cin >> start.tm_mon;
+    start.tm_mon--;
     cout << "Start Day: ";
     cin >> start.tm_mday;
     start.tm_hour = 12;
+    start.tm_min = 0;
+    start.tm_sec = 0;
+    start.tm_isdst = 0;
 
     cout << "End Year: ";
     cin >> end.tm_year;
+    end.tm_year -= 1900;
     cout << "End Month: ";
     cin >> end.tm_mon;
+    end.tm_mon--;
     cout << "End Day: ";
-    cin >> start.tm_mday;
-    start.tm_hour = 12;
+    cin >> end.tm_mday;
+    end.tm_hour = 12;
+    end.tm_min = 0;
+    end.tm_sec = 0;
+    end.tm_isdst = 0;
 
     cout << "Number of most similar sensors: ";
     cin >> num;
